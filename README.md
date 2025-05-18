@@ -22,7 +22,7 @@ Messanger — это удобный и быстрый мессенджер, по
 
 1. Клонируйте репозиторий:
    ```bash
-   git clone https://github.com/yourusername/messanger.git
+   git clone https://github.com/xr1s0nx-wave/middle.messenger.praktikum.yandex.git
    ```
 2. Установите зависимости:
    ```bash
