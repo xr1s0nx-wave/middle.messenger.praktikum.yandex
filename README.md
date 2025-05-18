@@ -39,5 +39,3 @@ Messanger — это удобный и быстрый мессенджер, по
 ![Чаты](https://github.com/xr1s0nx-wave/messanger/blob/sprint_1/screenshots/chats.png?raw=true)
 
 ---
-
-**Messanger** — ваш быстрый и удобный способ общения!
