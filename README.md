@@ -21,18 +21,22 @@ Messanger — это удобный и быстрый мессенджер, по
 ## Установка и запуск
 
 1. Клонируйте репозиторий:
-   ```bash
-   git clone https://github.com/xr1s0nx-wave/middle.messenger.praktikum.yandex.git
-   ```
+    ```bash
+    git clone https://github.com/xr1s0nx-wave/middle.messenger.praktikum.yandex.git
+    ```
 2. Установите зависимости:
-   ```bash
-   cd messanger
-   npm install
-   ```
+    ```bash
+    cd messanger
+    npm install
+    ```
 3. Запустите приложение:
-   ```bash
-   npm start
-   ```
+    ```bash
+    npm start
+    ```
+
+## Предпросмотр
+
+[Открыть приложение (Preview)](https://deploy-preview-3--messanger-xr1s0nx.netlify.app/)
 
 ## Скриншоты
 
