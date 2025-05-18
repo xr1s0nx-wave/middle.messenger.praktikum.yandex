@@ -37,10 +37,6 @@ Messanger — это удобный и быстрый мессенджер, по
 ## Скриншоты
 ![Чаты](https://github.com/xr1s0nx-wave/messanger/blob/sprint_1/screenshots/chats.png?raw=true)
 
-## Контакты
-
-[xrisonx@yandex.ru](mailto:xrisonx@yandex.ru).
-
 ---
 
 **Messanger** — ваш быстрый и удобный способ общения!
