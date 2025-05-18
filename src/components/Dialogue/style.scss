@@ -1,0 +1,104 @@
+.chats__dialogue {
+  width: 100%;
+  height: 100%;
+  padding: 15px 15px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 12px 20px;
+    border-bottom: 1px solid #303030;
+  }
+
+  &-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &-title {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  &-avatar {
+    border: 1px solid rgba(38, 51, 55, 0.7);
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 100%;
+
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      object-position: center;
+    }
+  }
+
+  &-messages {
+    height: calc(100% - 115px);
+    padding: 10px 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: flex-end;
+    border-bottom: 1px solid #303030;
+  }
+
+  &-form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #2B2B2B;
+    height: 50px;
+    position: relative;
+
+    .form__input {
+        position: absolute;
+        width: calc(100% - 50px);
+        height: 100%;
+        inset: 0;
+        background: transparent;
+        padding: 15px;
+        outline: none;
+        font-size: 14px;
+        color: #fff;
+        border: none;
+    }
+
+    .form__button {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%) translateX(10px);
+        opacity: 0;
+        transition: 0.15s;
+        pointer-events: none;
+        border: none;
+    }
+
+    &.form--active {
+        .form__button {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+            pointer-events: all;
+        }
+    }
+  }
+}

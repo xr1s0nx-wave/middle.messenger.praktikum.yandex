@@ -1,0 +1,35 @@
+{
+  "chatcpml-1": {
+    "id": "chatcpml-1",
+    "name": "xr1s0nx1",
+    "avatarUrl": "https://i.pinimg.com/originals/0b/da/40/0bda40140d8fde4ae24ac504d2c07722.jpg",
+    "messages": [
+      {
+        "id": 1,
+        "text": "Hey, how are you?",
+        "time": "15:10",
+        "senderId": "chatcpml-1"
+      },
+      {
+        "id": 2,
+        "text": "I'm good, thanks!",
+        "time": "15:10",
+        "senderId": "chatcpml-2",
+        "isMine": true
+      }
+    ]
+  },
+  "chatcpml-2": {
+    "id": "chatcpml-2",
+    "name": "xr1s0nx2",
+    "avatarUrl": "https://avatars.mds.yandex.net/i?id=a63f262508337432f0bef9b91e49496c_l-5348391-images-thumbs&n=13",
+    "messages": [
+      {
+        "id": 1,
+        "text": "Hey, how are you?1",
+        "time": "15:10",
+        "senderId": "chatcpml-1"
+      }
+    ]
+  }
+}
