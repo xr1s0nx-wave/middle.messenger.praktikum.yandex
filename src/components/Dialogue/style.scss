@@ -59,46 +59,46 @@
     gap: 10px;
     padding: 15px;
     border-radius: 8px;
-    background: #2B2B2B;
+    background: #2b2b2b;
     height: 50px;
     position: relative;
 
     .form__input {
-        position: absolute;
-        width: calc(100% - 50px);
-        height: 100%;
-        inset: 0;
-        background: transparent;
-        padding: 15px;
-        outline: none;
-        font-size: 14px;
-        color: #fff;
-        border: none;
+      position: absolute;
+      width: calc(100% - 50px);
+      height: 100%;
+      inset: 0;
+      background: transparent;
+      padding: 15px;
+      outline: none;
+      font-size: 14px;
+      color: #fff;
+      border: none;
     }
 
     .form__button {
-        position: absolute;
-        width: 24px;
-        height: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: transparent;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%) translateX(10px);
-        opacity: 0;
-        transition: 0.15s;
-        pointer-events: none;
-        border: none;
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%) translateX(10px);
+      opacity: 0;
+      transition: 0.15s;
+      pointer-events: none;
+      border: none;
     }
 
     &.form--active {
-        .form__button {
-            opacity: 1;
-            transform: translateY(-50%) translateX(0);
-            pointer-events: all;
-        }
+      .form__button {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+        pointer-events: all;
+      }
     }
   }
 }

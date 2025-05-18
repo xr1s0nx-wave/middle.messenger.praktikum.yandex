@@ -6,10 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "start": "vite build && vite preview"
+    "start": "vite build && vite preview",
+    "prettier": "prettier --write ."
   },
   "devDependencies": {
     "handlebars": "^4.7.8",
+    "prettier": "^3.5.3",
     "sass-embedded": "^1.89.0",
     "typescript": "~5.8.3",
     "vite": "^6.3.5"

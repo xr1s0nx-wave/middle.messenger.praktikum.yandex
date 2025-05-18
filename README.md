@@ -21,20 +21,21 @@ Messanger — это удобный и быстрый мессенджер, по
 ## Установка и запуск
 
 1. Клонируйте репозиторий:
-    ```bash
-    git clone https://github.com/yourusername/messanger.git
-    ```
+   ```bash
+   git clone https://github.com/yourusername/messanger.git
+   ```
 2. Установите зависимости:
-    ```bash
-    cd messanger
-    npm install
-    ```
+   ```bash
+   cd messanger
+   npm install
+   ```
 3. Запустите приложение:
-    ```bash
-    npm start
-    ```
+   ```bash
+   npm start
+   ```
 
 ## Скриншоты
+
 ![Чаты](https://github.com/xr1s0nx-wave/messanger/blob/sprint_1/screenshots/chats.png?raw=true)
 
 ---

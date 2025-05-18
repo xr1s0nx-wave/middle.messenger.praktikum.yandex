@@ -3,7 +3,7 @@ import Chats from "@/mocks/chats.json";
 import ChatsDetails from "@/mocks/chatsDetails.json";
 
 export function addEvents(
-  navigate: (page: string, context?: { [x: string]: any }) => void
+  navigate: (page: string, context?: { [x: string]: any }) => void,
 ) {
   const onSearchChange = (event: Event) => {
     const target = event.target as HTMLInputElement;
@@ -20,7 +20,7 @@ export function addEvents(
 
   const onClearSearch = () => {
     const searchInput = document.querySelector(
-      ".search__input"
+      ".search__input",
     ) as HTMLInputElement;
     const searchWrap = document.querySelector(".search") as HTMLDivElement;
 
@@ -33,7 +33,7 @@ export function addEvents(
 
   const onChatClick = (event: Event) => {
     const currentChatId = (event.currentTarget as HTMLDivElement).getAttribute(
-      "data-chat-id"
+      "data-chat-id",
     );
     if (!currentChatId) return;
     const rerenderedChats = [
@@ -66,7 +66,7 @@ export function addEvents(
   const onMessageInputChange = (event: Event) => {
     const target = event.target as HTMLInputElement;
     const messageInputWrap = document.querySelector(
-      ".chats__dialogue-form"
+      ".chats__dialogue-form",
     ) as HTMLDivElement;
 
     if (!messageInputWrap) return;
@@ -80,7 +80,7 @@ export function addEvents(
 
   // Add event listener to the search input
   const searchInput = document.querySelector(
-    ".search__input"
+    ".search__input",
   ) as HTMLInputElement;
   if (searchInput) {
     searchInput.addEventListener("input", onSearchChange);
@@ -88,7 +88,7 @@ export function addEvents(
 
   // Add event listener to the clear search button
   const clearSearchButton = document.querySelector(
-    ".search__clear"
+    ".search__clear",
   ) as HTMLButtonElement;
   if (clearSearchButton) {
     clearSearchButton.addEventListener("click", onClearSearch);
@@ -102,7 +102,7 @@ export function addEvents(
 
   // Add event listener to the message input
   const messageInput = document.querySelector(
-    ".chats__dialogue-form .form__input"
+    ".chats__dialogue-form .form__input",
   ) as HTMLInputElement;
   if (messageInput) {
     messageInput.addEventListener("input", onMessageInputChange);

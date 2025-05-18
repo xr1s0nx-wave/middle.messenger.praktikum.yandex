@@ -1,2 +1,2 @@
-import './style.scss';
-export { default as UserCard } from './UserCard.hbs?raw';
+import "./style.scss";
+export { default as UserCard } from "./UserCard.hbs?raw";

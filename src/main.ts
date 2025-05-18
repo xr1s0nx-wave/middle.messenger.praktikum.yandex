@@ -20,7 +20,7 @@ const addLinkEventLIstener = () => {
       }
     });
   });
-}
+};
 
 function navigate(page: string, pageContext?: any) {
   const [source, context] = ROUTES[page].Component;
