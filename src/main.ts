@@ -25,7 +25,7 @@ const addLinkEventLIstener = () => {
 function navigate(page: string, pageContext?: any) {
   const [source, context] = ROUTES[page].Component;
   document.title = `Messanger | ${ROUTES[page].pageTitle}`;
-  const container = document.getElementById("app");
+  const container = document.querySelector("#app main");
   if (!container) {
     throw new Error("App container not found");
   }
