@@ -1,0 +1,23 @@
+<div class="login">
+    <div class="login__content">
+        <h1 class="login__title">Вход</h1>
+        <form class="login__form">
+            {{> Input type="text" placeholder="Введите логин" name="login" }}
+            {{> Input type="password" placeholder="Пароль" name="password" }}
+            <div class="login__form-buttons">
+                {{> Button
+                    styleType="primary"
+                    type="submit"
+                    text="Войти"
+                }}
+                {{> Button
+                    styleType="outline"
+                    type="button"
+                    text="Регистрация"
+                    className="page--link"
+                    page="registration"
+                }}
+            </div>
+        </form>
+    </div>
+</div>

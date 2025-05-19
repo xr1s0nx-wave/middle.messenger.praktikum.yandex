@@ -1,0 +1,24 @@
+<div class="chats">
+    <div class="chats__navbar">
+        {{> Search }}
+        <div class="chats__items">
+            {{#each Chats}}
+                {{#if this.isActive}}
+                    {{> ChatItem className="chats__item--active" }}
+                {{else}}
+                    {{> ChatItem }}
+                {{/if}}
+            {{/each}}
+        </div>
+        {{> UserCard avatarUrl=UserInfo.avatarUrl login=UserInfo.login }}
+    </div>
+    <div class="chats__content">
+        {{#if CurrentChat}}
+            {{> Dialogue }}
+        {{else}}
+            <div class="chats__empty">
+                <p class="chats__empty-text">Выберите чат</p>
+            </div>
+        {{/if}}
+    </div>
+</div>
