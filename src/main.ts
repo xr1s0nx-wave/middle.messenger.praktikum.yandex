@@ -2,7 +2,6 @@ import Handlebars from "handlebars";
 import * as Components from "@/components";
 import "@/style.scss";
 import { ROUTES } from "@/constants";
-import { addEvents } from "./utils";
 
 Object.entries(Components).forEach(([name, template]) => {
   Handlebars.registerPartial(name, template);
@@ -34,7 +33,6 @@ function navigate(page: string, pageContext?: any) {
   container.innerHTML = temlpatingFunction(pageContext || context);
 
   addLinkEventLIstener();
-  addEvents(navigate);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
