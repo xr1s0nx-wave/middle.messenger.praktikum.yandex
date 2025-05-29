@@ -24,7 +24,9 @@ function navigate(page: string) {
   }
 
   container.innerHTML = "";
-  container.appendChild(currentPage);
+  if (currentPage) {
+    container.appendChild(currentPage);
+  }
 
   addLinkEventLIstener();
 }

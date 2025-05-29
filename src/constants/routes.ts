@@ -14,20 +14,15 @@ export const ROUTES_NAMES = {
 
 export const ROUTES = {
   [ROUTES_NAMES.LOGIN]: {
-    Component: [Pages.Login],
+    Component: Pages.Login,
     pageTitle: "Login",
   },
   [ROUTES_NAMES.REGISTRATION]: {
-    Component: [Pages.Registration],
+    Component: Pages.Registration,
     pageTitle: "Registration",
   },
   [ROUTES_NAMES.NAVIGATION]: {
-    Component: [
-      Pages.Navigation,
-      {
-        routes: Object.values(ROUTES_NAMES),
-      },
-    ],
+    Component: Pages.Navigation,
     pageTitle: "Navigation",
   },
   [ROUTES_NAMES.CHATS]: {
@@ -35,20 +30,15 @@ export const ROUTES = {
     pageTitle: "Chats",
   },
   [ROUTES_NAMES.SETTINGS]: {
-    Component: [
-      Pages.Settings,
-      {
-        UserInfo,
-      },
-    ],
+    Component: Pages.Settings,
     pageTitle: "Settings",
   },
   [ROUTES_NAMES.NOT_FOUND]: {
-    Component: [Pages.NotFound],
+    Component: Pages.NotFound,
     pageTitle: "Not Found",
   },
   [ROUTES_NAMES.SERVER_ERROR]: {
-    Component: [Pages.ServerError],
+    Component: Pages.ServerError,
     pageTitle: "Server Error",
   },
 };

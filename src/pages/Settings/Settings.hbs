@@ -32,17 +32,9 @@
         <input type="text" class="settings__info-input" name="phone" value="{{UserInfo.phone}}" />
       </div>
     </div>
-    {{> Button
-      className="settings__button"
-      text="Изменить данные"
-      styleType="primary"
-      type="submit"
-    }}
-    {{> Button
-      className="settings__button"
-      text="Выйти из аккаунта"
-      styleType="outline"
-      type="button"
-    }}
+    <div class="settings__main-info">
+      {{{ SaveButton }}}
+      {{{ LogoutButton }}}
+    </div>
   </form>
 </div>
