@@ -10,13 +10,18 @@
     "prettier": "prettier --write ."
   },
   "devDependencies": {
+    "eslint-config-airbnb": "^19.0.4",
     "handlebars": "^4.7.8",
     "prettier": "^3.5.3",
     "sass-embedded": "^1.89.0",
-    "typescript": "~5.8.3",
-    "vite": "^6.3.5"
+    "stylelint": "^16.19.1",
+    "typescript": "~5.8.3"
   },
   "engines": {
     "node": ">=12.0.0"
+  },
+  "dependencies": {
+    "uuid": "^11.1.0",
+    "vite": "^6.3.5"
   }
 }

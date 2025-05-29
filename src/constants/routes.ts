@@ -1,6 +1,6 @@
 import * as Pages from "@/pages";
 import UserInfo from "@/mocks/userInfo.json";
-import Chats from "@/mocks/chats.json";
+import { ChatsPage } from "@/pages";
 
 export const ROUTES_NAMES = {
   LOGIN: "login",
@@ -31,13 +31,7 @@ export const ROUTES = {
     pageTitle: "Navigation",
   },
   [ROUTES_NAMES.CHATS]: {
-    Component: [
-      Pages.Chats,
-      {
-        UserInfo,
-        Chats: Chats.data,
-      },
-    ],
+    Component: ChatsPage,
     pageTitle: "Chats",
   },
   [ROUTES_NAMES.SETTINGS]: {

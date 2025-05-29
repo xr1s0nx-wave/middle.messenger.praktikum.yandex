@@ -13,18 +13,6 @@
     gap: 10px;
     border-right: 1px solid #303030;
     position: relative;
-
-    .chats__items {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      height: calc(100% - 50px);
-      overflow-y: auto;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
-    }
   }
 
   &__content {

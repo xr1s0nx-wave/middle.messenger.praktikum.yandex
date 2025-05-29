@@ -1,11 +1,5 @@
-import Handlebars from "handlebars";
-import * as Components from "@/components";
 import "@/style.scss";
 import { ROUTES } from "@/constants";
-
-Object.entries(Components).forEach(([name, template]) => {
-  Handlebars.registerPartial(name, template);
-});
 
 const addLinkEventLIstener = () => {
   document.querySelectorAll(".page--link").forEach((link) => {
@@ -21,20 +15,20 @@ const addLinkEventLIstener = () => {
   });
 };
 
-function navigate(page: string, pageContext?: any) {
-  const [source, context] = ROUTES[page].Component;
+function navigate(page: string) {
+  const currentPage = ROUTES[page].Component.getElement();
   document.title = `Messanger | ${ROUTES[page].pageTitle}`;
   const container = document.getElementById("app");
   if (!container) {
     throw new Error("App container not found");
   }
 
-  const temlpatingFunction = Handlebars.compile(source);
-  container.innerHTML = temlpatingFunction(pageContext || context);
+  container.innerHTML = "";
+  container.appendChild(currentPage);
 
   addLinkEventLIstener();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  navigate("navigation");
+  navigate("chats");
 });

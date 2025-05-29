@@ -1,13 +1,13 @@
-import { defineConfig } from "vite";
+import { defineConfig } from 'vite';
 
 export default defineConfig({
-  root: "./",
+  root: './',
   build: {
-    outDir: "build",
+    outDir: 'build',
   },
   resolve: {
     alias: {
-      "@": "/src",
+      '@': '/src',
     },
   },
   server: {

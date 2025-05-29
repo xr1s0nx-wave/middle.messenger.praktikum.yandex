@@ -5,3 +5,4 @@ export { ChatItem } from "./ChatItem";
 export { Dialogue } from "./Dialogue";
 export { DialogueMessage } from "./DialogueMessage";
 export { UserCard } from "./UserCard";
+export { ChatsList } from "./ChatsList";

@@ -1,14 +1,15 @@
-<div class="chats__item {{className}}" data-chat-id="{{id}}">
-  <div class="chats__item-avatar">
-    <img src="{{avatarUrl}}" alt="Аватар" />
-  </div>
-  <div class="chats__item-info">
-    <h3 class="chats__item-name">{{name}}</h3>
-    <p class="chats__item-message">
-      {{#if lastMessageIsMine}}
-        <span class="chats__item-message--mine">Вы: </span>
-      {{/if}}
-      {{lastMessage}}
-    </p>
-  </div>
+<div class="chats__item-avatar">
+  <img src="{{avatarUrl}}" alt="Аватар" />
+</div>
+<div class="chats__item-info">
+  {{#if isActive}}
+    <span class="chats__item-unread">active</span>
+  {{/if}}
+  <h3 class="chats__item-name">{{name}}</h3>
+  <p class="chats__item-message">
+    {{#if lastMessageIsMine}}
+      <span class="chats__item-message--mine">Вы: </span>
+    {{/if}}
+    {{lastMessage}}
+  </p>
 </div>
