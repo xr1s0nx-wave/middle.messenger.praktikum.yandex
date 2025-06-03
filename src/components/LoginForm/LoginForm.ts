@@ -9,7 +9,6 @@ export class LoginForm extends Block {
       type: "text",
       placeholder: "Введите логин",
       name: "login",
-      className: "input input--login",
       onValidate: (error: string | false) => {
         LoginInput.setProps({
           className: error ? "input input--login error" : "input input--login",
@@ -33,7 +32,6 @@ export class LoginForm extends Block {
       type: "password",
       placeholder: "Пароль",
       name: "password", 
-      className: "input input--password",
       onValidate: (error: string | false) => {
         PasswordInput.setProps({
           className: error ? "input input--password error" : "input input--password",

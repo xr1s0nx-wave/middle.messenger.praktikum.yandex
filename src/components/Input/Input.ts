@@ -4,7 +4,7 @@ type InputProps = {
   type?: string;
   placeholder?: string;
   name?: string;
-  className?: string;
+  styleType?: string;
   value?: string;
   events?: Record<string, (e: Event) => void>;
   [key: string]: any;
@@ -14,6 +14,7 @@ export class Input extends Block {
   constructor(props: InputProps = {}) {
     super("input", {
       ...props,
+      className: `input input--${props.name}`,
       attrs: {
         type: props.type || "text",
         placeholder: props.placeholder || "",
