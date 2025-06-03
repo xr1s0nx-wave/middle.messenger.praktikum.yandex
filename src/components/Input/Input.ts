@@ -4,8 +4,8 @@ type InputProps = {
   type?: string;
   placeholder?: string;
   name?: string;
-  styleType?: string;
   value?: string;
+  error?: string | null;
   events?: Record<string, (e: Event) => void>;
   [key: string]: any;
 }
@@ -25,10 +25,11 @@ export class Input extends Block {
   }
 
   public componentDidUpdate(oldProps: any, newProps: any): boolean {
-    if (oldProps.className !== newProps.className) {
+    if (oldProps.error !== newProps.error || oldProps.className !== newProps.className) {
       if (this._element) {
-        this._element.className = newProps.className || '';
+        this._element.className = `input input--${newProps.name}${newProps.error ? ' error' : ''}`;
       }
+      return false;
     }
     return false;
   }

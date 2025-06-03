@@ -1,7 +1,7 @@
 import Block from "@/core/Block";
 import template from "./LoginForm.hbs?raw";
 import { Input, Button } from "@/components";
-import { loginValidation } from "@/utils";
+import { loginValidation, passwordValidation } from "@/utils";
 
 export class LoginForm extends Block {
   constructor(props: Record<string, any> = {}) {
@@ -10,8 +10,9 @@ export class LoginForm extends Block {
       placeholder: "Введите логин",
       name: "login",
       onValidate: (error: string | false) => {
+        console.log(error);
         LoginInput.setProps({
-          className: error ? "input input--login error" : "input input--login",
+          error: error,
         });
         const errors = {
           ...(this._meta?.props?.validationErrors || {}),
@@ -31,10 +32,10 @@ export class LoginForm extends Block {
     const PasswordInput = new Input({
       type: "password",
       placeholder: "Пароль",
-      name: "password", 
+      name: "password",
       onValidate: (error: string | false) => {
         PasswordInput.setProps({
-          className: error ? "input input--password error" : "input input--password",
+          error,
         });
         const errors = {
           ...(this._meta?.props?.validationErrors || {}),
@@ -45,8 +46,7 @@ export class LoginForm extends Block {
       events: {
         blur: (e: Event) => {
           const input = e.target as HTMLInputElement;
-          let error: string | false = false;
-          if (input.value.length < 6) error = "Пароль должен быть не менее 6 символов";
+          const error = passwordValidation(input.value);
           const onValidate = (PasswordInput as any)._meta?.props?.onValidate;
           if (typeof onValidate === "function") onValidate(error);
         },
@@ -55,13 +55,11 @@ export class LoginForm extends Block {
     const LoginButton = new Button({
       styleType: "primary",
       text: "Войти",
-      className: "button button--primary",
       type: "submit",
     });
     const RegisterButton = new Button({
-      styleType: "secondary",
+      styleType: "outline",
       text: "Регистрация",
-      className: "button button--outline page--link",
       page: "registration",
     });
     super("form", {

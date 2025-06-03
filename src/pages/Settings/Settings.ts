@@ -10,7 +10,7 @@ class Settings extends Block {
       text: "Сохранить"
     });
     const LogoutButton = new Button({
-      styleType: "secondary",
+      styleType: "outline",
       text: "Выйти"
     });
     super("div", {

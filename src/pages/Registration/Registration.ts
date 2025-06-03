@@ -1,14 +1,27 @@
 import Block from "@/core/Block";
 import template from "./Registration.hbs?raw";
-import { RegistrationForm } from "@/components/RegistrationForm/RegistrationForm";
+import { RegistrationForm } from "@/components";
 
 class Registration extends Block {
   constructor(props: Record<string, any> = {}) {
-    const Form = new RegistrationForm({});
+    const Form = new RegistrationForm({
+      events: {
+        submit: (e: Event) => {
+          e.preventDefault();
+          const form = e.target as HTMLFormElement;
+          const formData = new FormData(form);
+          const data: Record<string, string> = {};
+          formData.forEach((value, key) => {
+            data[key] = value as string;
+          });
+          console.log("Login data submitted:", data);
+        },
+      },
+    });
     super("div", {
       ...props,
       RegistrationForm: Form,
-      className: "registration"
+      className: "registration",
     });
   }
 
