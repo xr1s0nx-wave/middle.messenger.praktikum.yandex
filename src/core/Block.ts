@@ -98,6 +98,12 @@ class Block {
   private _componentUpdate(oldProps: TProps): void {
     const newProps = this._meta.props;
     if (JSON.stringify(oldProps) !== JSON.stringify(newProps)) {
+      // Если компонент реализует shouldComponentUpdate и он возвращает false — не ререндерим
+      if (typeof this.shouldComponentUpdate === 'function') {
+        if (!this.shouldComponentUpdate(oldProps, newProps)) {
+          return;
+        }
+      }
       if (this.componentDidUpdate(oldProps, newProps)) {
         this._eventBus.emit(Block.EVENTS.RENDER);
       }
@@ -222,6 +228,11 @@ class Block {
   }
 
   public componentDidUpdate(_oldProps: TProps, _newProps: TProps): boolean {
+    return true;
+  }
+
+  // По умолчанию всегда true, но можно переопределить в наследнике
+  public shouldComponentUpdate(_oldProps: TProps, _newProps: TProps): boolean {
     return true;
   }
 
