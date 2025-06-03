@@ -1,12 +1,13 @@
 import Block from "@/core/Block";
 import template from "./Chats.hbs?raw";
 import ChatsData from "@/mocks/chats.json";
-import { ChatsList, Search, UserCard, Dialogue } from "@/components";
+import ChatsDetails from "@/mocks/chatsDetails.json";
+import { ChatsList, Search, UserCard, Dialogue, DialogueMessage } from "@/components";
 import UserInfo from "@/mocks/userInfo.json";
 
 class Chats extends Block {
   constructor(props: Record<string, any> = {}) {
-    const initialChatId = ChatsData.data[0]?.id || "";
+    const initialChatId = null;
     const searchComponent = new Search({});
     const chatsListComponent = new ChatsList({
       chats: ChatsData.data,
@@ -39,6 +40,11 @@ class Chats extends Block {
   setChatsList(currentChatId: string) {
     this.setProps({ currentChatId });
     this.children.ChatsList?.setProps({ currentChatId });
+    const chat = (ChatsDetails as any)[currentChatId];
+    if (chat) {
+      const messages = (chat.messages || []).map((msg: any) => new DialogueMessage(msg));
+      this.children.Dialogue.setProps({ CurrentChat: { ...chat, messages } });
+    }
   }
 
   shouldComponentUpdate(oldProps: any, newProps: any): boolean {

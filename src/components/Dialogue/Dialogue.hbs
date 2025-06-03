@@ -1,27 +1,38 @@
 <div class="chats__dialogue">
-    <div class="chats__dialogue-header">
-        <div class="chats__dialogue-info">
-            <div class="chats__dialogue-avatar">
-                <img src="{{ CurrentChat.avatarUrl }}" alt="Аватар" />
-            </div>
-            <h2 class="chats__dialogue-title">{{ CurrentChat.name }}</h2>
-        </div>
+  <div class="chats__dialogue-header">
+    <div class="chats__dialogue-info">
+      <div class="chats__dialogue-avatar">
+        <img src="{{CurrentChat.avatarUrl}}" alt="Аватар" />
+      </div>
+      <h2 class="chats__dialogue-title">{{CurrentChat.name}}</h2>
     </div>
-    <div class="chats__dialogue-messages">
-        {{#each CurrentChat.messages}}
-            {{#if isMine}}
-                {{> DialogueMessage className="dialogue__message--mine" }}
-            {{else}}
-                {{> DialogueMessage }}
-            {{/if}}
-        {{/each}}
-    </div>
-    <form class="chats__dialogue-form">
-        <input autofocus type="text" class="form__input" placeholder="Введите сообщение" name="message" />
-        <button type="submit" class="form__button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M21.426 11.095L4.42601 3.09504C4.25482 3.0145 4.0643 2.98416 3.87657 3.00756C3.68883 3.03095 3.51158 3.10713 3.36541 3.22723C3.21923 3.34733 3.11012 3.50644 3.05076 3.68607C2.99139 3.8657 2.98419 4.05849 3.03001 4.24205L4.24201 9.09104L12 12L4.24201 14.909L3.03001 19.758C2.98333 19.9417 2.98992 20.1349 3.04902 20.315C3.10811 20.4951 3.21726 20.6546 3.3637 20.7749C3.51014 20.8953 3.68782 20.9714 3.87594 20.9944C4.06406 21.0175 4.25486 20.9865 4.42601 20.905L21.426 12.905C21.5978 12.8243 21.7431 12.6963 21.8448 12.536C21.9466 12.3758 22.0006 12.1899 22.0006 12C22.0006 11.8102 21.9466 11.6243 21.8448 11.464C21.7431 11.3038 21.5978 11.1758 21.426 11.095Z" fill="white"/>
-            </svg>
-        </button>
-    </form>
+  </div>
+  <div class="chats__dialogue-messages">
+    {{#each itemsKeys}}
+      {{{lookup ../this this}}}
+    {{/each}}
+  </div>
+  <form class="chats__dialogue-form">
+    <input
+      autofocus
+      type="text"
+      class="form__input"
+      placeholder="Введите сообщение"
+      name="message"
+    />
+    <button type="submit" class="form__button">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+      >
+        <path
+          d="M21.426 11.095L4.42601 3.09504C4.25482 3.0145 4.0643 2.98416 3.87657 3.00756C3.68883 3.03095 3.51158 3.10713 3.36541 3.22723C3.21923 3.34733 3.11012 3.50644 3.05076 3.68607C2.99139 3.8657 2.98419 4.05849 3.03001 4.24205L4.24201 9.09104L12 12L4.24201 14.909L3.03001 19.758C2.98333 19.9417 2.98992 20.1349 3.04902 20.315C3.10811 20.4951 3.21726 20.6546 3.3637 20.7749C3.51014 20.8953 3.68782 20.9714 3.87594 20.9944C4.06406 21.0175 4.25486 20.9865 4.42601 20.905L21.426 12.905C21.5978 12.8243 21.7431 12.6963 21.8448 12.536C21.9466 12.3758 22.0006 12.1899 22.0006 12C22.0006 11.8102 21.9466 11.6243 21.8448 11.464C21.7431 11.3038 21.5978 11.1758 21.426 11.095Z"
+          fill="white"
+        />
+      </svg>
+    </button>
+  </form>
 </div>

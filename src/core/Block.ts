@@ -97,6 +97,7 @@ class Block {
 
   private _componentUpdate(oldProps: TProps): void {
     const newProps = this._meta.props;
+    console.log(newProps);
     if (JSON.stringify(oldProps) !== JSON.stringify(newProps)) {
       // Если компонент реализует shouldComponentUpdate и он возвращает false — не ререндерим
       if (typeof this.shouldComponentUpdate === 'function') {
