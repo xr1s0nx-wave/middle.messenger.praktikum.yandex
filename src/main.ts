@@ -32,5 +32,5 @@ function navigate(page: string) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  navigate("chats");
+  navigate("navigation");
 });

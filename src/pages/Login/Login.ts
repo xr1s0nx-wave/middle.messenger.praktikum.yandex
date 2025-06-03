@@ -1,35 +1,28 @@
 import Block from "@/core/Block";
 import template from "./Login.hbs?raw";
-import { Input, Button } from "@/components";
+import { LoginForm } from "@/components";
 
 class Login extends Block {
   constructor(props: Record<string, any> = {}) {
-    const LoginInput = new Input({
-      type: "text",
-      placeholder: "Введите логин",
-      name: "login"
-    });
-    const PasswordInput = new Input({
-      type: "password",
-      placeholder: "Пароль",
-      name: "password"
-    });
-    const LoginButton = new Button({
-      styleType: "primary",
-      text: "Войти"
-    });
-    const RegisterButton = new Button({
-      styleType: "secondary",
-      text: "Регистрация",
-      className: "page--link"
+    const Form = new LoginForm({
+      events: {
+        submit: (e: Event) => {
+          e.preventDefault();
+          const form = e.target as HTMLFormElement;
+          const formData = new FormData(form);
+          const data: Record<string, string> = {};
+          formData.forEach((value, key) => {
+            data[key] = value as string;
+          });
+          console.log("Login data submitted:", data);
+        },
+      },
     });
     super("div", {
       ...props,
-      LoginInput,
-      PasswordInput,
-      LoginButton,
-      RegisterButton,
-      className: "login"
+      LoginForm: Form,
+      className: "login",
+      validationErrors: {},
     });
   }
 

@@ -5,16 +5,16 @@ type ButtonProps = {
   styleType?: "primary" | "secondary";
   className?: string;
   events?: Record<string, (e: Event) => void>;
+  page?: string;
+  type?: "button" | "submit" | "reset";
 };
 
 export class Button extends Block {
   constructor(props: ButtonProps = {}) {
-    // Корневой тег теперь button, чтобы не было дублирования
-    super("button", props);
+    super("button", { ...props, attrs: { page: props.page, type: props.type } });
   }
 
   public render(): DocumentFragment {
-    // В шаблоне теперь только содержимое кнопки, без <button>
     return this.compile("{{text}}", { ...this._meta.props });
   }
 }

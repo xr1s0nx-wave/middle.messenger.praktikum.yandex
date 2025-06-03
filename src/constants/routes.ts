@@ -1,5 +1,4 @@
 import * as Pages from "@/pages";
-import UserInfo from "@/mocks/userInfo.json";
 import { ChatsPage } from "@/pages";
 
 export const ROUTES_NAMES = {

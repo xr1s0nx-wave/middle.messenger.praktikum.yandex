@@ -1,15 +1,38 @@
 import Block from "@/core/Block";
-import template from "./Input.hbs?raw";
+
+type InputProps = {
+  type?: string;
+  placeholder?: string;
+  name?: string;
+  className?: string;
+  value?: string;
+  events?: Record<string, (e: Event) => void>;
+  [key: string]: any;
+}
 
 export class Input extends Block {
-  constructor(props: Record<string, any> = {}) {
+  constructor(props: InputProps = {}) {
     super("input", {
       ...props,
-      className: `input input--${props.name || ''}`
+      attrs: {
+        type: props.type || "text",
+        placeholder: props.placeholder || "",
+        name: props.name || "",
+        value: props.value || "",
+      },
     });
   }
 
+  public componentDidUpdate(oldProps: any, newProps: any): boolean {
+    if (oldProps.className !== newProps.className) {
+      if (this._element) {
+        this._element.className = newProps.className || '';
+      }
+    }
+    return false;
+  }
+
   render(): DocumentFragment {
-    return this.compile(template, this._meta.props);
+    return this.compile('', this._meta.props);
   }
 }
