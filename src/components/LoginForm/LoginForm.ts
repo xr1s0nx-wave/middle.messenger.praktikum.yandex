@@ -10,7 +10,6 @@ export class LoginForm extends Block {
       placeholder: "Введите логин",
       name: "login",
       onValidate: (error: string | false) => {
-        console.log(error);
         LoginInput.setProps({
           error: error,
         });
@@ -70,6 +69,25 @@ export class LoginForm extends Block {
       RegisterButton,
       className: "login__form",
       validationErrors: {},
+      events: {
+        submit: (e: Event) => {
+          e.preventDefault();
+          const form = e.target as HTMLFormElement;
+          const formData = new FormData(form);
+          const login = formData.get("login") as string || "";
+          const password = formData.get("password") as string || "";
+          const errors: Record<string, string | null> = {};
+          errors.login = loginValidation(login) || null;
+          errors.password = passwordValidation(password) || null;
+          LoginInput.setProps({ error: errors.login });
+          PasswordInput.setProps({ error: errors.password });
+          this.setProps({ validationErrors: errors });
+          if (Object.values(errors).every((v) => !v)) {
+            // Все поля валидны, можно отправлять данные
+            console.log("Вход выполнен", { login, password });
+          }
+        },
+      },
     });
   }
 

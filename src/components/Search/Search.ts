@@ -13,7 +13,6 @@ export class Search extends Block {
         const input = this.getContent().querySelector('.search__input') as HTMLInputElement;
         if (input) {
             input.oninput = (e: Event) => {
-                console.log('asd')
                 const value = (e.target as HTMLInputElement).value;
                 const onInput = this._meta.props.onInput;
                 if (typeof onInput === 'function') {
@@ -24,7 +23,6 @@ export class Search extends Block {
     }
 
     render(): DocumentFragment {
-        console.log(this._meta.props);
         return this.compile(template, this._meta.props);
     }
 }

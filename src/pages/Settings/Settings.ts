@@ -1,23 +1,13 @@
 import Block from "@/core/Block";
 import template from "./Settings.hbs?raw";
-import UserInfo from "@/mocks/userInfo.json";
-import { Button } from "@/components";
+import { SettingsForm } from "@/components";
 
 class Settings extends Block {
   constructor(props: Record<string, any> = {}) {
-    const SaveButton = new Button({
-      styleType: "primary",
-      text: "Сохранить"
-    });
-    const LogoutButton = new Button({
-      styleType: "outline",
-      text: "Выйти"
-    });
+    const Form = new SettingsForm({});
     super("div", {
       ...props,
-      UserInfo,
-      SaveButton,
-      LogoutButton,
+      SettingsForm: Form,
       className: "settings"
     });
   }
