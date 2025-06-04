@@ -2,7 +2,7 @@ import Block from "@/core/Block";
 import template from "./Chats.hbs?raw";
 import ChatsData from "@/mocks/chats.json";
 import ChatsDetails from "@/mocks/chatsDetails.json";
-import { ChatsList, Search, UserCard, Dialogue, DialogueMessage } from "@/components";
+import { ChatsList, Search, UserCard, Dialogue, DialogueMessage, DialogueForm } from "@/components";
 import UserInfo from "@/mocks/userInfo.json";
 
 class Chats extends Block {
@@ -15,7 +15,8 @@ class Chats extends Block {
       onChatClick: (id: string) => chatsInstance.setChatsList(id),
     });
     const userCardComponent = new UserCard({ ...UserInfo });
-    const dialogueComponent = new Dialogue({ CurrentChat: ChatsData.data[0] });
+    const dialogueFormComponent = new DialogueForm({});
+    const dialogueComponent = new Dialogue({ CurrentChat: ChatsData.data[0], DialogueForm: dialogueFormComponent });
 
     const chatsInstance = {
       setChatsList: (id: string) => {},
@@ -33,6 +34,7 @@ class Chats extends Block {
     this.children.ChatsList = chatsListComponent;
     this.children.UserCard = userCardComponent;
     this.children.Dialogue = dialogueComponent;
+    this.children.DialogueForm = dialogueFormComponent;
 
     chatsInstance.setChatsList = this.setChatsList.bind(this);
   }

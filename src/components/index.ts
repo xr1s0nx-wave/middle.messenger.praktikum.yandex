@@ -8,3 +8,4 @@ export { UserCard } from "./UserCard";
 export { ChatsList } from "./ChatsList";
 export { LoginForm } from './LoginForm';
 export { RegistrationForm } from './RegistrationForm';
+export { DialogueForm } from "./DialogueForm";

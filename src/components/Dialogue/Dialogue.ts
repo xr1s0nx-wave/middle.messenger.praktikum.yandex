@@ -1,10 +1,13 @@
 import Block from "@/core/Block";
 import template from "./Dialogue.hbs?raw";
+import { DialogueForm } from "@/components";
 
 export class Dialogue extends Block {
   constructor(props: Record<string, any> = {}) {
+    const Form = new DialogueForm({});
     super("div", {
       ...props,
+      DialogueForm: Form,
       className: "chats__dialogue",
     });
   }
@@ -24,12 +27,16 @@ export class Dialogue extends Block {
     if (CurrentChat && Array.isArray(CurrentChat.messages)) {
       messages = CurrentChat.messages;
     }
-
+    const DialogueForm = this.children.DialogueForm as Block;
     this.children = {};
+    if (DialogueForm) {
+      this.children.DialogueForm = DialogueForm;
+    }
     messages.forEach((msg, idx) => {
       this.children[`msg_${idx}`] = msg;
     });
-    const itemsKeys = Object.keys(this.children);
-    return this.compile(template, { ...this._meta.props, itemsKeys });
+
+    const itemsKeys = Object.keys(this.children).filter((k) => k.startsWith("msg_"));
+    return this.compile(template, { ...this._meta.props, itemsKeys, DialogueForm });
   }
 }
