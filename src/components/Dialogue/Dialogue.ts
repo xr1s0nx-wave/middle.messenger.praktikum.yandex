@@ -11,14 +11,8 @@ const Dialogue = class extends Block {
       className: "chats__dialogue",
     });
   }
-  shouldComponentUpdate(
-    oldProps: DialogueProps,
-    newProps: DialogueProps,
-  ): boolean {
-    const keys = Object.keys({ ...oldProps, ...newProps });
-    if (keys.length === 1 && keys[0] === "search") {
-      return false;
-    }
+  shouldComponentUpdate(): boolean {
+    // Поведение по умолчанию: всегда обновлять
     return true;
   }
   render(): DocumentFragment {

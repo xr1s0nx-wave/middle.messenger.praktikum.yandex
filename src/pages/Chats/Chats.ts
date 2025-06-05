@@ -60,14 +60,8 @@ class Chats extends Block {
     }
   }
 
-  shouldComponentUpdate(
-    oldProps: Record<string, unknown>,
-    newProps: Record<string, unknown>,
-  ): boolean {
-    const keys = Object.keys({ ...oldProps, ...newProps });
-    if (keys.length === 1 && keys[0] === "search") {
-      return false;
-    }
+  shouldComponentUpdate(): boolean {
+    // Поведение по умолчанию: всегда обновлять
     return true;
   }
 

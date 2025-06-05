@@ -21,19 +21,8 @@ const Input = class extends Block {
       },
     });
   }
-  public componentDidUpdate(
-    oldProps: InputProps,
-    newProps: InputProps,
-  ): boolean {
-    if (
-      oldProps.error !== newProps.error ||
-      oldProps.className !== newProps.className
-    ) {
-      if (this._element) {
-        this._element.className = `input input--${newProps.name}${newProps.error ? " error" : ""}`;
-      }
-      return false;
-    }
+  public componentDidUpdate(): boolean {
+    // Поведение по умолчанию: не обновлять
     return false;
   }
   render(): DocumentFragment {
