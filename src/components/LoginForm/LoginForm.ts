@@ -5,19 +5,23 @@ import { loginValidation, passwordValidation } from "@/utils/validations.ts";
 type LoginFormProps = { [key: string]: unknown };
 const LoginForm = class extends Block {
   constructor(props: LoginFormProps = {}) {
+    let validationErrors: { login?: string | false; password?: string | false } = {};
     const LoginInput = new Input({
       type: "text",
       placeholder: "Введите логин",
       name: "login",
       onValidate: (error: string | false) => {
         LoginInput.setProps({ error });
+        validationErrors = { ...validationErrors, login: error };
+        this.setProps({ validationErrors });
       },
       events: {
         blur: (e: Event) => {
           const input = e.target as HTMLInputElement;
           const error = loginValidation(input.value);
-          const onValidate = (LoginInput as any)._meta?.props?.onValidate;
-          if (typeof onValidate === "function") onValidate(error);
+          LoginInput.setProps({ error });
+          validationErrors = { ...validationErrors, login: error };
+          this.setProps({ validationErrors });
         },
       },
     });
@@ -27,13 +31,16 @@ const LoginForm = class extends Block {
       name: "password",
       onValidate: (error: string | false) => {
         PasswordInput.setProps({ error });
+        validationErrors = { ...validationErrors, password: error };
+        this.setProps({ validationErrors });
       },
       events: {
         blur: (e: Event) => {
           const input = e.target as HTMLInputElement;
           const error = passwordValidation(input.value);
-          const onValidate = (PasswordInput as any)._meta?.props?.onValidate;
-          if (typeof onValidate === "function") onValidate(error);
+          PasswordInput.setProps({ error });
+          validationErrors = { ...validationErrors, password: error };
+          this.setProps({ validationErrors });
         },
       },
     });
@@ -48,16 +55,27 @@ const LoginForm = class extends Block {
       PasswordInput,
       LoginButton,
       className: "login__form",
+      validationErrors,
       events: {
         submit: (e: Event) => {
           e.preventDefault();
           const form = e.target as HTMLFormElement;
           const formData = new FormData(form);
-          const data: Record<string, string> = {};
-          formData.forEach((value, key) => {
-            data[key] = value as string;
-          });
-          console.log("Login form submitted:", data);
+          const login = (formData.get("login") as string) || "";
+          const password = (formData.get("password") as string) || "";
+          const loginError = loginValidation(login);
+          const passwordError = passwordValidation(password);
+          validationErrors = { login: loginError, password: passwordError };
+          this.setProps({ validationErrors });
+          LoginInput.setProps({ error: loginError });
+          PasswordInput.setProps({ error: passwordError });
+          if (!loginError && !passwordError) {
+            const data: Record<string, string> = {};
+            formData.forEach((value, key) => {
+              data[key] = value as string;
+            });
+            console.log("Login form submitted:", data);
+          }
         },
       },
     });

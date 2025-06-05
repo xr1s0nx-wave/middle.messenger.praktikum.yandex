@@ -14,19 +14,23 @@ import {
 type RegistrationFormProps = { [key: string]: unknown };
 const RegistrationForm = class extends Block {
   constructor(props: RegistrationFormProps = {}) {
+    let validationErrors: Record<string, string | false | null> = {};
     const EmailInput = new Input({
       type: "text",
       placeholder: "Введите почту",
       name: "email",
       onValidate: (error: string | false) => {
         EmailInput.setProps({ error });
+        validationErrors = { ...validationErrors, email: error };
+        this.setProps({ validationErrors });
       },
       events: {
         blur: (e: Event) => {
           const input = e.target as HTMLInputElement;
           const error = emailValidation(input.value);
-          const onValidate = (EmailInput as any)._meta?.props?.onValidate;
-          if (typeof onValidate === "function") onValidate(error);
+          EmailInput.setProps({ error });
+          validationErrors = { ...validationErrors, email: error };
+          this.setProps({ validationErrors });
         },
       },
     });
@@ -36,13 +40,16 @@ const RegistrationForm = class extends Block {
       name: "login",
       onValidate: (error: string | false) => {
         LoginInput.setProps({ error });
+        validationErrors = { ...validationErrors, login: error };
+        this.setProps({ validationErrors });
       },
       events: {
         blur: (e: Event) => {
           const input = e.target as HTMLInputElement;
           const error = loginValidation(input.value);
-          const onValidate = (LoginInput as any)._meta?.props?.onValidate;
-          if (typeof onValidate === "function") onValidate(error);
+          LoginInput.setProps({ error });
+          validationErrors = { ...validationErrors, login: error };
+          this.setProps({ validationErrors });
         },
       },
     });
@@ -52,13 +59,16 @@ const RegistrationForm = class extends Block {
       name: "first_name",
       onValidate: (error: string | false) => {
         FirstNameInput.setProps({ error });
+        validationErrors = { ...validationErrors, first_name: error };
+        this.setProps({ validationErrors });
       },
       events: {
         blur: (e: Event) => {
           const input = e.target as HTMLInputElement;
           const error = nameValidation(input.value);
-          const onValidate = (FirstNameInput as any)._meta?.props?.onValidate;
-          if (typeof onValidate === "function") onValidate(error);
+          FirstNameInput.setProps({ error });
+          validationErrors = { ...validationErrors, first_name: error };
+          this.setProps({ validationErrors });
         },
       },
     });
@@ -68,13 +78,16 @@ const RegistrationForm = class extends Block {
       name: "second_name",
       onValidate: (error: string | false) => {
         SecondNameInput.setProps({ error });
+        validationErrors = { ...validationErrors, second_name: error };
+        this.setProps({ validationErrors });
       },
       events: {
         blur: (e: Event) => {
           const input = e.target as HTMLInputElement;
           const error = surnameValidation(input.value);
-          const onValidate = (SecondNameInput as any)._meta?.props?.onValidate;
-          if (typeof onValidate === "function") onValidate(error);
+          SecondNameInput.setProps({ error });
+          validationErrors = { ...validationErrors, second_name: error };
+          this.setProps({ validationErrors });
         },
       },
     });
@@ -84,13 +97,16 @@ const RegistrationForm = class extends Block {
       name: "password",
       onValidate: (error: string | false) => {
         PasswordInput.setProps({ error });
+        validationErrors = { ...validationErrors, password: error };
+        this.setProps({ validationErrors });
       },
       events: {
         blur: (e: Event) => {
           const input = e.target as HTMLInputElement;
           const error = passwordValidation(input.value);
-          const onValidate = (PasswordInput as any)._meta?.props?.onValidate;
-          if (typeof onValidate === "function") onValidate(error);
+          PasswordInput.setProps({ error });
+          validationErrors = { ...validationErrors, password: error };
+          this.setProps({ validationErrors });
         },
       },
     });
@@ -100,17 +116,18 @@ const RegistrationForm = class extends Block {
       name: "passwordRepeat",
       onValidate: (error: string | false) => {
         PasswordRepeatInput.setProps({ error });
+        validationErrors = { ...validationErrors, password_repeat: error };
+        this.setProps({ validationErrors });
       },
       events: {
         blur: (e: Event) => {
           const input = e.target as HTMLInputElement;
-          const error = repeatPasswordValidation(
-            (PasswordInput as any)._meta?.props?.value,
-            input.value,
-          );
-          const onValidate = (PasswordRepeatInput as any)._meta?.props
-            ?.onValidate;
-          if (typeof onValidate === "function") onValidate(error);
+          // Для сравнения паролей нужно получить значение из PasswordInput
+          const passwordValue = (document.querySelector('input[name="password"]') as HTMLInputElement)?.value || "";
+          const error = repeatPasswordValidation(passwordValue, input.value);
+          PasswordRepeatInput.setProps({ error });
+          validationErrors = { ...validationErrors, password_repeat: error };
+          this.setProps({ validationErrors });
         },
       },
     });
@@ -120,13 +137,16 @@ const RegistrationForm = class extends Block {
       name: "phone",
       onValidate: (error: string | false) => {
         PhoneInput.setProps({ error });
+        validationErrors = { ...validationErrors, phone: error };
+        this.setProps({ validationErrors });
       },
       events: {
         blur: (e: Event) => {
           const input = e.target as HTMLInputElement;
           const error = phoneValidation(input.value);
-          const onValidate = (PhoneInput as any)._meta?.props?.onValidate;
-          if (typeof onValidate === "function") onValidate(error);
+          PhoneInput.setProps({ error });
+          validationErrors = { ...validationErrors, phone: error };
+          this.setProps({ validationErrors });
         },
       },
     });
@@ -151,6 +171,7 @@ const RegistrationForm = class extends Block {
       RegistrationButton,
       LoginButton,
       className: "registration__form",
+      validationErrors,
       events: {
         submit: (e: Event) => {
           e.preventDefault();
@@ -164,7 +185,7 @@ const RegistrationForm = class extends Block {
           const passwordRepeat =
             (formData.get("passwordRepeat") as string) || "";
           const phone = (formData.get("phone") as string) || "";
-          const errors: Record<string, string | null> = {};
+          const errors: Record<string, string | false | null> = {};
           errors.email = emailValidation(email) || null;
           errors.login = loginValidation(login) || null;
           errors.first_name = nameValidation(firstName) || null;
