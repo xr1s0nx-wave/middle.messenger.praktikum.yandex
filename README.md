@@ -36,7 +36,7 @@ Messanger — это удобный и быстрый мессенджер, по
 
 ## Предпросмотр
 
-[Открыть приложение (Preview)](https://deploy-preview-3--messanger-xr1s0nx.netlify.app/)
+[Открыть приложение (Preview)](https://deploy-preview-4--messanger-xr1s0nx.netlify.app)
 
 ## Скриншоты
 
