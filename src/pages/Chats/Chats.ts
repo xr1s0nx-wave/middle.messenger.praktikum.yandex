@@ -28,7 +28,7 @@ class Chats extends Block {
       DialogueForm: dialogueFormComponent,
     });
     const chatsInstance = {
-      setChatsList: (_id: string): void => {},
+      setChatsList: (): void => {},
     } as { setChatsList: (id: string) => void };
     super("div", {
       ...props,

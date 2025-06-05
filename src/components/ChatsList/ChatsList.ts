@@ -6,22 +6,26 @@ type ChatsListProps = {
   currentChatId?: string | null;
   onChatClick?: (id: string) => void;
 };
+interface IChat {
+  id: string;
+  name: string;
+  avatarUrl?: string;
+  lastMessage?: string;
+  lastMessageIsMine?: boolean;
+  unreadCount?: number;
+}
 const ChatsList = class extends Block {
   constructor(props: ChatsListProps) {
     super("div", { ...props, className: "chats-list" });
   }
-  public componentDidUpdate(
-    _oldProps: ChatsListProps,
-    _newProps: ChatsListProps,
-  ): boolean {
+  public componentDidUpdate(): boolean {
     return true;
   }
   render(): DocumentFragment {
-    let { chats = [], currentChatId, onChatClick } = this._meta.props;
-    if (!Array.isArray(chats)) chats = [];
+    const { chats = [], currentChatId, onChatClick } = this._meta.props as ChatsListProps;
     this.children = {};
     const itemsKeys: string[] = [];
-    (chats as any[]).forEach((chat: Record<string, any>, idx: number) => {
+    chats.forEach((chat: IChat, idx: number) => {
       const key = `item_${idx}`;
       this.children[key] = new ChatItem({
         id: chat.id,

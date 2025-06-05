@@ -27,7 +27,7 @@ const Dialogue = class extends Block {
     if (CurrentChat && Array.isArray(CurrentChat.messages)) {
       messages = CurrentChat.messages;
     }
-    const DialogueForm = this.children.DialogueForm as Block;
+    const DialogueForm = this.children.DialogueForm;
     this.children = {};
     if (DialogueForm) {
       this.children.DialogueForm = DialogueForm;

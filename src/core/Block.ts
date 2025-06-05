@@ -89,11 +89,11 @@ class Block {
     if (JSON.stringify(oldProps) !== JSON.stringify(newProps)) {
       // Если компонент реализует shouldComponentUpdate и он возвращает false — не ререндерим
       if (typeof this.shouldComponentUpdate === "function") {
-        if (!this.shouldComponentUpdate(oldProps, newProps)) {
+        if (!this.shouldComponentUpdate()) {
           return;
         }
       }
-      if (this.componentDidUpdate(oldProps, newProps)) {
+      if (this.componentDidUpdate()) {
         this._eventBus.emit(Block.EVENTS.RENDER);
       }
     }
@@ -203,11 +203,11 @@ class Block {
     this._eventBus.emit(Block.EVENTS.FLOW_CDM);
   }
 
-  public componentDidUpdate(_oldProps: TProps, _newProps: TProps): boolean {
+  public componentDidUpdate(): boolean {
     return true;
   }
 
-  public shouldComponentUpdate(_oldProps: TProps, _newProps: TProps): boolean {
+  public shouldComponentUpdate(): boolean {
     return true;
   }
 
