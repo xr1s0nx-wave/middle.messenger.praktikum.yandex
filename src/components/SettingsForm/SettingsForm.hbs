@@ -1,88 +1,44 @@
-<form class="settings__content">
-  <div class="settings__main-info">
-    <div class="settings__avatar">
-      <img
-        src="{{UserInfo.avatarUrl}}"
-        alt="Avatar"
-        class="settings__avatar-image"
-      />
-    </div>
-    <p class="settings__name">{{UserInfo.name}}</p>
+<div class="settings__main-info">
+  <div class="settings__avatar">
+    <img
+      src="{{UserInfo.avatarUrl}}"
+      alt="Avatar"
+      class="settings__avatar-image"
+    />
   </div>
-  <div class="settings__info-rows">
-    <div class="settings__info-row">
-      <span class="settings__info-label">Почта:</span>
-      <input
-        type="text"
-        class="settings__info-input"
-        name="email"
-        value="{{UserInfo.email}}"
-      />
-    </div>
-    <div class="settings__info-row">
-      <span class="settings__info-label">Логин:</span>
-      <input
-        type="text"
-        class="settings__info-input"
-        name="login"
-        value="{{UserInfo.login}}"
-      />
-    </div>
-    <div class="settings__info-row">
-      <span class="settings__info-label">Имя:</span>
-      <input
-        type="text"
-        class="settings__info-input"
-        name="first_name"
-        value="{{UserInfo.first_name}}"
-      />
-    </div>
-    <div class="settings__info-row">
-      <span class="settings__info-label">Фамилия:</span>
-      <input
-        type="text"
-        class="settings__info-input"
-        name="second_name"
-        value="{{UserInfo.second_name}}"
-      />
-    </div>
-    <div class="settings__info-row">
-      <span class="settings__info-label">Телефон:</span>
-      <input
-        type="text"
-        class="settings__info-input"
-        name="phone"
-        value="{{UserInfo.phone}}"
-      />
-    </div>
-  </div>
-  <div class="login__form-errors">
-    {{#if validationErrors.email}}
-      <span class="login__form-error">{{validationErrors.email}}</span>
-    {{/if}}
-    {{#if validationErrors.login}}
-      <span class="login__form-error">{{validationErrors.login}}</span>
-    {{/if}}
-    {{#if validationErrors.first_name}}
-      <span class="login__form-error">{{validationErrors.first_name}}</span>
-    {{/if}}
-    {{#if validationErrors.second_name}}
-      <span class="login__form-error">{{validationErrors.second_name}}</span>
-    {{/if}}
-    {{#if validationErrors.password}}
-      <span class="login__form-error">{{validationErrors.password}}</span>
-    {{/if}}
-    {{#if validationErrors.password_repeat}}
-      <span
-        class="login__form-error"
-      >{{validationErrors.password_repeat}}</span>
-    {{/if}}
-    {{#if validationErrors.phone}}
-      <span class="login__form-error">{{validationErrors.phone}}</span>
-    {{/if}}
-  </div>
-  <div class="settings__main-info">
-    {{{SaveButton}}}
-    {{{LogoutButton}}}
-  </div>
-</form>
+  <p class="settings__name">{{UserInfo.name}}</p>
+</div>
+<div class="settings__info-rows">
+  {{{emailRow}}}
+  {{{loginRow}}}
+  {{{firstNameRow}}}
+  {{{secondNameRow}}}
+  {{{phoneRow}}}
+</div>
+<div class="login__form-errors">
+  {{#if validationErrors.email}}
+    <span class="login__form-error">{{validationErrors.email}}</span>
+  {{/if}}
+  {{#if validationErrors.login}}
+    <span class="login__form-error">{{validationErrors.login}}</span>
+  {{/if}}
+  {{#if validationErrors.first_name}}
+    <span class="login__form-error">{{validationErrors.first_name}}</span>
+  {{/if}}
+  {{#if validationErrors.second_name}}
+    <span class="login__form-error">{{validationErrors.second_name}}</span>
+  {{/if}}
+  {{#if validationErrors.password}}
+    <span class="login__form-error">{{validationErrors.password}}</span>
+  {{/if}}
+  {{#if validationErrors.password_repeat}}
+    <span class="login__form-error">{{validationErrors.password_repeat}}</span>
+  {{/if}}
+  {{#if validationErrors.phone}}
+    <span class="login__form-error">{{validationErrors.phone}}</span>
+  {{/if}}
+</div>
+<div class="settings__main-info">
+  {{{SaveButton}}}
+  {{{LogoutButton}}}
+</div>

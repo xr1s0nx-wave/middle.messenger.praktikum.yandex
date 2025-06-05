@@ -10,3 +10,4 @@ export { LoginForm } from './LoginForm';
 export { RegistrationForm } from './RegistrationForm';
 export { DialogueForm } from "./DialogueForm";
 export { SettingsForm } from "./SettingsForm";
+export { SettingsInfoRow } from "./SettingsInfoRow";
