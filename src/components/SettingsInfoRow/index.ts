@@ -1,2 +1,3 @@
 import "./style.scss";
-export { SettingsInfoRow } from "./SettingsInfoRow";
+import SettingsInfoRow from "./SettingsInfoRow.ts";
+export default SettingsInfoRow;

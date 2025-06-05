@@ -10,11 +10,9 @@
   transition: 0.15s linear;
   outline: none;
 }
-
 .input.error {
   border-bottom: 1px solid #ff0000;
 }
-
 .input:focus {
   border-bottom: 1px solid #fff;
 }

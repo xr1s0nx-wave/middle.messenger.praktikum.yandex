@@ -1,15 +1,12 @@
-import Block from "@/core/Block";
+import Block from "@/core/Block.ts";
 import template from "./UserCard.hbs?raw";
-
-export class UserCard extends Block {
-  constructor(props: Record<string, any> = {}) {
-    super("div", {
-      ...props,
-      className: "usercard"
-    });
+type UserCardProps = { [key: string]: unknown };
+const UserCard = class extends Block {
+  constructor(props: UserCardProps = {}) {
+    super("div", { ...props, className: "usercard" });
   }
-
   render(): DocumentFragment {
     return this.compile(template, this._meta.props);
   }
-}
+};
+export default UserCard;

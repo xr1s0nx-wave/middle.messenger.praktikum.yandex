@@ -12,21 +12,17 @@
   line-height: 100%;
   transition: all 0.3s ease;
 }
-
 .button--primary {
   background: #ffffff;
   color: #000;
   border-radius: 8px;
 }
-
 .button--primary:hover {
   background: #cfcfcf;
 }
-
 .button--primary:active {
   background: #9c9c9c;
 }
-
 .button--outline {
   background: transparent;
   color: #ffffff;

@@ -1,11 +1,11 @@
-import Block from "@/core/Block";
+import Block from "../../core/Block.ts";
 import template from "./ServerError.hbs?raw";
 
 class ServerError extends Block {
-  constructor(props: Record<string, any> = {}) {
+  constructor(props: Record<string, unknown> = {}) {
     super("div", {
       ...props,
-      className: "server-error"
+      className: "server-error",
     });
   }
 

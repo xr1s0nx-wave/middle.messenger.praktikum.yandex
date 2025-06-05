@@ -1,7 +1,7 @@
-export { Login } from "./Login";
-export { Registration } from "./Registration";
-export { Navigation } from "./Navigation";
-export { ChatsPage } from "./Chats";
-export { Settings } from "./Settings";
-export { NotFound } from "./NotFound";
-export { ServerError } from "./ServerError";
+export { Login } from "./Login/index.ts";
+export { Registration } from "./Registration/index.ts";
+export { Navigation } from "./Navigation/index.ts";
+export { ChatsPage } from "./Chats/index.ts";
+export { Settings } from "./Settings/index.ts";
+export { NotFound } from "./NotFound/index.ts";
+export { ServerError } from "./ServerError/index.ts";

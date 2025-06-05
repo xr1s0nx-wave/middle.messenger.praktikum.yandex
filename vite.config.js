@@ -1,19 +1,8 @@
-import { defineConfig } from 'vite';
-
+import { defineConfig } from "vite";
 export default defineConfig({
-  root: './',
-  build: {
-    outDir: 'build',
-  },
-  resolve: {
-    alias: {
-      '@': '/src',
-    },
-  },
-  server: {
-    port: 3000,
-  },
-  preview: {
-    port: 3000,
-  },
+  root: "./",
+  build: { outDir: "build" },
+  resolve: { alias: { "@": "/src" } },
+  server: { port: 3000 },
+  preview: { port: 3000 },
 });

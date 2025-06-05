@@ -1,2 +1,3 @@
 import "./style.scss";
-export { Button } from "./Button";
+import Button from "./Button.ts";
+export default Button;

@@ -4,7 +4,6 @@
   border-radius: 0 6px 6px;
   width: fit-content;
   position: relative;
-
   &-time {
     position: absolute;
     top: 50%;
@@ -15,24 +14,20 @@
     opacity: 0;
     transition: 0.15s linear;
   }
-
   &-text {
     font-size: 14px;
     font-weight: 400;
   }
-
   &--mine {
     margin-left: auto;
     border-radius: 6px 0 6px 6px;
     background: #fff;
     color: #000;
-
     .dialogue__message-time {
       right: auto;
       left: -30px;
     }
   }
-
   &:hover {
     .dialogue__message-time {
       opacity: 1;

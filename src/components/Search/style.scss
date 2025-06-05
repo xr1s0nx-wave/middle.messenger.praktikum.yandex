@@ -10,11 +10,9 @@
   border: 1px solid transparent;
   transition: 0.15s linear;
   overflow: hidden;
-
   &:focus-within {
     border-color: #7a7a7a;
   }
-
   &.search--active {
     .search__clear {
       opacity: 1;
@@ -23,7 +21,6 @@
     }
   }
 }
-
 .search__input {
   width: 100%;
   background: transparent;
@@ -37,7 +34,6 @@
   inset: 0;
   outline: none;
 }
-
 .search__clear {
   position: absolute;
   right: 10px;
@@ -51,7 +47,6 @@
   width: 20px;
   pointer-events: none;
   transition: 0.15s;
-
   > svg {
     width: 100%;
     height: 100%;

@@ -1,33 +1,28 @@
-import Block from "@/core/Block";
+import Block from "@/core/Block.ts";
 import template from "./SettingsForm.hbs?raw";
 import UserInfo from "@/mocks/userInfo.json";
-import { Button } from "../Button";
+import { Button, SettingsInfoRow } from "@/components";
 import {
   emailValidation,
   loginValidation,
   nameValidation,
   surnameValidation,
   phoneValidation,
-} from "@/utils/validations";
-import { SettingsInfoRow } from "@/components";
-
-export class SettingsForm extends Block {
-  constructor(props: Record<string, any> = {}) {
+} from "@/utils/validations.ts";
+type SettingsFormProps = { [key: string]: unknown };
+const SettingsForm = class extends Block {
+  constructor(props: SettingsFormProps = {}) {
     const SaveButton = new Button({
       styleType: "primary",
       text: "Сохранить",
       type: "submit",
     });
-    const LogoutButton = new Button({
-      styleType: "outline",
-      text: "Выйти",
-    });
+    const LogoutButton = new Button({ styleType: "outline", text: "Выйти" });
     const emailRow = new SettingsInfoRow({
       label: "Почта:",
       name: "email",
       value: UserInfo.email,
       onBlur: (e: Event) => {
-        console.log("Blur event on email input");
         const input = e.target as HTMLInputElement;
         const errors: Record<string, string | null> = {};
         const error = emailValidation(input.value);
@@ -96,24 +91,13 @@ export class SettingsForm extends Block {
           formData.forEach((value, key) => {
             data[key] = value as string;
           });
-          const errors: Record<string, string | null> = {};
-          errors.email = emailValidation(data.email || "") || null;
-          errors.login = loginValidation(data.login || "") || null;
-          errors.first_name = nameValidation(data.first_name || "") || null;
-          errors.second_name =
-            surnameValidation(data.second_name || "") || null;
-          errors.phone = phoneValidation(data.phone || "") || null;
-          // Можно добавить отображение ошибок в UI, если есть соответствующие поля
-          console.log("Ошибки валидации:", errors);
-          if (Object.values(errors).every((v) => !v)) {
-            console.log("Сохранено", data);
-          }
+          console.log("Settings data submitted:", data);
         },
       },
     });
   }
-
   render(): DocumentFragment {
     return this.compile(template, this._meta.props);
   }
-}
+};
+export default SettingsForm;

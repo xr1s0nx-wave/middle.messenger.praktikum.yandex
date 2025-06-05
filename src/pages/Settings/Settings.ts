@@ -1,14 +1,14 @@
-import Block from "@/core/Block";
+import Block from "../../core/Block.ts";
 import template from "./Settings.hbs?raw";
 import { SettingsForm } from "@/components";
 
 class Settings extends Block {
-  constructor(props: Record<string, any> = {}) {
+  constructor(props: Record<string, unknown> = {}) {
     const Form = new SettingsForm({});
     super("div", {
       ...props,
       SettingsForm: Form,
-      className: "settings"
+      className: "settings",
     });
   }
 

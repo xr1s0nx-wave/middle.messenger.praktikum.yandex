@@ -1,11 +1,11 @@
-import Block from "@/core/Block";
+import Block from "../../core/Block.ts";
 import template from "./NotFound.hbs?raw";
 
 class NotFound extends Block {
-  constructor(props: Record<string, any> = {}) {
+  constructor(props: Record<string, unknown> = {}) {
     super("div", {
       ...props,
-      className: "not-found"
+      className: "not-found",
     });
   }
 

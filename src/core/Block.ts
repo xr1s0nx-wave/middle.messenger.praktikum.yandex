@@ -1,4 +1,4 @@
-import EventBus from "./EventBus";
+import EventBus from "./EventBus.ts";
 import { v4 as makeUUID } from "uuid";
 import Handlebars from "handlebars";
 
@@ -29,16 +29,12 @@ class Block {
   constructor(tagName = "div", propsAndChildren: TProps = {}) {
     this._eventBus = new EventBus();
     this._id = makeUUID();
-
     const { props, children } = this._getChildren(propsAndChildren);
-
     this.children = children;
-
     this._meta = {
       tagName,
       props: this._makePropsProxy({ ...props, _id: this._id }),
     };
-
     this._registerEvents();
     this._eventBus.emit(Block.EVENTS.INIT);
   }
@@ -47,7 +43,7 @@ class Block {
     this._eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
     this._eventBus.on(
       Block.EVENTS.FLOW_CDM,
-      this._componentDidMount.bind(this)
+      this._componentDidMount.bind(this),
     );
     this._eventBus.on(Block.EVENTS.RENDER, this._render.bind(this));
   }
@@ -60,12 +56,10 @@ class Block {
   private _createResources(): void {
     const { tagName, props } = this._meta;
     const element = document.createElement(tagName);
-
     if (typeof props.className === "string") {
       const classes = props.className.split(" ").filter(Boolean);
       if (classes.length) element.classList.add(...classes);
     }
-
     if (typeof props.attrs === "object" && props.attrs !== null) {
       Object.entries(props.attrs).forEach(([attr, value]) => {
         if (typeof value === "string") {
@@ -73,7 +67,6 @@ class Block {
         }
       });
     }
-
     this._element = element;
   }
 
@@ -81,17 +74,13 @@ class Block {
     if (!this._element) {
       throw new Error("Element is not created");
     }
-
     const newElement = this.render();
-
     if (this._element.children.length === 0) {
       this._element.appendChild(newElement);
     } else {
       this._element.replaceChildren(newElement);
     }
-
     this._removeEventListeners();
-
     this._addEventListeners();
   }
 
@@ -99,7 +88,7 @@ class Block {
     const newProps = this._meta.props;
     if (JSON.stringify(oldProps) !== JSON.stringify(newProps)) {
       // Если компонент реализует shouldComponentUpdate и он возвращает false — не ререндерим
-      if (typeof this.shouldComponentUpdate === 'function') {
+      if (typeof this.shouldComponentUpdate === "function") {
         if (!this.shouldComponentUpdate(oldProps, newProps)) {
           return;
         }
@@ -113,7 +102,6 @@ class Block {
   private _getChildren(propsAndChildren: TProps) {
     const children: any = {};
     const props: TProps = {};
-
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (Array.isArray(value)) {
         value.forEach((obj) => {
@@ -123,7 +111,6 @@ class Block {
             props[key] = value;
           }
         });
-
         return;
       }
       if (value instanceof Block) {
@@ -132,13 +119,11 @@ class Block {
         props[key] = value;
       }
     });
-
     return { children, props };
   }
 
   private _componentDidMount() {
     this.componentDidMount();
-
     Object.values(this.children).forEach((child) => {
       child.dispatchComponentDidMount();
     });
@@ -149,9 +134,7 @@ class Block {
       set: (target, prop, value) => {
         const oldProps = { ...target };
         target[prop as keyof typeof target] = value;
-
         this._componentUpdate(oldProps);
-
         return true;
       },
     });
@@ -159,7 +142,6 @@ class Block {
 
   private _addEventListeners(): void {
     const { events = {} } = this._meta.props;
-
     Object.keys(events).forEach((eventName) => {
       if (this._element) {
         this._element.addEventListener(eventName, events[eventName]);
@@ -169,7 +151,6 @@ class Block {
 
   private _removeEventListeners(): void {
     const { events = {} } = this._meta.props;
-
     Object.keys(events).forEach((eventName) => {
       if (this._element) {
         this._element.removeEventListener(eventName, events[eventName]);
@@ -183,7 +164,6 @@ class Block {
 
   protected compile(template: string, props: any): DocumentFragment {
     const propsAndStubs = { ...props };
-
     Object.entries(this.children).forEach(([key, child]) => {
       if (Array.isArray(child)) {
         propsAndStubs[key] = child
@@ -193,18 +173,15 @@ class Block {
         propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
       }
     });
-
     const fragment = this._createDocumentElement(
-      "template"
+      "template",
     ) as HTMLTemplateElement;
-
     fragment.innerHTML = Handlebars.compile(template)(propsAndStubs);
-
     Object.values(this.children).forEach((child) => {
       if (Array.isArray(child)) {
         child.forEach((component) => {
           const stub = fragment.content.querySelector(
-            `[data-id="${component._id}"]`
+            `[data-id="${component._id}"]`,
           );
           stub?.replaceWith(component.getContent());
         });
@@ -213,7 +190,6 @@ class Block {
         stub?.replaceWith(child.getContent());
       }
     });
-
     return fragment.content;
   }
 
@@ -231,7 +207,6 @@ class Block {
     return true;
   }
 
-  // По умолчанию всегда true, но можно переопределить в наследнике
   public shouldComponentUpdate(_oldProps: TProps, _newProps: TProps): boolean {
     return true;
   }

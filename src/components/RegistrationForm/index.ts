@@ -1,2 +1,3 @@
-import './style.scss';
-export { RegistrationForm } from './RegistrationForm';
+import "./style.scss";
+import RegistrationForm from "./RegistrationForm.ts";
+export default RegistrationForm;

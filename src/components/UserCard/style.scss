@@ -10,19 +10,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   &__info {
     display: flex;
     align-items: center;
     gap: 10px;
   }
-
   &__avatar {
     width: 44px;
     height: 44px;
     overflow: hidden;
     border-radius: 100%;
-
     img {
       object-fit: cover;
       width: 100%;
@@ -30,12 +27,10 @@
       object-position: center;
     }
   }
-
   &__name {
     font-size: 14px;
     font-weight: 600;
   }
-
   &__settings {
     display: flex;
     align-items: center;
@@ -46,16 +41,13 @@
     background: transparent;
     padding: 4px;
     border-radius: 8px;
-
     svg {
       width: 100%;
       height: 100%;
       transition: 0.3s ease-in-out;
     }
-
     &:hover {
       background: #ffffff2c;
-
       svg {
         transform: rotate(180deg);
       }

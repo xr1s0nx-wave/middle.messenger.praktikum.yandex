@@ -1,2 +1,3 @@
 import "./style.scss";
-export { Search } from "./Search";
+import Search from "./Search.ts";
+export default Search;

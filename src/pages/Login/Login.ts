@@ -1,9 +1,9 @@
-import Block from "@/core/Block";
+import Block from "@/core/Block.ts";
 import template from "./Login.hbs?raw";
 import { LoginForm } from "@/components";
 
 class Login extends Block {
-  constructor(props: Record<string, any> = {}) {
+  constructor(props: Record<string, unknown> = {}) {
     const Form = new LoginForm({
       events: {
         submit: (e: Event) => {

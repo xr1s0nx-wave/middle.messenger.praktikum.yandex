@@ -1,6 +1,7 @@
-import Block from "@/core/Block";
+import Block from "@/core/Block.ts";
 import template from "./RegistrationForm.hbs?raw";
-import { Input, Button } from "@/components";
+import Input from "../Input/Input.ts";
+import Button from "../Button/Button.ts";
 import {
   emailValidation,
   loginValidation,
@@ -9,23 +10,16 @@ import {
   phoneValidation,
   repeatPasswordValidation,
   surnameValidation,
-} from "@/utils";
-
-export class RegistrationForm extends Block {
-  constructor(props: Record<string, any> = {}) {
+} from "@/utils/validations.ts";
+type RegistrationFormProps = { [key: string]: unknown };
+const RegistrationForm = class extends Block {
+  constructor(props: RegistrationFormProps = {}) {
     const EmailInput = new Input({
       type: "text",
       placeholder: "Введите почту",
       name: "email",
       onValidate: (error: string | false) => {
-        EmailInput.setProps({
-          error,
-        });
-        const errors = {
-          ...(this._meta?.props?.validationErrors || {}),
-        } as Record<string, string | null>;
-        errors.email = error || null;
-        this.setProps({ validationErrors: errors });
+        EmailInput.setProps({ error });
       },
       events: {
         blur: (e: Event) => {
@@ -41,14 +35,7 @@ export class RegistrationForm extends Block {
       placeholder: "Введите логин",
       name: "login",
       onValidate: (error: string | false) => {
-        LoginInput.setProps({
-          error: error,
-        });
-        const errors = {
-          ...(this._meta?.props?.validationErrors || {}),
-        } as Record<string, string | null>;
-        errors.login = error || null;
-        this.setProps({ validationErrors: errors });
+        LoginInput.setProps({ error });
       },
       events: {
         blur: (e: Event) => {
@@ -64,14 +51,7 @@ export class RegistrationForm extends Block {
       placeholder: "Введите имя",
       name: "first_name",
       onValidate: (error: string | false) => {
-        FirstNameInput.setProps({
-          error: error,
-        });
-        const errors = {
-          ...(this._meta?.props?.validationErrors || {}),
-        } as Record<string, string | null>;
-        errors.first_name = error || null;
-        this.setProps({ validationErrors: errors });
+        FirstNameInput.setProps({ error });
       },
       events: {
         blur: (e: Event) => {
@@ -87,14 +67,7 @@ export class RegistrationForm extends Block {
       placeholder: "Введите фамилию",
       name: "second_name",
       onValidate: (error: string | false) => {
-        SecondNameInput.setProps({
-          error: error,
-        });
-        const errors = {
-          ...(this._meta?.props?.validationErrors || {}),
-        } as Record<string, string | null>;
-        errors.second_name = error || null;
-        this.setProps({ validationErrors: errors });
+        SecondNameInput.setProps({ error });
       },
       events: {
         blur: (e: Event) => {
@@ -105,32 +78,19 @@ export class RegistrationForm extends Block {
         },
       },
     });
-    let currentPassword = "";
     const PasswordInput = new Input({
       type: "password",
-      placeholder: "Пароль",
+      placeholder: "Введите пароль",
       name: "password",
       onValidate: (error: string | false) => {
-        PasswordInput.setProps({
-          error,
-        });
-        const errors = {
-          ...(this._meta?.props?.validationErrors || {}),
-        } as Record<string, string | null>;
-        errors.password = error || null;
-        this.setProps({ validationErrors: errors });
+        PasswordInput.setProps({ error });
       },
       events: {
         blur: (e: Event) => {
           const input = e.target as HTMLInputElement;
-          currentPassword = input.value;
           const error = passwordValidation(input.value);
           const onValidate = (PasswordInput as any)._meta?.props?.onValidate;
           if (typeof onValidate === "function") onValidate(error);
-        },
-        input: (e: Event) => {
-          const input = e.target as HTMLInputElement;
-          currentPassword = input.value;
         },
       },
     });
@@ -139,19 +99,15 @@ export class RegistrationForm extends Block {
       placeholder: "Повторите пароль",
       name: "passwordRepeat",
       onValidate: (error: string | false) => {
-        PasswordRepeatInput.setProps({
-          error: error,
-        });
-        const errors = {
-          ...(this._meta?.props?.validationErrors || {}),
-        } as Record<string, string | null>;
-        errors.password_repeat = error || null;
-        this.setProps({ validationErrors: errors });
+        PasswordRepeatInput.setProps({ error });
       },
       events: {
         blur: (e: Event) => {
           const input = e.target as HTMLInputElement;
-          const error = repeatPasswordValidation(currentPassword, input.value);
+          const error = repeatPasswordValidation(
+            (PasswordInput as any)._meta?.props?.value,
+            input.value,
+          );
           const onValidate = (PasswordRepeatInput as any)._meta?.props
             ?.onValidate;
           if (typeof onValidate === "function") onValidate(error);
@@ -163,14 +119,7 @@ export class RegistrationForm extends Block {
       placeholder: "Введите номер телефона",
       name: "phone",
       onValidate: (error: string | false) => {
-        PhoneInput.setProps({
-          error: error,
-        });
-        const errors = {
-          ...(this._meta?.props?.validationErrors || {}),
-        } as Record<string, string | null>;
-        errors.phone = error || null;
-        this.setProps({ validationErrors: errors });
+        PhoneInput.setProps({ error });
       },
       events: {
         blur: (e: Event) => {
@@ -207,20 +156,22 @@ export class RegistrationForm extends Block {
           e.preventDefault();
           const form = e.target as HTMLFormElement;
           const formData = new FormData(form);
-          const email = formData.get('email') as string || '';
-          const login = formData.get('login') as string || '';
-          const firstName = formData.get('first_name') as string || '';
-          const secondName = formData.get('second_name') as string || '';
-          const password = formData.get('password') as string || '';
-          const passwordRepeat = formData.get('passwordRepeat') as string || '';
-          const phone = formData.get('phone') as string || '';
-          const errors: Record<string, string|null> = {};
+          const email = (formData.get("email") as string) || "";
+          const login = (formData.get("login") as string) || "";
+          const firstName = (formData.get("first_name") as string) || "";
+          const secondName = (formData.get("second_name") as string) || "";
+          const password = (formData.get("password") as string) || "";
+          const passwordRepeat =
+            (formData.get("passwordRepeat") as string) || "";
+          const phone = (formData.get("phone") as string) || "";
+          const errors: Record<string, string | null> = {};
           errors.email = emailValidation(email) || null;
           errors.login = loginValidation(login) || null;
           errors.first_name = nameValidation(firstName) || null;
           errors.second_name = surnameValidation(secondName) || null;
           errors.password = passwordValidation(password) || null;
-          errors.password_repeat = repeatPasswordValidation(password, passwordRepeat) || null;
+          errors.password_repeat =
+            repeatPasswordValidation(password, passwordRepeat) || null;
           errors.phone = phoneValidation(phone) || null;
           EmailInput.setProps({ error: errors.email });
           LoginInput.setProps({ error: errors.login });
@@ -231,15 +182,22 @@ export class RegistrationForm extends Block {
           PhoneInput.setProps({ error: errors.phone });
           this.setProps({ validationErrors: errors });
           if (Object.values(errors).every((v) => !v)) {
-            // Все поля валидны, можно отправлять данные
-            console.log("Регистрация успешна", { email, login, firstName, secondName, password, passwordRepeat, phone });
+            console.log("Регистрация успешна", {
+              email,
+              login,
+              firstName,
+              secondName,
+              password,
+              passwordRepeat,
+              phone,
+            });
           }
         },
       },
     });
   }
-
   render(): DocumentFragment {
     return this.compile(template, this._meta.props);
   }
-}
+};
+export default RegistrationForm;

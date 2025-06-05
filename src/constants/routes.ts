@@ -1,6 +1,4 @@
-import * as Pages from "@/pages";
-import { ChatsPage } from "@/pages";
-
+import * as Pages from "../pages/index.ts";
 export const ROUTES_NAMES = {
   LOGIN: "login",
   REGISTRATION: "registration",
@@ -10,12 +8,8 @@ export const ROUTES_NAMES = {
   NOT_FOUND: "not-found",
   SERVER_ERROR: "server-error",
 };
-
 export const ROUTES = {
-  [ROUTES_NAMES.LOGIN]: {
-    Component: Pages.Login,
-    pageTitle: "Login",
-  },
+  [ROUTES_NAMES.LOGIN]: { Component: Pages.Login, pageTitle: "Login" },
   [ROUTES_NAMES.REGISTRATION]: {
     Component: Pages.Registration,
     pageTitle: "Registration",
@@ -24,14 +18,8 @@ export const ROUTES = {
     Component: Pages.Navigation,
     pageTitle: "Navigation",
   },
-  [ROUTES_NAMES.CHATS]: {
-    Component: ChatsPage,
-    pageTitle: "Chats",
-  },
-  [ROUTES_NAMES.SETTINGS]: {
-    Component: Pages.Settings,
-    pageTitle: "Settings",
-  },
+  [ROUTES_NAMES.CHATS]: { Component: Pages.ChatsPage, pageTitle: "Chats" },
+  [ROUTES_NAMES.SETTINGS]: { Component: Pages.Settings, pageTitle: "Settings" },
   [ROUTES_NAMES.NOT_FOUND]: {
     Component: Pages.NotFound,
     pageTitle: "Not Found",

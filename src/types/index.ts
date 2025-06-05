@@ -1,1 +1,2 @@
-export * from "./Block.types";
+export * from "./Block.types.ts";
+export * from "./EventBus.types.ts";

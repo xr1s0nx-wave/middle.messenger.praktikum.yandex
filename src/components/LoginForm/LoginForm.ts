@@ -1,23 +1,16 @@
-import Block from "@/core/Block";
+import Block from "@/core/Block.ts";
 import template from "./LoginForm.hbs?raw";
 import { Input, Button } from "@/components";
-import { loginValidation, passwordValidation } from "@/utils";
-
-export class LoginForm extends Block {
-  constructor(props: Record<string, any> = {}) {
+import { loginValidation, passwordValidation } from "@/utils/validations.ts";
+type LoginFormProps = { [key: string]: unknown };
+const LoginForm = class extends Block {
+  constructor(props: LoginFormProps = {}) {
     const LoginInput = new Input({
       type: "text",
       placeholder: "Введите логин",
       name: "login",
       onValidate: (error: string | false) => {
-        LoginInput.setProps({
-          error: error,
-        });
-        const errors = {
-          ...(this._meta?.props?.validationErrors || {}),
-        } as Record<string, string | null>;
-        errors.login = error || null;
-        this.setProps({ validationErrors: errors });
+        LoginInput.setProps({ error });
       },
       events: {
         blur: (e: Event) => {
@@ -30,17 +23,10 @@ export class LoginForm extends Block {
     });
     const PasswordInput = new Input({
       type: "password",
-      placeholder: "Пароль",
+      placeholder: "Введите пароль",
       name: "password",
       onValidate: (error: string | false) => {
-        PasswordInput.setProps({
-          error,
-        });
-        const errors = {
-          ...(this._meta?.props?.validationErrors || {}),
-        } as Record<string, string | null>;
-        errors.password = error || null;
-        this.setProps({ validationErrors: errors });
+        PasswordInput.setProps({ error });
       },
       events: {
         blur: (e: Event) => {
@@ -56,42 +42,28 @@ export class LoginForm extends Block {
       text: "Войти",
       type: "submit",
     });
-    const RegisterButton = new Button({
-      styleType: "outline",
-      text: "Регистрация",
-      page: "registration",
-    });
     super("form", {
       ...props,
       LoginInput,
       PasswordInput,
       LoginButton,
-      RegisterButton,
       className: "login__form",
-      validationErrors: {},
       events: {
         submit: (e: Event) => {
           e.preventDefault();
           const form = e.target as HTMLFormElement;
           const formData = new FormData(form);
-          const login = formData.get("login") as string || "";
-          const password = formData.get("password") as string || "";
-          const errors: Record<string, string | null> = {};
-          errors.login = loginValidation(login) || null;
-          errors.password = passwordValidation(password) || null;
-          LoginInput.setProps({ error: errors.login });
-          PasswordInput.setProps({ error: errors.password });
-          this.setProps({ validationErrors: errors });
-          if (Object.values(errors).every((v) => !v)) {
-            // Все поля валидны, можно отправлять данные
-            console.log("Вход выполнен", { login, password });
-          }
+          const data: Record<string, string> = {};
+          formData.forEach((value, key) => {
+            data[key] = value as string;
+          });
+          console.log("Login form submitted:", data);
         },
       },
     });
   }
-
   render(): DocumentFragment {
     return this.compile(template, this._meta.props);
   }
-}
+};
+export default LoginForm;

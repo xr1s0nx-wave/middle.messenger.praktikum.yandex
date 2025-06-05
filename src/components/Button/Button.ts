@@ -1,5 +1,4 @@
-import Block from "@/core/Block";
-
+import Block from "@/core/Block.ts";
 type ButtonProps = {
   text?: string;
   styleType?: "primary" | "outline";
@@ -7,17 +6,16 @@ type ButtonProps = {
   page?: string;
   type?: "button" | "submit" | "reset";
 };
-
-export class Button extends Block {
+const Button = class extends Block {
   constructor(props: ButtonProps = {}) {
     super("button", {
       ...props,
-      className: `button button--${props.styleType} ${props.page ? 'page--link' : ''}`,
+      className: `button button--${props.styleType} ${props.page ? "page--link" : ""}`,
       attrs: { page: props.page, type: props.type },
     });
   }
-
   public render(): DocumentFragment {
     return this.compile("{{text}}", { ...this._meta.props });
   }
-}
+};
+export default Button;

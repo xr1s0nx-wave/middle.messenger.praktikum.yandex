@@ -1,27 +1,27 @@
-import Block from "@/core/Block";
-import temaplte from "./ChatItem.hbs?raw";
+import Block from "@/core/Block.ts";
+import template from "./ChatItem.hbs?raw";
 
-export class ChatItem extends Block {
-  constructor(props: Record<string, any> = {}) {
+type ChatItemProps = {
+  id: string;
+  name: string;
+  avatarUrl?: string;
+  lastMessage?: string;
+  lastMessageIsMine?: boolean;
+  unreadCount?: number;
+  selected?: boolean;
+  events?: Record<string, (e: Event) => void>;
+};
+
+const ChatItem = class extends Block {
+  constructor(props: ChatItemProps) {
     super("div", {
-        ...props,
-        className: `chats__item ${props.currentChatId === props.id ? "chats__item--active" : ""}`,
+      ...props,
+      className: `chats__item${props.selected ? " chats__item--selected" : ""}`,
     });
   }
-
-  public componentDidUpdate(oldProps: any, newProps: any): boolean {
-    if (oldProps.currentChatId !== newProps.currentChatId) {
-      this.setProps({
-        className: `chats__item ${newProps.currentChatId === newProps.id ? "chats__item--active" : ""}`,
-      });
-      return true;
-    }
-    return false;
+  render(): DocumentFragment {
+    return this.compile(template, this._meta.props);
   }
+};
 
-  render() {
-    return this.compile(temaplte, {
-      ...this._meta.props,
-    });
-  }
-}
+export default ChatItem;

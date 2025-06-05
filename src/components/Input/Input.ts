@@ -1,5 +1,4 @@
-import Block from "@/core/Block";
-
+import Block from "@/core/Block.ts";
 type InputProps = {
   type?: string;
   placeholder?: string;
@@ -7,10 +6,9 @@ type InputProps = {
   value?: string;
   error?: string | null;
   events?: Record<string, (e: Event) => void>;
-  [key: string]: any;
-}
-
-export class Input extends Block {
+  [key: string]: unknown;
+};
+const Input = class extends Block {
   constructor(props: InputProps = {}) {
     super("input", {
       ...props,
@@ -23,18 +21,23 @@ export class Input extends Block {
       },
     });
   }
-
-  public componentDidUpdate(oldProps: any, newProps: any): boolean {
-    if (oldProps.error !== newProps.error || oldProps.className !== newProps.className) {
+  public componentDidUpdate(
+    oldProps: InputProps,
+    newProps: InputProps,
+  ): boolean {
+    if (
+      oldProps.error !== newProps.error ||
+      oldProps.className !== newProps.className
+    ) {
       if (this._element) {
-        this._element.className = `input input--${newProps.name}${newProps.error ? ' error' : ''}`;
+        this._element.className = `input input--${newProps.name}${newProps.error ? " error" : ""}`;
       }
       return false;
     }
     return false;
   }
-
   render(): DocumentFragment {
-    return this.compile('', this._meta.props);
+    return this.compile("", this._meta.props);
   }
-}
+};
+export default Input;

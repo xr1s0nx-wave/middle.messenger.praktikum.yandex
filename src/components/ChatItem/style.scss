@@ -13,7 +13,6 @@
     height: 50px;
     border-radius: 100%;
     overflow: hidden;
-
     img {
       object-fit: cover;
       width: 100%;
@@ -21,7 +20,6 @@
       object-position: center;
     }
   }
-
   &-info {
     display: flex;
     flex-direction: column;
@@ -29,37 +27,30 @@
     width: calc(100% - 60px);
     padding: 5px 0;
   }
-
   &-name {
     font-size: 18px;
     font-weight: 600;
     color: #fff;
     line-height: 100%;
   }
-
   &-message {
     font-size: 12px;
     font-weight: 400;
     color: #fff;
     line-height: 100%;
-
     &--mine {
       color: rgba(255, 255, 255, 0.5);
     }
   }
-
   &:not(.chats__item--active):hover {
     background: rgba(255, 255, 255, 0.13);
   }
-
   &--active {
     background: #ffffff;
-
     .chats__item-name,
     .chats__item-message {
       color: #000;
     }
-
     .chats__item-message--mine {
       color: rgba(0, 0, 0, 0.5);
     }

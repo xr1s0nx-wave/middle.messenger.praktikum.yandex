@@ -1,2 +1,3 @@
 import "./style.scss";
-export { Input } from "./Input";
+import Input from "./Input.ts";
+export default Input;

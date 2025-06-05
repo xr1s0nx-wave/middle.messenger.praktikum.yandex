@@ -7,9 +7,13 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "start": "vite build && vite preview",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "lint": "tsc --noEmit && eslint . --ext .ts,.tsx,.js && stylelint \"**/*.scss\""
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.33.1",
+    "@typescript-eslint/parser": "^8.33.1",
+    "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
     "handlebars": "^4.7.8",
     "prettier": "^3.5.3",

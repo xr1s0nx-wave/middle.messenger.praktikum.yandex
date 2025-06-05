@@ -1,9 +1,9 @@
-import Block from "@/core/Block";
+import Block from "../../core/Block.ts";
 import template from "./Registration.hbs?raw";
-import { RegistrationForm } from "@/components";
+import RegistrationForm from "../../components/RegistrationForm/index.ts";
 
 class Registration extends Block {
-  constructor(props: Record<string, any> = {}) {
+  constructor(props: Record<string, unknown> = {}) {
     const Form = new RegistrationForm({
       events: {
         submit: (e: Event) => {
@@ -14,7 +14,7 @@ class Registration extends Block {
           formData.forEach((value, key) => {
             data[key] = value as string;
           });
-          console.log("Login data submitted:", data);
+          console.log("Registration data submitted:", data);
         },
       },
     });

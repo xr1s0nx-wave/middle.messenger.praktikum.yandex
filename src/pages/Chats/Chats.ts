@@ -1,26 +1,35 @@
-import Block from "@/core/Block";
+import Block from "../../core/Block.ts";
 import template from "./Chats.hbs?raw";
-import ChatsData from "@/mocks/chats.json";
-import ChatsDetails from "@/mocks/chatsDetails.json";
-import { ChatsList, Search, UserCard, Dialogue, DialogueMessage, DialogueForm } from "@/components";
-import UserInfo from "@/mocks/userInfo.json";
+import ChatsData from "../../mocks/chats.json";
+import ChatsDetails from "../../mocks/chatsDetails.json";
+import UserInfo from "../../mocks/userInfo.json";
+import {
+  ChatsList,
+  Search,
+  UserCard,
+  Dialogue,
+  DialogueMessage,
+  DialogueForm,
+} from "@/components";
 
 class Chats extends Block {
-  constructor(props: Record<string, any> = {}) {
+  constructor(props: Record<string, unknown> = {}) {
     const initialChatId = null;
     const searchComponent = new Search({});
     const chatsListComponent = new ChatsList({
-      chats: ChatsData.data,
+      chats: (ChatsData as any).data,
       currentChatId: initialChatId,
       onChatClick: (id: string) => chatsInstance.setChatsList(id),
     });
     const userCardComponent = new UserCard({ ...UserInfo });
     const dialogueFormComponent = new DialogueForm({});
-    const dialogueComponent = new Dialogue({ CurrentChat: ChatsData.data[0], DialogueForm: dialogueFormComponent });
-
+    const dialogueComponent = new Dialogue({
+      CurrentChat: (ChatsData as any).data[0],
+      DialogueForm: dialogueFormComponent,
+    });
     const chatsInstance = {
-      setChatsList: (id: string) => {},
-    } as any;
+      setChatsList: (_id: string): void => {},
+    } as { setChatsList: (id: string) => void };
     super("div", {
       ...props,
       currentChatId: initialChatId,
@@ -29,32 +38,36 @@ class Chats extends Block {
       ChatsList: chatsListComponent,
       UserCard: userCardComponent,
       Dialogue: dialogueComponent,
+      DialogueForm: dialogueFormComponent,
     });
     this.children.Search = searchComponent;
     this.children.ChatsList = chatsListComponent;
     this.children.UserCard = userCardComponent;
     this.children.Dialogue = dialogueComponent;
     this.children.DialogueForm = dialogueFormComponent;
-
     chatsInstance.setChatsList = this.setChatsList.bind(this);
   }
 
-  setChatsList(currentChatId: string) {
+  setChatsList(currentChatId: string): void {
     this.setProps({ currentChatId });
     this.children.ChatsList?.setProps({ currentChatId });
-    const chat = (ChatsDetails as any)[currentChatId];
+    const chat = (ChatsDetails as Record<string, any>)[currentChatId];
     if (chat) {
-      const messages = (chat.messages || []).map((msg: any) => new DialogueMessage(msg));
+      const messages = (chat.messages || []).map(
+        (msg: any) => new DialogueMessage(msg),
+      );
       this.children.Dialogue.setProps({ CurrentChat: { ...chat, messages } });
     }
   }
 
-  shouldComponentUpdate(oldProps: any, newProps: any): boolean {
+  shouldComponentUpdate(
+    oldProps: Record<string, unknown>,
+    newProps: Record<string, unknown>,
+  ): boolean {
     const keys = Object.keys({ ...oldProps, ...newProps });
     if (keys.length === 1 && keys[0] === "search") {
       return false;
     }
-
     return true;
   }
 

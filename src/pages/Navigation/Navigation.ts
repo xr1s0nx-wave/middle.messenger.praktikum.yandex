@@ -1,11 +1,11 @@
-import Block from "@/core/Block";
+import Block from "../../core/Block.ts";
 import template from "./Navigation.hbs?raw";
 
 class Navigation extends Block {
-  constructor(props: Record<string, any> = {}) {
+  constructor(props: Record<string, unknown> = {}) {
     super("nav", {
       ...props,
-      className: "navigation"
+      className: "navigation",
     });
   }
 
@@ -14,6 +14,13 @@ class Navigation extends Block {
   }
 }
 
-export const NavigationPage = new Navigation({ routes: [
-  "login", "registration", "chats", "settings", "not-found", "server-error"
-] });
+export const NavigationPage = new Navigation({
+  routes: [
+    "login",
+    "registration",
+    "chats",
+    "settings",
+    "not-found",
+    "server-error",
+  ],
+});

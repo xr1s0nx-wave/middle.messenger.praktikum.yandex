@@ -1,2 +1,3 @@
-import './style.scss';
-export { LoginForm } from './LoginForm';
+import "./style.scss";
+import LoginForm from "./LoginForm.ts";
+export default LoginForm;

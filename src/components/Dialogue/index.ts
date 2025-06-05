@@ -1,2 +1,3 @@
 import "./style.scss";
-export { Dialogue } from "./Dialogue";
+import Dialogue from "./Dialogue.ts";
+export default Dialogue;

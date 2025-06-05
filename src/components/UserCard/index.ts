@@ -1,2 +1,3 @@
 import "./style.scss";
-export { UserCard } from "./UserCard";
+import UserCard from "./UserCard.ts";
+export default UserCard;

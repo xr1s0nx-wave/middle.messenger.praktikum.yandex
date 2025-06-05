@@ -1,2 +1,3 @@
 import "./style.scss";
-export { DialogueForm } from "./DialogueForm";
+import DialogueForm from "./DialogueForm.ts";
+export default DialogueForm;

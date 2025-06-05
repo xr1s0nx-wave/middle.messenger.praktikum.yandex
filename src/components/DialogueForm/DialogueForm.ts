@@ -1,8 +1,8 @@
-import Block from "@/core/Block";
+import Block from "@/core/Block.ts";
 import template from "./DialogueForm.hbs?raw";
-
-export class DialogueForm extends Block {
-  constructor(props: Record<string, any> = {}) {
+type DialogueFormProps = { events?: Record<string, (e: Event) => void> };
+const DialogueForm = class extends Block {
+  constructor(props: DialogueFormProps = {}) {
     super("form", {
       ...props,
       className: "chats__dialogue-form",
@@ -31,8 +31,8 @@ export class DialogueForm extends Block {
       },
     });
   }
-
   render(): DocumentFragment {
     return this.compile(template, this._meta.props);
   }
-}
+};
+export default DialogueForm;
