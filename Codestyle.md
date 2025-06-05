@@ -46,4 +46,5 @@
 - Rebase and squash commits before merging to `main`.
 
 ---
+
 _Last updated: 2024-06_
