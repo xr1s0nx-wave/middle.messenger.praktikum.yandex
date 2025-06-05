@@ -126,7 +126,7 @@ const RegistrationForm = class extends Block {
           const passwordValue =
             (
               document.querySelector(
-                'input[name="password"]',
+                "input[name='password']",
               ) as HTMLInputElement
             )?.value || "";
           const error = repeatPasswordValidation(passwordValue, input.value);
@@ -208,7 +208,7 @@ const RegistrationForm = class extends Block {
           PhoneInput.setProps({ error: errors.phone });
           this.setProps({ validationErrors: errors });
           if (Object.values(errors).every((v) => !v)) {
-            console.log("Регистрация успешна", {
+            console.log("Registration data submitted:", {
               email,
               login,
               firstName,

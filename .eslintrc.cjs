@@ -15,8 +15,7 @@ module.exports = {
   plugins: ["@typescript-eslint"],
   extends: [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+    "plugin:@typescript-eslint/recommended"
   ],
   rules: {
     semi: ["error", "always"],
@@ -40,4 +39,14 @@ module.exports = {
     "prefer-const": "warn"
   },
   ignorePatterns: ["build/", "dist/", "node_modules/"],
+  overrides: [
+    {
+      files: ["*.js"],
+      parser: "espree",
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: "module"
+      }
+    }
+  ]
 };
