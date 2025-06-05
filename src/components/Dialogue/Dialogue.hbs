@@ -1,0 +1,16 @@
+<div class="chats__dialogue">
+  <div class="chats__dialogue-header">
+    <div class="chats__dialogue-info">
+      <div class="chats__dialogue-avatar">
+        <img src="{{CurrentChat.avatarUrl}}" alt="Аватар" />
+      </div>
+      <h2 class="chats__dialogue-title">{{CurrentChat.name}}</h2>
+    </div>
+  </div>
+  <div class="chats__dialogue-messages">
+    {{#each itemsKeys}}
+      {{{lookup ../this this}}}
+    {{/each}}
+  </div>
+  <div class="">{{{ DialogueForm }}}</div>
+</div>

@@ -1,0 +1,18 @@
+{
+  "data": [
+    {
+      "id": "chatcpml-1",
+      "name": "xr1s0nx1",
+      "avatarUrl": "https://i.pinimg.com/originals/0b/da/40/0bda40140d8fde4ae24ac504d2c07722.jpg",
+      "lastMessage": "I'm good, thanks!",
+      "lastMessageIsMine": true
+    },
+    {
+      "id": "chatcpml-2",
+      "name": "xr1s0nx2",
+      "avatarUrl": "https://avatars.mds.yandex.net/i?id=a63f262508337432f0bef9b91e49496c_l-5348391-images-thumbs&n=13",
+      "lastMessage": "Hey, how are you?1",
+      "unreadCount": 1
+    }
+  ]
+}

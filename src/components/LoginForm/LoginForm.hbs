@@ -1,0 +1,14 @@
+{{{LoginInput}}}
+{{{PasswordInput}}}
+<div class="login__form-errors">
+  {{#if validationErrors.login}}
+    <span class="login__form-error">{{validationErrors.login}}</span>
+  {{/if}}
+  {{#if validationErrors.password}}
+    <span class="login__form-error">{{validationErrors.password}}</span>
+  {{/if}}
+</div>
+<div class="login__form-buttons">
+  {{{LoginButton}}}
+  {{{RegisterButton}}}
+</div>

@@ -1,0 +1,14 @@
+<div class="chats__navbar">
+  {{{Search}}}
+  {{{ChatsList}}}
+  {{{UserCard}}}
+</div>
+<div class="chats__content">
+  {{#if currentChatId}}
+    {{{Dialogue}}}
+  {{else}}
+    <div class="chats__empty">
+      <p class="chats__empty-text">Выберите чат</p>
+    </div>
+  {{/if}}
+</div>
