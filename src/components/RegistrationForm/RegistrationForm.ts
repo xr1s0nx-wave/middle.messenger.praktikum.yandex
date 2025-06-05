@@ -123,7 +123,12 @@ const RegistrationForm = class extends Block {
         blur: (e: Event) => {
           const input = e.target as HTMLInputElement;
           // Для сравнения паролей нужно получить значение из PasswordInput
-          const passwordValue = (document.querySelector("input[name=\"password\"]") as HTMLInputElement)?.value || "";
+          const passwordValue =
+            (
+              document.querySelector(
+                'input[name="password"]',
+              ) as HTMLInputElement
+            )?.value || "";
           const error = repeatPasswordValidation(passwordValue, input.value);
           PasswordRepeatInput.setProps({ error });
           validationErrors = { ...validationErrors, password_repeat: error };

@@ -5,7 +5,10 @@ import { loginValidation, passwordValidation } from "@/utils/validations.ts";
 type LoginFormProps = { [key: string]: unknown };
 const LoginForm = class extends Block {
   constructor(props: LoginFormProps = {}) {
-    let validationErrors: { login?: string | false; password?: string | false } = {};
+    let validationErrors: {
+      login?: string | false;
+      password?: string | false;
+    } = {};
     const LoginInput = new Input({
       type: "text",
       placeholder: "Введите логин",

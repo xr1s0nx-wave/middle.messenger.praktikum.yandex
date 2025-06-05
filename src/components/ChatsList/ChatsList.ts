@@ -22,7 +22,11 @@ const ChatsList = class extends Block {
     return true;
   }
   render(): DocumentFragment {
-    const { chats = [], currentChatId, onChatClick } = this._meta.props as ChatsListProps;
+    const {
+      chats = [],
+      currentChatId,
+      onChatClick,
+    } = this._meta.props as ChatsListProps;
     this.children = {};
     const itemsKeys: string[] = [];
     chats.forEach((chat: IChat, idx: number) => {
