@@ -1,0 +1,36 @@
+.dialogue__message {
+  background: rgba(69, 90, 100, 0.1);
+  padding: 10px;
+  border-radius: 0 6px 6px;
+  width: fit-content;
+  position: relative;
+  &-time {
+    position: absolute;
+    top: 50%;
+    right: -30px;
+    transform: translateY(-50%);
+    font-size: 8px;
+    color: rgba(255, 255, 255, 0.4);
+    opacity: 0;
+    transition: 0.15s linear;
+  }
+  &-text {
+    font-size: 14px;
+    font-weight: 400;
+  }
+  &--mine {
+    margin-left: auto;
+    border-radius: 6px 0 6px 6px;
+    background: #fff;
+    color: #000;
+    .dialogue__message-time {
+      right: auto;
+      left: -30px;
+    }
+  }
+  &:hover {
+    .dialogue__message-time {
+      opacity: 1;
+    }
+  }
+}

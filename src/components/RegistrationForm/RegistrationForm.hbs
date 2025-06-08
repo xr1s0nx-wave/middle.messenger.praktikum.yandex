@@ -1,0 +1,34 @@
+{{{EmailInput}}}
+{{{LoginInput}}}
+{{{FirstNameInput}}}
+{{{SecondNameInput}}}
+{{{PasswordInput}}}
+{{{PasswordRepeatInput}}}
+{{{PhoneInput}}}
+<div class="login__form-errors">
+  {{#if validationErrors.email}}
+    <span class="login__form-error">{{validationErrors.email}}</span>
+  {{/if}}
+  {{#if validationErrors.login}}
+    <span class="login__form-error">{{validationErrors.login}}</span>
+  {{/if}}
+  {{#if validationErrors.first_name}}
+    <span class="login__form-error">{{validationErrors.first_name}}</span>
+  {{/if}}
+  {{#if validationErrors.second_name}}
+    <span class="login__form-error">{{validationErrors.second_name}}</span>
+  {{/if}}
+  {{#if validationErrors.password}}
+    <span class="login__form-error">{{validationErrors.password}}</span>
+  {{/if}}
+  {{#if validationErrors.password_repeat}}
+    <span class="login__form-error">{{validationErrors.password_repeat}}</span>
+  {{/if}}
+  {{#if validationErrors.phone}}
+    <span class="login__form-error">{{validationErrors.phone}}</span>
+  {{/if}}
+</div>
+<div class="registration__form-buttons">
+  {{{RegistrationButton}}}
+  {{{LoginButton}}}
+</div>
