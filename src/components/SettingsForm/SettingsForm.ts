@@ -71,6 +71,38 @@ const SettingsForm = class extends Block {
         phoneRow.setProps({ error });
       },
     });
+    const displayNameRow = new SettingsInfoRow({
+      label: "Имя в чате:",
+      name: "display_name",
+      value: UserInfo.display_name,
+      onBlur: (e: Event) => {
+        const input = e.target as HTMLInputElement;
+        const error = phoneValidation(input.value);
+        phoneRow.setProps({ error });
+      },
+    });
+    const oldPasswordRow = new SettingsInfoRow({
+      label: "Старый пароль:",
+      name: "oldPassword",
+      type: "password",
+      value: UserInfo.password,
+      onBlur: (e: Event) => {
+        const input = e.target as HTMLInputElement;
+        const error = phoneValidation(input.value);
+        phoneRow.setProps({ error });
+      },
+    });
+    const newPasswordRow = new SettingsInfoRow({
+      label: "Новый пароль:",
+      name: "newPassword",
+      type: "password",
+      value: '',
+      onBlur: (e: Event) => {
+        const input = e.target as HTMLInputElement;
+        const error = phoneValidation(input.value);
+        phoneRow.setProps({ error });
+      },
+    });
     super("form", {
       ...props,
       emailRow,
@@ -81,6 +113,9 @@ const SettingsForm = class extends Block {
       SaveButton,
       LogoutButton,
       UserInfo,
+      displayNameRow,
+      oldPasswordRow,
+      newPasswordRow,
       className: "settings__content",
       events: {
         submit: (e: Event) => {

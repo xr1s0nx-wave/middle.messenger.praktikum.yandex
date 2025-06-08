@@ -5,6 +5,7 @@ type SettingsInfoRowProps = {
   name: string;
   value?: string;
   error?: string | null;
+  type?: string;
   onBlur?: (e: Event) => void;
 };
 const SettingsInfoRow = class extends Block {
@@ -14,6 +15,7 @@ const SettingsInfoRow = class extends Block {
       ...props,
       error: props.error || null,
       className: `settings__info-row${props.error ? " error" : ""}`,
+      type: props.type || "text",
     });
   }
   _attachBlurHandler() {
