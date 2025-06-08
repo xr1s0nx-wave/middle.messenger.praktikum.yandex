@@ -16,7 +16,7 @@ const ChatItem = class extends Block {
   constructor(props: ChatItemProps) {
     super("div", {
       ...props,
-      className: `chats__item${props.selected ? " chats__item--selected" : ""}`,
+      className: `chats__item${props.selected ? " chats__item--active" : ""}`,
     });
   }
   render(): DocumentFragment {

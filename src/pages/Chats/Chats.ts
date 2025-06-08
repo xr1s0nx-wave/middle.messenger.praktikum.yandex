@@ -64,14 +64,25 @@ class Chats extends Block {
   }
 
   setChatsList(currentChatId: string): void {
+    const chats = (ChatsData as { data: IChat[] }).data;
     this.setProps({ currentChatId });
-    this.children.ChatsList?.setProps({ currentChatId });
+    const chatsList = this.children.ChatsList;
+    if (Array.isArray(chatsList)) {
+      chatsList.forEach((child) => child.setProps?.({ currentChatId, chats }));
+    } else {
+      chatsList?.setProps?.({ currentChatId, chats });
+    }
     const chat = (ChatsDetails as Record<string, IChat>)[currentChatId];
     if (chat) {
       const messages = (chat.messages || []).map(
         (msg: IMessage) => new DialogueMessage({ ...msg }),
       );
-      this.children.Dialogue.setProps({ CurrentChat: { ...chat, messages } });
+      const dialogue = this.children.Dialogue;
+      if (Array.isArray(dialogue)) {
+        dialogue.forEach((dlg) => dlg.setProps?.({ CurrentChat: { ...chat, messages } }));
+      } else {
+        dialogue?.setProps?.({ CurrentChat: { ...chat, messages } });
+      }
     }
   }
 
