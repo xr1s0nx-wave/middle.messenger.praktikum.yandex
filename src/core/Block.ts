@@ -24,7 +24,7 @@ class Block {
   protected _eventBus: EventBus;
   protected _id: string;
 
-  public children: Record<string, Block> = {};
+  public children: Record<string, Block | Block[]> = {};
 
   constructor(tagName = "div", propsAndChildren: TProps = {}) {
     this._eventBus = new EventBus();
@@ -100,7 +100,7 @@ class Block {
   }
 
   private _getChildren(propsAndChildren: TProps) {
-    const children: Record<string, Block> = {};
+    const children: Record<string, Block | Block[]> = {};
     const props: TProps = {};
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (Array.isArray(value)) {
@@ -125,7 +125,11 @@ class Block {
   private _componentDidMount() {
     this.componentDidMount();
     Object.values(this.children).forEach((child) => {
-      child.dispatchComponentDidMount();
+      if (Array.isArray(child)) {
+        child.forEach((component) => component.dispatchComponentDidMount());
+      } else {
+        child.dispatchComponentDidMount();
+      }
     });
   }
 
