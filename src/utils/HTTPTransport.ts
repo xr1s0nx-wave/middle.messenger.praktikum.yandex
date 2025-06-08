@@ -1,44 +1,44 @@
 type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE";
 
-interface RequestOptions {
+interface RequestOptions<T = unknown> {
   method?: HTTPMethod;
-  data?: Record<string, any>;
+  data?: T;
   headers?: Record<string, string>;
   timeout?: number;
 }
 
-function queryStringify(data: Record<string, any>): string {
+function queryStringify<T extends Record<string, unknown>>(data: T): string {
   return (
     "?" +
     Object.entries(data)
       .map(
         ([key, value]) =>
-          `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
+          `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`,
       )
       .join("&")
   );
 }
 
 export class HTTPTransport {
-  get(url: string, options: RequestOptions = {}) {
-    return this.request(url, { ...options, method: "GET" });
+  get<T = unknown>(url: string, options: RequestOptions<T> = {}) {
+    return this.request<T>(url, { ...options, method: "GET" });
   }
-  post(url: string, options: RequestOptions = {}) {
-    return this.request(url, { ...options, method: "POST" });
+  post<T = unknown>(url: string, options: RequestOptions<T> = {}) {
+    return this.request<T>(url, { ...options, method: "POST" });
   }
-  put(url: string, options: RequestOptions = {}) {
-    return this.request(url, { ...options, method: "PUT" });
+  put<T = unknown>(url: string, options: RequestOptions<T> = {}) {
+    return this.request<T>(url, { ...options, method: "PUT" });
   }
-  delete(url: string, options: RequestOptions = {}) {
-    return this.request(url, { ...options, method: "DELETE" });
+  delete<T = unknown>(url: string, options: RequestOptions<T> = {}) {
+    return this.request<T>(url, { ...options, method: "DELETE" });
   }
-  request(url: string, options: RequestOptions): Promise<XMLHttpRequest> {
+  request<T = unknown>(url: string, options: RequestOptions<T>): Promise<XMLHttpRequest> {
     const { method = "GET", data, headers = {}, timeout = 5000 } = options;
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       let requestUrl = url;
-      if (method === "GET" && data) {
-        requestUrl += queryStringify(data);
+      if (method === "GET" && data && typeof data === "object") {
+        requestUrl += queryStringify(data as Record<string, unknown>);
       }
       xhr.open(method, requestUrl);
       Object.entries(headers).forEach(([key, value]) => {
@@ -51,7 +51,6 @@ export class HTTPTransport {
       if (method === "GET" || !data) {
         xhr.send();
       } else {
-        xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(JSON.stringify(data));
       }
     });

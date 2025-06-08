@@ -1,11 +1,6 @@
 import Block from "@/core/Block";
 import ChatItem from "../ChatItem";
 import template from "./ChatsList.hbs?raw";
-type ChatsListProps = {
-  chats: Array<any>;
-  currentChatId?: string | null;
-  onChatClick?: (id: string) => void;
-};
 interface IChat {
   id: string;
   name: string;
@@ -14,6 +9,11 @@ interface IChat {
   lastMessageIsMine?: boolean;
   unreadCount?: number;
 }
+type ChatsListProps = {
+  chats: Array<IChat>;
+  currentChatId?: string | null;
+  onChatClick?: (id: string) => void;
+};
 const ChatsList = class extends Block {
   constructor(props: ChatsListProps) {
     super("div", { ...props, className: "chats-list" });

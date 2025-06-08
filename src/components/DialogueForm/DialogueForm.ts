@@ -22,11 +22,15 @@ const DialogueForm = class extends Block {
           e.preventDefault();
           const form = e.target as HTMLFormElement;
           const formData = new FormData(form);
-          const data: Record<string, any> = {};
-          formData.forEach((value, key) => {
-            data[key] = value;
-          });
-          console.log(data);
+          const message = (formData.get("message") as string || "").trim();
+          if (!message) {
+            // Не отправляем пустое сообщение
+            return;
+          }
+          const data: Record<string, unknown> = { message };
+          form.reset();
+          form.classList.remove("form--active");
+          console.log("Message sent:", data);
         },
       },
     });

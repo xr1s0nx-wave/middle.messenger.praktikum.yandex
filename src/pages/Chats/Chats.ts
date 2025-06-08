@@ -12,19 +12,34 @@ import {
   DialogueForm,
 } from "@/components";
 
+interface IChat {
+  id: string;
+  name: string;
+  avatarUrl?: string;
+  lastMessage?: string;
+  lastMessageIsMine?: boolean;
+  unreadCount?: number;
+  messages?: IMessage[];
+}
+interface IMessage {
+  text: string;
+  time: string;
+  isMine?: boolean;
+}
+
 class Chats extends Block {
   constructor(props: Record<string, unknown> = {}) {
     const initialChatId = null;
     const searchComponent = new Search({});
     const chatsListComponent = new ChatsList({
-      chats: (ChatsData as any).data,
+      chats: (ChatsData as { data: IChat[] }).data,
       currentChatId: initialChatId,
       onChatClick: (id: string) => chatsInstance.setChatsList(id),
     });
     const userCardComponent = new UserCard({ ...UserInfo });
     const dialogueFormComponent = new DialogueForm({});
     const dialogueComponent = new Dialogue({
-      CurrentChat: (ChatsData as any).data[0],
+      CurrentChat: (ChatsData as { data: IChat[] }).data[0],
       DialogueForm: dialogueFormComponent,
     });
     const chatsInstance = {
@@ -51,17 +66,16 @@ class Chats extends Block {
   setChatsList(currentChatId: string): void {
     this.setProps({ currentChatId });
     this.children.ChatsList?.setProps({ currentChatId });
-    const chat = (ChatsDetails as Record<string, any>)[currentChatId];
+    const chat = (ChatsDetails as Record<string, IChat>)[currentChatId];
     if (chat) {
       const messages = (chat.messages || []).map(
-        (msg: any) => new DialogueMessage(msg),
+        (msg: IMessage) => new DialogueMessage({ ...msg }),
       );
       this.children.Dialogue.setProps({ CurrentChat: { ...chat, messages } });
     }
   }
 
   shouldComponentUpdate(): boolean {
-    // Поведение по умолчанию: всегда обновлять
     return true;
   }
 

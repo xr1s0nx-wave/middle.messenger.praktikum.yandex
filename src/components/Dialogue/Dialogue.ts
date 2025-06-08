@@ -1,7 +1,21 @@
 import Block from "@/core/Block";
 import template from "./Dialogue.hbs?raw";
 import DialogueForm from "../DialogueForm/DialogueForm";
-type DialogueProps = { CurrentChat?: any; DialogueForm?: Block };
+interface IMessage {
+  text: string;
+  time: string;
+  isMine?: boolean;
+}
+interface IChat {
+  id: string;
+  name: string;
+  avatarUrl?: string;
+  lastMessage?: string;
+  lastMessageIsMine?: boolean;
+  unreadCount?: number;
+  messages?: IMessage[];
+}
+type DialogueProps = { CurrentChat?: IChat; DialogueForm?: Block };
 const Dialogue = class extends Block {
   constructor(props: DialogueProps = {}) {
     const Form = new DialogueForm({});
@@ -16,10 +30,10 @@ const Dialogue = class extends Block {
     return true;
   }
   render(): DocumentFragment {
-    const CurrentChat = (this._meta.props.CurrentChat || {}) as any;
+    const CurrentChat = (this._meta.props.CurrentChat || {}) as IChat;
     let messages: Block[] = [];
     if (CurrentChat && Array.isArray(CurrentChat.messages)) {
-      messages = CurrentChat.messages;
+      messages = CurrentChat.messages.filter((msg) => msg instanceof Block);
     }
     const DialogueForm = this.children.DialogueForm;
     this.children = {};

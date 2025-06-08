@@ -100,7 +100,7 @@ class Block {
   }
 
   private _getChildren(propsAndChildren: TProps) {
-    const children: any = {};
+    const children: Record<string, Block> = {};
     const props: TProps = {};
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (Array.isArray(value)) {
@@ -162,7 +162,7 @@ class Block {
     return this._element!;
   }
 
-  protected compile(template: string, props: any): DocumentFragment {
+  protected compile(template: string, props: Record<string, unknown>): DocumentFragment {
     const propsAndStubs = { ...props };
     Object.entries(this.children).forEach(([key, child]) => {
       if (Array.isArray(child)) {
@@ -186,7 +186,9 @@ class Block {
           stub?.replaceWith(component.getContent());
         });
       } else {
-        const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
+        const stub = fragment.content.querySelector(
+          `[data-id="${child._id}"]`,
+        );
         stub?.replaceWith(child.getContent());
       }
     });
