@@ -96,7 +96,7 @@ const SettingsForm = class extends Block {
       label: "Новый пароль:",
       name: "newPassword",
       type: "password",
-      value: '',
+      value: "",
       onBlur: (e: Event) => {
         const input = e.target as HTMLInputElement;
         const error = phoneValidation(input.value);
