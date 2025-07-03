@@ -17,4 +17,4 @@ class Settings extends Block {
   }
 }
 
-export const SettingsPage = new Settings({});
+export { Settings };

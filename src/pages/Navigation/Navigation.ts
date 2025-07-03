@@ -1,3 +1,4 @@
+import { ROUTES } from "@/constants/routes.ts";
 import Block from "../../core/Block.ts";
 import template from "./Navigation.hbs?raw";
 
@@ -6,6 +7,7 @@ class Navigation extends Block {
     super("nav", {
       ...props,
       className: "navigation",
+      routes: Object.values(ROUTES).map(route => route.path),
     });
   }
 
@@ -14,13 +16,4 @@ class Navigation extends Block {
   }
 }
 
-export const NavigationPage = new Navigation({
-  routes: [
-    "login",
-    "registration",
-    "chats",
-    "settings",
-    "not-found",
-    "server-error",
-  ],
-});
+export { Navigation };

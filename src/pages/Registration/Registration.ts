@@ -30,4 +30,4 @@ class Registration extends Block {
   }
 }
 
-export const RegistrationPage = new Registration({});
+export { Registration };

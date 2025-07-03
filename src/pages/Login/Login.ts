@@ -31,4 +31,4 @@ class Login extends Block {
   }
 }
 
-export const LoginPage = new Login({});
+export { Login };

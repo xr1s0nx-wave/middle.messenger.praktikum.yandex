@@ -14,4 +14,4 @@ class ServerError extends Block {
   }
 }
 
-export const ServerErrorPage = new ServerError({});
+export { ServerError };

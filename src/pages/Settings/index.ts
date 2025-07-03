@@ -1,2 +1,2 @@
 import "./style.scss";
-export { SettingsPage as Settings } from "./Settings";
+export { Settings } from "./Settings";

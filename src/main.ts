@@ -1,30 +1,23 @@
 import "@/style.scss";
 import { ROUTES } from "@/constants";
-const addLinkEventLIstener = () => {
-  document.querySelectorAll(".page--link").forEach((link) => {
-    link.addEventListener("click", (e: any) => {
-      const page = e.currentTarget?.getAttribute("page");
-      if (page) {
-        navigate(page);
-        e.preventDefault();
-        e.stopImmediatePropagation();
-      }
-    });
-  });
-};
-function navigate(page: string) {
-  const currentPage = ROUTES[page].Component.getElement();
-  document.title = `Messanger | ${ROUTES[page].pageTitle}`;
-  const container = document.getElementById("app");
-  if (!container) {
-    throw new Error("App container not found");
+import Router from "./utils/Router";
+
+const router = new Router("#app");
+
+// Регистрируем все роуты из ROUTES
+Object.entries(ROUTES).forEach(([key, route]) => {
+  router.use(route.path, route.Component);
+});
+
+router.start();
+
+document.addEventListener("click", (e) => {
+  const target = e.target as HTMLElement;
+  if (target && target.classList.contains("page--link")) {
+    const page = target.getAttribute("page");
+    if (page) {
+      e.preventDefault();
+      router.go(page);
+    }
   }
-  container.innerHTML = "";
-  if (currentPage) {
-    container.appendChild(currentPage);
-  }
-  addLinkEventLIstener();
-}
-document.addEventListener("DOMContentLoaded", () => {
-  navigate("navigation");
 });

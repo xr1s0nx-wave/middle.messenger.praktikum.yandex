@@ -14,4 +14,4 @@ class NotFound extends Block {
   }
 }
 
-export const NotFoundPage = new NotFound({});
+export { NotFound };

@@ -54,6 +54,7 @@ class Chats extends Block {
       UserCard: userCardComponent,
       Dialogue: dialogueComponent,
       DialogueForm: dialogueFormComponent,
+      className: "chats",
     });
     this.children.Search = searchComponent;
     this.children.ChatsList = chatsListComponent;
@@ -95,4 +96,4 @@ class Chats extends Block {
   }
 }
 
-export const ChatsPage = new Chats({ className: "chats" });
+export { Chats };

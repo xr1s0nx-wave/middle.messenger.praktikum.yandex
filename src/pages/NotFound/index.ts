@@ -1,2 +1,2 @@
 import "./style.scss";
-export { NotFoundPage as NotFound } from "./NotFound";
+export { NotFound } from "./NotFound";
