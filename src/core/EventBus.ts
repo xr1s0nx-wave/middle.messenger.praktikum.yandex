@@ -1,13 +1,13 @@
 import type { EventBusTypes } from "@/types/EventBus.types.ts";
 class EventBus implements EventBusTypes {
   _listeners: Record<string, Function[]> = {};
-  on(event: string, callback: () => void): void {
+  on(event: string, callback: (...args: any[]) => void): void {
     if (!this._listeners[event]) {
       this._listeners[event] = [];
     }
     this._listeners[event].push(callback);
   }
-  off(event: string, callback: () => void): void {
+  off(event: string, callback: (...args: any[]) => void): void {
     if (!this._listeners[event]) return;
     this._listeners[event] = this._listeners[event].filter(
       (cb) => cb !== callback,
