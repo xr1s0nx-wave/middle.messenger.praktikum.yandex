@@ -74,6 +74,16 @@ class Router {
   _onRoute(pathname: string) {
     const route = this.getRoute(pathname);
     if (!route) {
+      // Редирект на 404
+      const notFoundRoute = this.getRoute("/not-found");
+      if (notFoundRoute) {
+        this.history.replaceState({}, '', '/not-found');
+        if (this._currentRoute) {
+          this._currentRoute.leave();
+        }
+        this._currentRoute = notFoundRoute;
+        notFoundRoute.render();
+      }
       return;
     }
     if (this._currentRoute) {
