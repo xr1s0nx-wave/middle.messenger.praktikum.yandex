@@ -88,8 +88,10 @@ const LoginForm = class extends Block {
                 } catch {}
               });
               localStorage.setItem("isAuth", "1");
-              const router = new Router("#app");
-              router.go("/messenger");
+              // @ts-ignore
+              if (window.router && typeof window.router.go === "function") {
+                window.router.go("/messenger");
+              }
             } catch (err) {
               alert("Ошибка авторизации");
             }

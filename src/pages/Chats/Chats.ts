@@ -36,7 +36,11 @@ class Chats extends Block {
       currentChatId: initialChatId,
       onChatClick: (id: string) => chatsInstance.setChatsList(id),
     });
-    const userCardComponent = new UserCard({ ...UserInfo });
+    // Вместо ...UserInfo, явно передаём только нужные поля
+    const userCardComponent = new UserCard({
+      login: UserInfo.login,
+      avatar: UserInfo.avatar,
+    });
     const dialogueFormComponent = new DialogueForm({});
     const dialogueComponent = new Dialogue({
       CurrentChat: (ChatsData as { data: IChat[] }).data[0],

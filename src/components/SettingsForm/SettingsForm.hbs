@@ -1,12 +1,13 @@
 <div class="settings__main-info">
   <div class="settings__avatar">
     <img
-      src="{{UserInfo.avatarUrl}}"
+      src="{{avatar}}"
       alt="Avatar"
       class="settings__avatar-image"
     />
   </div>
-  <p class="settings__name">{{UserInfo.name}}</p>
+  {{{UploadAvatarButton}}}
+  <p class="settings__name">{{first_name}}</p>
 </div>
 <div class="settings__info-rows">
   {{{emailRow}}}

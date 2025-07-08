@@ -5,6 +5,9 @@ import { authAPI } from "@/api/auth";
 import appStore from "@/core/appStore";
 
 const router = new Router("#app");
+// Экспортируем router в window для глобального доступа
+// @ts-ignore
+window.router = router;
 
 // Регистрируем только нужные роуты
 Object.values(ROUTES).forEach((route) => {
@@ -13,7 +16,6 @@ Object.values(ROUTES).forEach((route) => {
 
 // Пример проверки авторизации (заглушка)
 function isAuthenticated() {
-  // Здесь должна быть реальная проверка (например, по токену)
   return Boolean(localStorage.getItem("isAuth"));
 }
 
@@ -28,6 +30,8 @@ const originalOnRoute = (router as any)._onRoute.bind(router);
 };
 
 router.start();
+
+console.log(isAuthenticated())
 
 if (isAuthenticated()) {
   authAPI.getUser().then((xhr) => {

@@ -11,7 +11,7 @@ type UserCardProps = {
 const mapStateToProps = (state: { user: any }) => ({
   login: state.user?.login || "",
   avatarUrl: state.user?.avatar
-    ? `https://ya-praktikum.tech/api/v2/resources${state.user.avatar}`
+    ? `https://ya-praktikum.tech/api/v2/resources${state.user.avatar}?v=${Date.now()}`
     : "/vite.svg",
 });
 

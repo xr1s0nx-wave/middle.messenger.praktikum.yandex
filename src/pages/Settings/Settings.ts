@@ -1,10 +1,12 @@
 import Block from "../../core/Block.ts";
 import template from "./Settings.hbs?raw";
 import { SettingsForm } from "@/components";
+import appStore from "@/core/appStore";
 
 class Settings extends Block {
   constructor(props: Record<string, unknown> = {}) {
-    const Form = new SettingsForm({});
+    const user = appStore.getState().user;
+    const Form = new SettingsForm({ user });
     super("div", {
       ...props,
       SettingsForm: Form,
