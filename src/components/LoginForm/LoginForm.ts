@@ -3,7 +3,6 @@ import template from "./LoginForm.hbs?raw";
 import { Input, Button } from "@/components";
 import { loginValidation, passwordValidation } from "@/utils/validations.ts";
 import { authAPI } from "@/api/auth";
-import Router from "@/utils/Router";
 type LoginFormProps = { [key: string]: unknown };
 const LoginForm = class extends Block {
   constructor(props: LoginFormProps = {}) {
@@ -92,7 +91,7 @@ const LoginForm = class extends Block {
               if (window.router && typeof window.router.go === "function") {
                 window.router.go("/messenger");
               }
-            } catch (err) {
+            } catch {
               alert("Ошибка авторизации");
             }
           }

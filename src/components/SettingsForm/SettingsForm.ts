@@ -54,15 +54,15 @@ class SettingsForm extends Block {
       type: "button",
       events: {
         click: async () => {
-          // @ts-expect-error
+          // @ts-expect-error: динамический импорт для SSR
           const { authAPI } = await import("@/api/auth");
           await authAPI.logout();
-          // @ts-expect-error
+          // @ts-expect-error: динамический импорт для SSR
           import("@/core/appStore").then(({ default: appStore }) => {
             appStore.setState({ user: null });
           });
           localStorage.removeItem("isAuth");
-          // @ts-expect-error
+          // @ts-expect-error: динамический импорт для SSR
           if (window.router && typeof window.router.go === "function") {
             window.router.go("/");
           }
@@ -168,7 +168,7 @@ class SettingsForm extends Block {
         await authAPI.getUser().then((xhr) => {
           try {
             const user = JSON.parse(xhr.responseText);
-            // @ts-expect-error
+            // @ts-expect-error: динамический импорт для SSR
             import("@/core/appStore").then(({ default: appStore }) => {
               appStore.setState({ user });
             });
@@ -202,7 +202,7 @@ class SettingsForm extends Block {
           });
           // Проверка и смена пароля
           if (data.oldPassword && data.newPassword) {
-            // @ts-expect-error
+            // @ts-expect-error: динамический импорт для SSR
             const { userAPI } = await import("@/api/user");
             try {
               await userAPI.updatePassword({
@@ -219,16 +219,16 @@ class SettingsForm extends Block {
           const profileData = { ...data };
           delete profileData.oldPassword;
           delete profileData.newPassword;
-          // @ts-expect-error
+          // @ts-expect-error: динамический импорт для SSR
           const { userAPI } = await import("@/api/user");
           await userAPI.updateProfile(profileData);
           // После успешного обновления профиля — обновить user в store
-          // @ts-expect-error
+          // @ts-expect-error: динамический импорт для SSR
           const { authAPI } = await import("@/api/auth");
           await authAPI.getUser().then((xhr) => {
             try {
               const user = JSON.parse(xhr.responseText);
-              // @ts-expect-error
+              // @ts-expect-error: динамический импорт для SSR
               import("@/core/appStore").then(({ default: appStore }) => {
                 appStore.setState({ user });
               });

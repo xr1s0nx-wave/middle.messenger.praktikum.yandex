@@ -39,7 +39,7 @@ class CreateChatForm extends Block {
               this._meta.props.onChatCreated();
             }
             form.reset();
-          } catch (err) {
+          } catch {
             alert("Ошибка создания чата");
           }
         },

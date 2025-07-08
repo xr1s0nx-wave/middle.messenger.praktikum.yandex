@@ -1,7 +1,6 @@
 import Block from "@/core/Block.ts";
 import template from "./Login.hbs?raw";
 import { LoginForm } from "@/components";
-import Router from "@/utils/Router";
 
 function isAuthenticated() {
   return Boolean(localStorage.getItem("isAuth"));

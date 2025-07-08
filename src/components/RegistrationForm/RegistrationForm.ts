@@ -225,7 +225,7 @@ const RegistrationForm = class extends Block {
               localStorage.setItem("isAuth", "1");
               const router = new Router("#app");
               router.go("/messenger");
-            } catch (err) {
+            } catch {
               alert("Ошибка регистрации");
             }
           }
