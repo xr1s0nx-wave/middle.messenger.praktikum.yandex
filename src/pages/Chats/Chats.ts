@@ -10,7 +10,11 @@ import {
   Dialogue,
   DialogueMessage,
   DialogueForm,
+  CreateChatForm,
+  Modal,
+  Button, // Добавлен импорт Button
 } from "@/components";
+import { chatsAPI } from "@/api/chats";
 
 interface IChat {
   id: string;
@@ -32,18 +36,56 @@ class Chats extends Block {
     const initialChatId = null;
     const searchComponent = new Search({});
     const chatsListComponent = new ChatsList({
-      chats: (ChatsData as { data: IChat[] }).data,
+      chats: [],
       currentChatId: initialChatId,
       onChatClick: (id: string) => chatsInstance.setChatsList(id),
     });
-    // Вместо ...UserInfo, явно передаём только нужные поля
-    const userCardComponent = new UserCard({
-      login: UserInfo.login,
-      avatar: UserInfo.avatar,
-    });
+    const userCardComponent = new UserCard();
     const dialogueFormComponent = new DialogueForm({});
+    let modalInstance: Modal | null = null;
+    // Функция обновления списка чатов
+    const updateChats = () => {
+      chatsAPI.getChats().then((xhr: XMLHttpRequest) => {
+        try {
+          const chats = JSON.parse(xhr.responseText);
+          this.setProps({ chats });
+          chatsListComponent.setProps({ chats });
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.error("Ошибка загрузки чатов", e);
+        }
+      });
+    };
+    // Открытие модалки с пробросом onChatCreated
+    const openModal = () => {
+      if (!modalInstance) {
+        const createChatFormComponent = new CreateChatForm({
+          onChatCreated: () => {
+            this.setProps({ showModal: false });
+            modalInstance = null;
+            updateChats(); // обновить список чатов
+          },
+        });
+        modalInstance = new Modal({
+          content: createChatFormComponent,
+          onClose: () => {
+            this.setProps({ showModal: false });
+            modalInstance = null;
+          },
+        });
+      }
+      this.setProps({ showModal: true, modalInstance });
+    };
+    const createChatButton = new Button({
+      styleType: "primary",
+      text: "Создать чат",
+      type: "button",
+      events: {
+        click: openModal,
+      },
+    });
     const dialogueComponent = new Dialogue({
-      CurrentChat: (ChatsData as { data: IChat[] }).data[0],
+      CurrentChat: undefined, // Исправлено: null -> undefined
       DialogueForm: dialogueFormComponent,
     });
     const chatsInstance = {
@@ -58,6 +100,9 @@ class Chats extends Block {
       UserCard: userCardComponent,
       Dialogue: dialogueComponent,
       DialogueForm: dialogueFormComponent,
+      CreateChatButton: createChatButton,
+      showModal: false,
+      modalInstance: null,
       className: "chats",
     });
     this.children.Search = searchComponent;
@@ -65,7 +110,11 @@ class Chats extends Block {
     this.children.UserCard = userCardComponent;
     this.children.Dialogue = dialogueComponent;
     this.children.DialogueForm = dialogueFormComponent;
+    this.children.CreateChatButton = createChatButton;
     chatsInstance.setChatsList = this.setChatsList.bind(this);
+
+    // Загрузка чатов с сервера
+    updateChats();
   }
 
   setChatsList(currentChatId: string): void {
@@ -96,7 +145,13 @@ class Chats extends Block {
   }
 
   render(): DocumentFragment {
-    return this.compile(template, this._meta.props);
+    const fragment = this.compile(template, this._meta.props);
+    if (this._meta.props.showModal && this._meta.props.modalInstance) {
+      // Приведение типа для корректного вызова getContent
+      const modal = this._meta.props.modalInstance as Modal;
+      fragment.appendChild(modal.getContent());
+    }
+    return fragment;
   }
 }
 

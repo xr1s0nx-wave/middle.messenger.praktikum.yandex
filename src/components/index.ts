@@ -1,6 +1,7 @@
 import Button from "./Button";
 import ChatItem from "./ChatItem";
 import ChatsList from "./ChatsList";
+import CreateChatForm from "./CreateChatForm";
 import Dialogue from "./Dialogue";
 import DialogueForm from "./DialogueForm";
 import DialogueMessage from "./DialogueMessage";
@@ -11,6 +12,7 @@ import Search from "./Search";
 import SettingsForm from "./SettingsForm";
 import SettingsInfoRow from "./SettingsInfoRow";
 import UserCard from "./UserCard";
+import Modal from "./Modal/Modal";
 export {
   Input,
   Button,
@@ -25,4 +27,6 @@ export {
   DialogueForm,
   SettingsForm,
   SettingsInfoRow,
+  CreateChatForm,
+  Modal,
 };
