@@ -80,14 +80,14 @@ const LoginForm = class extends Block {
               await authAPI.getUser().then((xhr) => {
                 try {
                   const user = JSON.parse(xhr.responseText);
-                  // @ts-expect-error
+                  // @ts-expect-error: dynamic import for SSR
                   import("@/core/appStore").then(({ default: appStore }) => {
                     appStore.setState({ user });
                   });
                 } catch { /* ignore */ }
               });
               localStorage.setItem("isAuth", "1");
-              // @ts-expect-error
+              // @ts-expect-error: window.router is injected globally
               if (window.router && typeof window.router.go === "function") {
                 window.router.go("/messenger");
               }

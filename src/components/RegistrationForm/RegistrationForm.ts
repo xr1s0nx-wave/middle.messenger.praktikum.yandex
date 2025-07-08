@@ -216,7 +216,7 @@ const RegistrationForm = class extends Block {
               await authAPI.getUser().then((xhr) => {
                 try {
                   const user = JSON.parse(xhr.responseText);
-                  // @ts-expect-error
+                  // @ts-expect-error: dynamic import for SSR
                   import("@/core/appStore").then(({ default: appStore }) => {
                     appStore.setState({ user });
                   });
