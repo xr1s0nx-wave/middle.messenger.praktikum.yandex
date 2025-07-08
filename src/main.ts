@@ -18,6 +18,11 @@ function isAuthenticated() {
 
 const originalOnRoute = (router as any)._onRoute.bind(router);
 (router as any)._onRoute = function (pathname: string) {
+  // Если это страница 404 или not-found — показываем всегда
+  if (pathname === "/not-found" || pathname === "/404") {
+    originalOnRoute(pathname);
+    return;
+  }
   // Если авторизован и на / или /sign-up — редирект на /messenger
   if (isAuthenticated() && (pathname === "/" || pathname === "/sign-up")) {
     router.go("/messenger");
