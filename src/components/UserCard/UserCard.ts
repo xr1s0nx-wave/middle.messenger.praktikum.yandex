@@ -9,7 +9,7 @@ type UserCardProps = {
   avatarUrl?: string;
 };
 
-const mapStateToProps = (state: { user: { id: number; login: string; avatar?: string } }) => ({
+const mapStateToProps = (state: { user: { id: number; login: string; avatar?: string } | null }) => ({
   login: state.user?.login || "",
   avatarUrl: state.user?.avatar
     ? `${BASE_URL}/api/v2/resources${state.user.avatar}?v=${Date.now()}`

@@ -32,7 +32,7 @@ const UsersListModal = class extends Block {
             try {
               await chatsAPI.removeUser({ users: [userId], chatId: props.chatId });
               // Получить обновлённый список
-              const resp = await chatsAPI.getChatUsers(props.chatId);
+              const resp = await chatsAPI.getUsers(props.chatId);
               if (resp.status === 200) {
                 const users = JSON.parse(resp.responseText);
                 this.setProps({ users });

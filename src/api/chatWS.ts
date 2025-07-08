@@ -1,5 +1,3 @@
-import { BASE_URL } from "@/constants/api";
-
 // WebSocket API для чата Яндекс.Практикум
 // Документация: https://ya-praktikum.tech/api/v2/openapi/ws
 

@@ -207,7 +207,7 @@ class Chats extends Block {
       // Получаем токен для чата
       let token = "";
       try {
-        const xhr = await chatsAPI.getToken(chat.id);
+        const xhr = await chatsAPI.getToken(Number(chat.id));
         const res = JSON.parse(xhr.responseText);
         token = res.token;
       } catch (e) {
