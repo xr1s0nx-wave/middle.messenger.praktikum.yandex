@@ -171,10 +171,14 @@ class Block {
     Object.entries(this.children).forEach(([key, child]) => {
       if (Array.isArray(child)) {
         propsAndStubs[key] = child
+          .filter((component) => component && typeof component === "object" && "_id" in component)
           .map((component) => `<div data-id="${component._id}"></div>`)
           .join("");
-      } else {
+      } else if (child && typeof child === "object" && "_id" in child) {
         propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
+      } else {
+        // Если невалидный child, не вставляем stub
+        propsAndStubs[key] = "";
       }
     });
     const fragment = this._createDocumentElement(
@@ -183,13 +187,15 @@ class Block {
     fragment.innerHTML = Handlebars.compile(template)(propsAndStubs);
     Object.values(this.children).forEach((child) => {
       if (Array.isArray(child)) {
-        child.forEach((component) => {
-          const stub = fragment.content.querySelector(
-            `[data-id="${component._id}"]`,
-          );
-          stub?.replaceWith(component.getContent());
-        });
-      } else {
+        child
+          .filter((component) => component && typeof component === "object" && "_id" in component)
+          .forEach((component) => {
+            const stub = fragment.content.querySelector(
+              `[data-id="${component._id}"]`,
+            );
+            stub?.replaceWith(component.getContent());
+          });
+      } else if (child && typeof child === "object" && "_id" in child) {
         const stub = fragment.content.querySelector(
           `[data-id="${child._id}"]`,
         );

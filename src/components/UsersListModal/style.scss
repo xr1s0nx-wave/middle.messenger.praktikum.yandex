@@ -1,0 +1,77 @@
+.users-list-modal {
+  position: relative;
+  border-radius: 12px;
+  padding: 5px 5px 16px 5px;
+  min-width: 320px;
+  max-width: 90vw;
+  color: #fff;
+  &__title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #303030;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  &__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #444;
+    object-fit: cover;
+    &--stub {
+      background: linear-gradient(135deg, #23272f 60%, #6c47ff 100%);
+    }
+  }
+  &__login {
+    font-weight: 500;
+  }
+  &__display-name {
+    color: #aaa;
+    font-size: 0.95em;
+    margin-left: 4px;
+  }
+  &__close {
+    margin-top: 18px;
+    background: #6c47ff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    float: right;
+    transition: background 0.15s;
+    &:hover {
+      background: #5436a9;
+    }
+  }
+  &__remove {
+    margin-left: auto;
+    background: #ff4d4f;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.15s;
+    &:hover {
+      background: #c82333;
+    }
+  }
+}

@@ -3,6 +3,8 @@ import template from "./Dialogue.hbs?raw";
 import { Modal, AddUserToChatForm, Button } from "@/components";
 import DialogueMessage from "../DialogueMessage/DialogueMessage";
 import appStore from "@/core/appStore";
+import UsersListModal from "@/components/UsersListModal/UsersListModal";
+import { chatsAPI } from "@/api/chats";
 interface IMessage {
   text: string;
   time: string;
@@ -17,30 +19,72 @@ interface IChat {
   lastMessageIsMine?: boolean;
   unreadCount?: number;
   messages?: IMessage[];
+  users?: any[];
 }
 type DialogueProps = { CurrentChat?: IChat; DialogueForm?: Block };
 const Dialogue = class extends Block {
+  private modalInstance: Modal | null = null;
+  private usersListModalInstance: Modal | null = null;
+  private chatUsers: any[] = [];
   constructor(props: DialogueProps = {}) {
-    let modalInstance: Modal | null = null;
+    super("div", {
+      ...props,
+      className: "chats__dialogue",
+      showAddUserModal: false,
+      modalInstance: null,
+      showUsersListModal: false,
+      usersListModalInstance: null,
+    });
     const openAddUserModal = () => {
-      if (!props.CurrentChat) return;
-      if (!modalInstance) {
-        const addUserForm = new AddUserToChatForm({
-          chatId: props.CurrentChat.id,
-          onUserAdded: () => {
-            this.setProps({ showAddUserModal: false });
-            modalInstance = null;
-          },
-        });
-        modalInstance = new Modal({
-          content: addUserForm,
-          onClose: () => {
-            this.setProps({ showAddUserModal: false });
-            modalInstance = null;
-          },
-        });
+      const chat = this._meta.props.CurrentChat as IChat;
+      if (!chat || !chat.id) return;
+      this.modalInstance = null;
+      const addUserForm = new AddUserToChatForm({
+        chatId: chat.id,
+        onUserAdded: () => {
+          this.setProps({ showAddUserModal: false });
+          this.modalInstance = null;
+        },
+      });
+      this.modalInstance = new Modal({
+        content: addUserForm,
+        onClose: () => {
+          this.setProps({ showAddUserModal: false });
+          this.modalInstance = null;
+        },
+      });
+      this.setProps({ showAddUserModal: true, modalInstance: this.modalInstance });
+    };
+    const openUsersListModal = async () => {
+      const chat = this._meta.props.CurrentChat as IChat;
+      if (!chat) return;
+      this.usersListModalInstance = null;
+      let users: any[] = [];
+      try {
+        const resp = await chatsAPI.getChatUsers(chat.id);
+        if (resp.status === 200) {
+          users = JSON.parse(resp.responseText);
+          this.chatUsers = users;
+        }
+      } catch {
+        users = [];
       }
-      this.setProps({ showAddUserModal: true, modalInstance });
+      const usersList = new UsersListModal({
+        users,
+        chatId: Number(chat.id),
+        onClose: () => {
+          this.setProps({ showUsersListModal: false });
+          this.usersListModalInstance = null;
+        },
+      });
+      this.usersListModalInstance = new Modal({
+        content: usersList,
+        onClose: () => {
+          this.setProps({ showUsersListModal: false });
+          this.usersListModalInstance = null;
+        },
+      });
+      this.setProps({ showUsersListModal: true, usersListModalInstance: this.usersListModalInstance });
     };
     const AddUserButton = new Button({
       styleType: "primary",
@@ -49,13 +93,14 @@ const Dialogue = class extends Block {
       className: "add-user-btn",
       events: { click: openAddUserModal },
     });
-    super("div", {
-      ...props,
-      AddUserButton,
-      className: "chats__dialogue",
-      showAddUserModal: false,
-      modalInstance: null,
+    const UsersListButton = new Button({
+      styleType: "outline",
+      text: "👥",
+      type: "button",
+      className: "users-list-btn",
+      events: { click: openUsersListModal },
     });
+    this.setProps({ AddUserButton, UsersListButton });
   }
   shouldComponentUpdate(): boolean {
     // Поведение по умолчанию: всегда обновлять
@@ -70,38 +115,17 @@ const Dialogue = class extends Block {
         new DialogueMessage({ ...msg, isMine: msg.user_id === userId }),
       );
     }
-    const DialogueForm = this.children.DialogueForm;
-    // AddUserButton всегда актуальный
-    const AddUserButton = new Button({
-      styleType: "primary",
-      text: "+",
-      type: "button",
-      className: "add-user-btn",
-      events: {
-        click: () => {
-          const chatId = CurrentChat?.id;
-          if (!chatId) return;
-          const addUserForm = new AddUserToChatForm({
-            chatId,
-            onUserAdded: () => {
-              this.setProps({ showAddUserModal: false, modalInstance: null });
-            },
-          });
-          const modalInstance = new Modal({
-            content: addUserForm,
-            onClose: () => {
-              this.setProps({ showAddUserModal: false, modalInstance: null });
-            },
-          });
-          this.setProps({ showAddUserModal: true, modalInstance });
-        },
-      },
+    // Не пересоздаём this.children, а только обновляем сообщения
+    const DialogueForm = this.children.DialogueForm || this._meta.props.DialogueForm;
+    const AddUserButton = this.children.AddUserButton || this._meta.props.AddUserButton;
+    const UsersListButton = this.children.UsersListButton || this._meta.props.UsersListButton;
+    // Очищаем только сообщения
+    Object.keys(this.children).forEach((k) => {
+      if (k.startsWith("msg_")) delete this.children[k];
     });
-    this.children = {};
-    if (DialogueForm) {
-      this.children.DialogueForm = DialogueForm;
-    }
-    this.children.AddUserButton = AddUserButton;
+    if (DialogueForm) this.children.DialogueForm = DialogueForm as Block;
+    if (AddUserButton) this.children.AddUserButton = AddUserButton as Block;
+    if (UsersListButton) this.children.UsersListButton = UsersListButton as Block;
     messages.forEach((msg, idx) => {
       this.children[`msg_${idx}`] = msg;
     });
@@ -113,10 +137,15 @@ const Dialogue = class extends Block {
       itemsKeys,
       DialogueForm,
       AddUserButton,
+      UsersListButton,
     });
     if (this._meta.props.showAddUserModal && this._meta.props.modalInstance) {
       const modal = this._meta.props.modalInstance as Modal;
       fragment.appendChild(modal.getContent());
+    }
+    if (this._meta.props.showUsersListModal && this._meta.props.usersListModalInstance) {
+      const usersModal = this._meta.props.usersListModalInstance as Modal;
+      fragment.appendChild(usersModal.getContent());
     }
     return fragment;
   }

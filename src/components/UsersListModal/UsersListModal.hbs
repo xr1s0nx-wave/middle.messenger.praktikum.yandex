@@ -1,0 +1,20 @@
+<div class="users-list-modal__content">
+  <h2 class="users-list-modal__title">Участники чата</h2>
+  <ul class="users-list-modal__list">
+    {{#each users}}
+      <li class="users-list-modal__item">
+        {{#if avatar}}
+          <img class="users-list-modal__avatar" src="https://ya-praktikum.tech/api/v2/resources{{avatar}}" alt="avatar" />
+        {{else}}
+          <div class="users-list-modal__avatar users-list-modal__avatar--stub"></div>
+        {{/if}}
+        <span class="users-list-modal__login">{{login}}</span>
+        {{#if display_name}}
+          <span class="users-list-modal__display-name">({{display_name}})</span>
+        {{/if}}
+        <button class="users-list-modal__remove" type="button" data-user-id="{{id}}">Удалить</button>
+      </li>
+    {{/each}}
+  </ul>
+  <button class="users-list-modal__close" type="button">Закрыть</button>
+</div>

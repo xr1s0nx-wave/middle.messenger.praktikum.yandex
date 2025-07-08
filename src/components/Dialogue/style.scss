@@ -120,3 +120,26 @@
   width: 40px;
   font-size: 25px;
 }
+.users-list-btn {
+  margin-left: 8px;
+  flex-shrink: 0;
+  height: 32px;
+  min-width: 32px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 40px;
+  font-size: 22px;
+  background: #23272f;
+  border: 1px solid #6c47ff;
+  color: #6c47ff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  &:hover {
+    background: #6c47ff;
+    color: #fff;
+  }
+}
