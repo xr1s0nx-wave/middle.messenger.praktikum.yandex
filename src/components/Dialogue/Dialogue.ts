@@ -25,7 +25,6 @@ type DialogueProps = { CurrentChat?: IChat; DialogueForm?: Block };
 const Dialogue = class extends Block {
   private modalInstance: Modal | null = null;
   private usersListModalInstance: Modal | null = null;
-  private chatUsers: any[] = [];
   constructor(props: DialogueProps = {}) {
     super("div", {
       ...props,
@@ -64,7 +63,6 @@ const Dialogue = class extends Block {
         const resp = await chatsAPI.getChatUsers(chat.id);
         if (resp.status === 200) {
           users = JSON.parse(resp.responseText);
-          this.chatUsers = users;
         }
       } catch { /* ignore */ }
       const usersList = new UsersListModal({

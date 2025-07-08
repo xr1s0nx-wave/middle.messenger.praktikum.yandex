@@ -8,8 +8,8 @@ const store = new Store(initialState);
 
 // 2. Обычный компонент Block
 class Counter extends Block {
-  constructor(props: { count: number }) {
-    super("div", props);
+  constructor(tagName?: string, props?: { count: number }) {
+    super(tagName ?? "div", props ?? { count: 0 });
   }
   render(): DocumentFragment {
     const fragment = document.createDocumentFragment();
@@ -28,7 +28,7 @@ const CounterWithStore = withStore(
 );
 
 // 4. Использование
-const counter = new CounterWithStore({});
+const counter = new CounterWithStore();
 document.body.appendChild(counter.getContent());
 
 // 5. Изменение состояния

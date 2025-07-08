@@ -7,12 +7,10 @@ function withStore<T extends Record<string, any>, P extends Record<string, any>>
   mapStateToProps: (state: T) => Partial<P>
 ) {
   return class extends Component {
-    private unsubscribe: (() => void) | null = null;
-
     constructor(tagName?: string, propsAndChildren: P = {} as P) {
       const mappedProps = mapStateToProps(store.getState());
       super(tagName, { ...propsAndChildren, ...mappedProps });
-      this.unsubscribe = store.subscribe((state) => {
+      store.subscribe((state) => {
         this.setProps(mapStateToProps(state));
       });
     }
