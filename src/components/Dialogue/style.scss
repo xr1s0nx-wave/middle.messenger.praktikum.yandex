@@ -39,6 +39,7 @@
     height: calc(100% - 115px);
     padding: 10px 0;
     overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     gap: 10px;

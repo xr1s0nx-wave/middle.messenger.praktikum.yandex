@@ -1,11 +1,13 @@
 import Block from "@/core/Block";
 import template from "./Dialogue.hbs?raw";
-import DialogueForm from "../DialogueForm/DialogueForm";
 import { Modal, AddUserToChatForm, Button } from "@/components";
+import DialogueMessage from "../DialogueMessage/DialogueMessage";
+import appStore from "@/core/appStore";
 interface IMessage {
   text: string;
   time: string;
   isMine?: boolean;
+  user_id?: number;
 }
 interface IChat {
   id: string;
@@ -19,7 +21,6 @@ interface IChat {
 type DialogueProps = { CurrentChat?: IChat; DialogueForm?: Block };
 const Dialogue = class extends Block {
   constructor(props: DialogueProps = {}) {
-    const Form = new DialogueForm({});
     let modalInstance: Modal | null = null;
     const openAddUserModal = () => {
       if (!props.CurrentChat) return;
@@ -50,7 +51,6 @@ const Dialogue = class extends Block {
     });
     super("div", {
       ...props,
-      DialogueForm: Form,
       AddUserButton,
       className: "chats__dialogue",
       showAddUserModal: false,
@@ -65,7 +65,10 @@ const Dialogue = class extends Block {
     const CurrentChat = (this._meta.props.CurrentChat || {}) as IChat;
     let messages: Block[] = [];
     if (CurrentChat && Array.isArray(CurrentChat.messages)) {
-      messages = CurrentChat.messages.filter((msg) => msg instanceof Block);
+      const userId = appStore.getState().user?.id;
+      messages = CurrentChat.messages.map((msg) =>
+        new DialogueMessage({ ...msg, isMine: msg.user_id === userId }),
+      );
     }
     const DialogueForm = this.children.DialogueForm;
     // AddUserButton всегда актуальный

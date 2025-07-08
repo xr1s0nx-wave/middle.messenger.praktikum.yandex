@@ -30,17 +30,20 @@ export class ChatWebSocket {
   private ws: WebSocket | null = null;
   private pingInterval: any = null;
   private chatId: number;
+  private userId: number;
+  private token: string;
   private queue: WSMessage[] = [];
 
-  constructor(chatId: number) {
+  constructor(userId: number, chatId: number, token: string) {
+    this.userId = userId;
     this.chatId = chatId;
+    this.token = token;
   }
 
   connect(onMessage: (msg: any) => void) {
-    this.ws = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${this.chatId}/`);
+    this.ws = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${this.userId}/${this.chatId}/${this.token}`);
     this.ws.onopen = () => {
-        console.log(this.chatId);
-      console.log("WS opened");
+      console.log("WS opened", this.userId, this.chatId);
       // Пингуем каждые 30 секунд
       this.pingInterval = setInterval(() => {
         this.send({ type: "ping" });

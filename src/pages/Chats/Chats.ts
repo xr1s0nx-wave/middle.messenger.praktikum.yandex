@@ -42,7 +42,34 @@ class Chats extends Block {
       onChatClick: (id: string) => chatsInstance.setChatsList(id),
     });
     const userCardComponent = new UserCard();
-    const dialogueFormComponent = new DialogueForm({});
+    const dialogueFormComponent = new DialogueForm({
+      events: {
+        submit: (e: Event) => {
+          e.preventDefault();
+          const form = e.target as HTMLFormElement;
+          const input = form.querySelector("input[name='message']") as HTMLInputElement;
+          if (input && input.value.trim() !== "") {
+            if (this.ws) {
+              this.ws.sendMessage(input.value);
+              input.value = ""; // Очистка поля ввода после отправки
+            } else {
+              console.error("WebSocket не инициализирован");
+            }
+          }
+        },
+        input: (e: Event) => {
+          const input = e.target as HTMLInputElement;
+          const form = input.closest("form");
+          if (form) {
+            if (input.value && input.value.trim() !== "") {
+              form.classList.add("form--active");
+            } else {
+              form.classList.remove("form--active");
+            }
+          }
+        }
+      }
+    });
     let modalInstance: Modal | null = null;
     let isLoading = false;
     let allLoaded = false;
@@ -157,25 +184,47 @@ class Chats extends Block {
     updateChats();
   }
 
-  setChatsList(currentChatId: string): void {
+  async setChatsList(currentChatId: string): Promise<void> {
     this.setProps({ currentChatId });
     const chatsList = this.children.ChatsList;
     if (Array.isArray(chatsList)) {
-      chatsList.forEach((child) => child.setProps?.({ currentChatId, chats: this._meta.props.chats }));
+      chatsList.forEach((child) =>
+        child.setProps?.({ currentChatId, chats: this._meta.props.chats }),
+      );
     } else {
       chatsList?.setProps?.({ currentChatId, chats: this._meta.props.chats });
     }
-    const chats: IChat[] = Array.isArray(this._meta.props.chats) ? this._meta.props.chats : [];
+    const chats: IChat[] = Array.isArray(this._meta.props.chats)
+      ? this._meta.props.chats
+      : [];
     const chat = chats.find((c) => c.id === currentChatId);
     if (chat) {
       if (this.ws) this.ws.close();
-      this.ws = new ChatWebSocket(Number(chat.id));
+      const userId = appStore.getState().user?.id;
+      if (!userId) {
+        return;
+      }
+      // Получаем токен для чата
+      let token = "";
+      try {
+        const xhr = await chatsAPI.getToken(chat.id);
+        const res = JSON.parse(xhr.responseText);
+        token = res.token;
+      } catch (e) {
+        console.error("Ошибка получения токена для чата", e);
+        return;
+      }
+      this.ws = new ChatWebSocket(userId, Number(chat.id), token);
+      console.log("Connecting to chat:", chat.id);
       this.ws.connect((data) => {
-        // Если массив — это история, если объект — новое сообщение
         let messages = appStore.getState().messagesByChatId?.[chat.id] || [];
         if (Array.isArray(data)) {
           messages = [...data.reverse(), ...messages];
-        } else if (data.type === "message" || data.type === "file" || data.type === "sticker") {
+        } else if (
+          data.type === "message" ||
+          data.type === "file" ||
+          data.type === "sticker"
+        ) {
           messages = [...messages, data];
         }
         appStore.setState({
@@ -184,39 +233,22 @@ class Chats extends Block {
             [chat.id]: messages,
           },
         });
-        // Обновляем диалог
         const dialogue = this.children.Dialogue;
         if (Array.isArray(dialogue)) {
-          dialogue.forEach((dlg) => dlg.setProps?.({ CurrentChat: { ...chat, messages } }));
+          dialogue.forEach((dlg) =>
+            dlg.setProps?.({ CurrentChat: { ...chat, messages } }),
+          );
         } else {
           dialogue?.setProps?.({ CurrentChat: { ...chat, messages } });
         }
       });
-      const dialogueForm = this.children.DialogueForm;
-      if (dialogueForm) {
-        if (Array.isArray(dialogueForm)) {
-          dialogueForm.forEach((form) => {
-            form.setProps?.({
-              onSend: (text: string) => {
-                this.ws?.sendMessage(text);
-              },
-            });
-            (form as any).updateEvents?.();
-          });
-        } else {
-          dialogueForm.setProps?.({
-            onSend: (text: string) => {
-              this.ws?.sendMessage(text);
-            },
-          });
-          (dialogueForm as any).updateEvents?.();
-        }
-      }
       // Передаём сообщения из store
       const messages = appStore.getState().messagesByChatId?.[chat.id] || [];
       const dialogue = this.children.Dialogue;
       if (Array.isArray(dialogue)) {
-        dialogue.forEach((dlg) => dlg.setProps?.({ CurrentChat: { ...chat, messages } }));
+        dialogue.forEach((dlg) =>
+          dlg.setProps?.({ CurrentChat: { ...chat, messages } }),
+        );
       } else {
         dialogue?.setProps?.({ CurrentChat: { ...chat, messages } });
       }
