@@ -54,15 +54,12 @@ class SettingsForm extends Block {
       type: "button",
       events: {
         click: async () => {
-          // @ts-expect-error: dynamic import for SSR
           const { authAPI } = await import("@/api/auth");
           await authAPI.logout();
-          // @ts-expect-error: dynamic import for SSR
           import("@/core/appStore").then(({ default: appStore }) => {
             appStore.setState({ user: null });
           });
           localStorage.removeItem("isAuth");
-          // @ts-expect-error: dynamic import for SSR
           if (window.router && typeof window.router.go === "function") {
             window.router.go("/");
           }
@@ -126,7 +123,7 @@ class SettingsForm extends Block {
       label: "Имя в чате:",
       name: "display_name",
       value: user.display_name || "",
-      onBlur: (e: Event) => {},
+      onBlur: () => {},
     });
     // Пароли не подставляем из user
     const oldPasswordRow = new SettingsInfoRow({
@@ -134,14 +131,14 @@ class SettingsForm extends Block {
       name: "oldPassword",
       type: "password",
       value: "",
-      onBlur: (e: Event) => {},
+      onBlur: () => {},
     });
     const newPasswordRow = new SettingsInfoRow({
       label: "Новый пароль:",
       name: "newPassword",
       type: "password",
       value: "",
-      onBlur: (e: Event) => {},
+      onBlur: () => {},
     });
     const AvatarInput = document.createElement("input");
     AvatarInput.type = "file";
@@ -168,7 +165,6 @@ class SettingsForm extends Block {
         await authAPI.getUser().then((xhr) => {
           try {
             const user = JSON.parse(xhr.responseText);
-            // @ts-expect-error: dynamic import for SSR
             import("@/core/appStore").then(({ default: appStore }) => {
               appStore.setState({ user });
             });
@@ -202,7 +198,6 @@ class SettingsForm extends Block {
           });
           // Проверка и смена пароля
           if (data.oldPassword && data.newPassword) {
-            // @ts-expect-error: dynamic import for SSR
             const { userAPI } = await import("@/api/user");
             try {
               await userAPI.updatePassword({
@@ -219,16 +214,13 @@ class SettingsForm extends Block {
           const profileData = { ...data };
           delete profileData.oldPassword;
           delete profileData.newPassword;
-          // @ts-expect-error: dynamic import for SSR
           const { userAPI } = await import("@/api/user");
           await userAPI.updateProfile(profileData);
           // После успешного обновления профиля — обновить user в store
-          // @ts-expect-error: dynamic import for SSR
           const { authAPI } = await import("@/api/auth");
           await authAPI.getUser().then((xhr) => {
             try {
               const user = JSON.parse(xhr.responseText);
-              // @ts-expect-error: dynamic import for SSR
               import("@/core/appStore").then(({ default: appStore }) => {
                 appStore.setState({ user });
               });
