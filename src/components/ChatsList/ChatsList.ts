@@ -3,8 +3,8 @@ import ChatItem from "../ChatItem";
 import template from "./ChatsList.hbs?raw";
 interface IChat {
   id: string;
-  name: string;
-  avatarUrl?: string;
+  title: string;
+  avatar?: string;
   lastMessage?: string;
   lastMessageIsMine?: boolean;
   unreadCount?: number;
@@ -15,10 +15,24 @@ type ChatsListProps = {
   onChatClick?: (id: string) => void;
 };
 const ChatsList = class extends Block {
-  constructor(props: ChatsListProps) {
+  constructor(props: ChatsListProps & { onScrollEnd?: () => void }) {
     super("div", { ...props, className: "chats-list" });
   }
+  public componentDidMount(): void {
+    // Добавляем обработчик скролла для подгрузки чатов
+    const el = (this.getContent && this.getContent()) as HTMLElement | null;
+    if (el) {
+      el.addEventListener("scroll", () => {
+        if (el.scrollTop + el.clientHeight >= el.scrollHeight - 10) {
+          if (typeof this._meta.props.onScrollEnd === "function") {
+            this._meta.props.onScrollEnd();
+          }
+        }
+      });
+    }
+  }
   public componentDidUpdate(): boolean {
+    console.log(this._meta.props);
     return true;
   }
   render(): DocumentFragment {
@@ -33,9 +47,9 @@ const ChatsList = class extends Block {
       const key = `item_${idx}`;
       this.children[key] = new ChatItem({
         id: chat.id,
-        name: chat.name,
-        avatarUrl: chat.avatarUrl,
-        lastMessage: chat.lastMessage,
+        title: chat.title, // исправлено
+        avatarUrl: chat.avatar, // исправлено
+        lastMessage: chat.lastMessage, // исправлено
         lastMessageIsMine: chat.lastMessageIsMine,
         unreadCount: chat.unreadCount,
         selected: chat.id === currentChatId,

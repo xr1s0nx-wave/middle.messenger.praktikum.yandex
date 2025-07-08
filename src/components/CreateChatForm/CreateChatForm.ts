@@ -24,6 +24,7 @@ class CreateChatForm extends Block {
       events: {
         submit: async (e: Event) => {
           e.preventDefault();
+          e.stopPropagation(); // предотвращает всплытие submit
           const form = e.target as HTMLFormElement;
           const formData = new FormData(form);
           const title = (formData.get("title") as string) || "";
@@ -32,10 +33,12 @@ class CreateChatForm extends Block {
             return;
           }
           try {
-            await chatsAPI.createChat({ title });
-            alert("Чат успешно создан!");
+            await chatsAPI.createChat({ title }); // POST /chats с title
+            // Если есть callback, вызвать его для закрытия модалки и обновления списка
+            if (typeof this._meta.props.onChatCreated === "function") {
+              this._meta.props.onChatCreated();
+            }
             form.reset();
-            // Можно добавить обновление списка чатов через событие или props
           } catch (err) {
             alert("Ошибка создания чата");
           }

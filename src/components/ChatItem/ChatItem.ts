@@ -3,7 +3,7 @@ import template from "./ChatItem.hbs?raw";
 
 type ChatItemProps = {
   id: string;
-  name: string;
+  title: string;
   avatarUrl?: string;
   lastMessage?: string;
   lastMessageIsMine?: boolean;
@@ -14,6 +14,7 @@ type ChatItemProps = {
 
 const ChatItem = class extends Block {
   constructor(props: ChatItemProps) {
+    console.log(props);
     super("div", {
       ...props,
       className: `chats__item${props.selected ? " chats__item--active" : ""}`,

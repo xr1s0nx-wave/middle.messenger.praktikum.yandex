@@ -34,6 +34,8 @@ interface IMessage {
 class Chats extends Block {
   constructor(props: Record<string, unknown> = {}) {
     const initialChatId = null;
+    let offset = 0;
+    const limit = 20;
     const searchComponent = new Search({});
     const chatsListComponent = new ChatsList({
       chats: [],
@@ -43,19 +45,52 @@ class Chats extends Block {
     const userCardComponent = new UserCard();
     const dialogueFormComponent = new DialogueForm({});
     let modalInstance: Modal | null = null;
-    // Функция обновления списка чатов
-    const updateChats = () => {
-      chatsAPI.getChats().then((xhr: XMLHttpRequest) => {
+    let isLoading = false;
+    let allLoaded = false;
+    // Функция обновления списка чатов с пагинацией
+    const updateChats = (append = false) => {
+      if (isLoading || allLoaded) return;
+      isLoading = true;
+      chatsAPI.getChats({ offset, limit }).then((xhr: XMLHttpRequest) => {
         try {
-          const chats = JSON.parse(xhr.responseText);
+          const newChats = JSON.parse(xhr.responseText);
+          let chats = newChats;
+          if (append && Array.isArray(this._meta.props.chats)) {
+            chats = [...this._meta.props.chats, ...newChats];
+          }
+          if (newChats.length < limit) allLoaded = true;
           this.setProps({ chats });
           chatsListComponent.setProps({ chats });
+          offset += newChats.length;
         } catch (e) {
           // eslint-disable-next-line no-console
           console.error("Ошибка загрузки чатов", e);
+        } finally {
+          isLoading = false;
         }
       });
     };
+    // Кнопки пагинации
+    const nextPage = () => {
+      offset += limit;
+      updateChats();
+    };
+    const prevPage = () => {
+      offset = Math.max(0, offset - limit);
+      updateChats();
+    };
+    const nextButton = new Button({
+      styleType: "outline",
+      text: ">",
+      type: "button",
+      events: { click: nextPage },
+    });
+    const prevButton = new Button({
+      styleType: "outline",
+      text: "<",
+      type: "button",
+      events: { click: prevPage },
+    });
     // Открытие модалки с пробросом onChatCreated
     const openModal = () => {
       if (!modalInstance) {
@@ -104,6 +139,8 @@ class Chats extends Block {
       showModal: false,
       modalInstance: null,
       className: "chats",
+      NextPageButton: nextButton,
+      PrevPageButton: prevButton,
     });
     this.children.Search = searchComponent;
     this.children.ChatsList = chatsListComponent;
@@ -113,18 +150,22 @@ class Chats extends Block {
     this.children.CreateChatButton = createChatButton;
     chatsInstance.setChatsList = this.setChatsList.bind(this);
 
+    chatsListComponent.setProps({
+      onScrollEnd: () => updateChats(true),
+    });
+
     // Загрузка чатов с сервера
     updateChats();
   }
 
   setChatsList(currentChatId: string): void {
-    const chats = (ChatsData as { data: IChat[] }).data;
     this.setProps({ currentChatId });
     const chatsList = this.children.ChatsList;
+    // chats всегда берётся из this._meta.props, который обновляется после запроса
     if (Array.isArray(chatsList)) {
-      chatsList.forEach((child) => child.setProps?.({ currentChatId, chats }));
+      chatsList.forEach((child) => child.setProps?.({ currentChatId, chats: this._meta.props.chats }));
     } else {
-      chatsList?.setProps?.({ currentChatId, chats });
+      chatsList?.setProps?.({ currentChatId, chats: this._meta.props.chats });
     }
     const chat = (ChatsDetails as Record<string, IChat>)[currentChatId];
     if (chat) {
