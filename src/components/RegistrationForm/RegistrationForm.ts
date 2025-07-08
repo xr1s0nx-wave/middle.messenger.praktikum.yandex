@@ -219,7 +219,9 @@ const RegistrationForm = class extends Block {
                   import("@/core/appStore").then(({ default: appStore }) => {
                     appStore.setState({ user });
                   });
-                } catch {}
+                } catch {
+                  console.log("Ошибка парсинга ответа сервера при регистрации");
+                }
               });
               localStorage.setItem("isAuth", "1");
               const router = new Router("#app");
