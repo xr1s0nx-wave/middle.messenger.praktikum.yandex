@@ -1,7 +1,6 @@
 import Block from "../../core/Block.ts";
 import template from "./Registration.hbs?raw";
 import RegistrationForm from "../../components/RegistrationForm/index.ts";
-import Router from "../../utils/Router";
 
 function isAuthenticated() {
   return Boolean(localStorage.getItem("isAuth"));

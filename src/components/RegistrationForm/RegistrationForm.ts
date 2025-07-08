@@ -12,7 +12,6 @@ import {
   surnameValidation,
 } from "@/utils/validations.ts";
 import { authAPI } from "@/api/auth";
-import Router from "@/utils/Router";
 type RegistrationFormProps = { [key: string]: unknown };
 const RegistrationForm = class extends Block {
   constructor(props: RegistrationFormProps = {}) {

@@ -43,7 +43,7 @@ export class ChatWebSocket {
   }
 
   connect(onMessage: (msg: any) => void) {
-    this.ws = new WebSocket(`${BASE_URL.replace('https', 'wss')}/ws/chats/${this.userId}/${this.chatId}/${this.token}`);
+    this.ws = new WebSocket("wss://ya-praktikum.tech/ws/chats/" + this.userId + "/" + this.chatId + "/" + this.token);
     this.ws.onopen = () => {
       console.log("WS opened", this.userId, this.chatId);
       // Пингуем каждые 30 секунд
