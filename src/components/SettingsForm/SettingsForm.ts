@@ -210,7 +210,7 @@ class SettingsForm extends Block {
                 newPassword: data.newPassword,
               });
               // Можно добавить уведомление об успешной смене пароля
-            } catch (err) {
+            } catch {
               alert("Ошибка смены пароля");
               return;
             }
