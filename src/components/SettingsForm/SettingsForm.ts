@@ -1,6 +1,7 @@
 import Block from "@/core/Block.ts";
 import template from "./SettingsForm.hbs?raw";
-import UserInfo from "@/mocks/userInfo.json";
+import withStore from "@/core/withStore";
+import appStore from "@/core/appStore";
 import { Button, SettingsInfoRow } from "@/components";
 import {
   emailValidation,
@@ -9,9 +10,27 @@ import {
   surnameValidation,
   phoneValidation,
 } from "@/utils/validations.ts";
-type SettingsFormProps = { [key: string]: unknown };
-const SettingsForm = class extends Block {
-  constructor(props: SettingsFormProps = {}) {
+
+type SettingsFormProps = {
+  user?: any;
+};
+
+const mapStateToProps = (state: { user: any }) => ({
+  user: state.user,
+});
+
+class SettingsForm extends Block {
+  constructor(arg1?: string | SettingsFormProps, arg2?: SettingsFormProps) {
+    let tagName: string;
+    let props: SettingsFormProps;
+    if (typeof arg1 === "string") {
+      tagName = arg1;
+      props = arg2 || {};
+    } else {
+      tagName = "form";
+      props = arg1 || {};
+    }
+    const user = props.user || {};
     const SaveButton = new Button({
       styleType: "primary",
       text: "Сохранить",
@@ -21,7 +40,7 @@ const SettingsForm = class extends Block {
     const emailRow = new SettingsInfoRow({
       label: "Почта:",
       name: "email",
-      value: UserInfo.email,
+      value: user.email || "",
       onBlur: (e: Event) => {
         const input = e.target as HTMLInputElement;
         const errors: Record<string, string | null> = {};
@@ -34,7 +53,7 @@ const SettingsForm = class extends Block {
     const loginRow = new SettingsInfoRow({
       label: "Логин:",
       name: "login",
-      value: UserInfo.login,
+      value: user.login || "",
       onBlur: (e: Event) => {
         const input = e.target as HTMLInputElement;
         const error = loginValidation(input.value);
@@ -44,7 +63,7 @@ const SettingsForm = class extends Block {
     const firstNameRow = new SettingsInfoRow({
       label: "Имя:",
       name: "first_name",
-      value: UserInfo.first_name,
+      value: user.first_name || "",
       onBlur: (e: Event) => {
         const input = e.target as HTMLInputElement;
         const error = nameValidation(input.value);
@@ -54,7 +73,7 @@ const SettingsForm = class extends Block {
     const secondNameRow = new SettingsInfoRow({
       label: "Фамилия:",
       name: "second_name",
-      value: UserInfo.second_name,
+      value: user.second_name || "",
       onBlur: (e: Event) => {
         const input = e.target as HTMLInputElement;
         const error = surnameValidation(input.value);
@@ -64,7 +83,7 @@ const SettingsForm = class extends Block {
     const phoneRow = new SettingsInfoRow({
       label: "Телефон:",
       name: "phone",
-      value: UserInfo.phone,
+      value: user.phone || "",
       onBlur: (e: Event) => {
         const input = e.target as HTMLInputElement;
         const error = phoneValidation(input.value);
@@ -74,36 +93,25 @@ const SettingsForm = class extends Block {
     const displayNameRow = new SettingsInfoRow({
       label: "Имя в чате:",
       name: "display_name",
-      value: UserInfo.display_name,
-      onBlur: (e: Event) => {
-        const input = e.target as HTMLInputElement;
-        const error = phoneValidation(input.value);
-        phoneRow.setProps({ error });
-      },
+      value: user.display_name || "",
+      onBlur: (e: Event) => {},
     });
+    // Пароли не подставляем из user
     const oldPasswordRow = new SettingsInfoRow({
       label: "Старый пароль:",
       name: "oldPassword",
       type: "password",
-      value: UserInfo.password,
-      onBlur: (e: Event) => {
-        const input = e.target as HTMLInputElement;
-        const error = phoneValidation(input.value);
-        phoneRow.setProps({ error });
-      },
+      value: "",
+      onBlur: (e: Event) => {},
     });
     const newPasswordRow = new SettingsInfoRow({
       label: "Новый пароль:",
       name: "newPassword",
       type: "password",
       value: "",
-      onBlur: (e: Event) => {
-        const input = e.target as HTMLInputElement;
-        const error = phoneValidation(input.value);
-        phoneRow.setProps({ error });
-      },
+      onBlur: (e: Event) => {},
     });
-    super("form", {
+    super(tagName, {
       ...props,
       emailRow,
       loginRow,
@@ -112,7 +120,6 @@ const SettingsForm = class extends Block {
       phoneRow,
       SaveButton,
       LogoutButton,
-      UserInfo,
       displayNameRow,
       oldPasswordRow,
       newPasswordRow,
@@ -131,8 +138,31 @@ const SettingsForm = class extends Block {
       },
     });
   }
-  render(): DocumentFragment {
-    return this.compile(template, this._meta.props);
+  componentDidUpdate(): boolean {
+    // @ts-ignore
+    const prevUser = this._prevProps?.user;
+    const user = this._meta.props.user as {
+      email?: string;
+      login?: string;
+      first_name?: string;
+      second_name?: string;
+      phone?: string;
+      display_name?: string;
+    };
+    if (prevUser !== user) {
+      (this.children.emailRow as any)?.setProps?.({ value: user?.email || "" });
+      (this.children.loginRow as any)?.setProps?.({ value: user?.login || "" });
+      (this.children.firstNameRow as any)?.setProps?.({ value: user?.first_name || "" });
+      (this.children.secondNameRow as any)?.setProps?.({ value: user?.second_name || "" });
+      (this.children.phoneRow as any)?.setProps?.({ value: user?.phone || "" });
+      (this.children.displayNameRow as any)?.setProps?.({ value: user?.display_name || "" });
+    }
+    return true;
   }
-};
-export default SettingsForm;
+  render(): DocumentFragment {
+    // @ts-ignore
+    return (this as any).compile(template, (this as any)._meta.props);
+  }
+}
+
+export default withStore(SettingsForm, appStore, mapStateToProps);

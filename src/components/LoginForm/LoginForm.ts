@@ -2,6 +2,8 @@ import Block from "@/core/Block.ts";
 import template from "./LoginForm.hbs?raw";
 import { Input, Button } from "@/components";
 import { loginValidation, passwordValidation } from "@/utils/validations.ts";
+import { authAPI } from "@/api/auth";
+import Router from "@/utils/Router";
 type LoginFormProps = { [key: string]: unknown };
 const LoginForm = class extends Block {
   constructor(props: LoginFormProps = {}) {
@@ -60,7 +62,7 @@ const LoginForm = class extends Block {
       className: "login__form",
       validationErrors,
       events: {
-        submit: (e: Event) => {
+        submit: async (e: Event) => {
           e.preventDefault();
           const form = e.target as HTMLFormElement;
           const formData = new FormData(form);
@@ -73,11 +75,24 @@ const LoginForm = class extends Block {
           LoginInput.setProps({ error: loginError });
           PasswordInput.setProps({ error: passwordError });
           if (!loginError && !passwordError) {
-            const data: Record<string, string> = {};
-            formData.forEach((value, key) => {
-              data[key] = value as string;
-            });
-            console.log("Login form submitted:", data);
+            try {
+              await authAPI.signin({ login, password });
+              // Получить и обновить user в store
+              await authAPI.getUser().then((xhr) => {
+                try {
+                  const user = JSON.parse(xhr.responseText);
+                  // @ts-ignore
+                  import("@/core/appStore").then(({ default: appStore }) => {
+                    appStore.setState({ user });
+                  });
+                } catch {}
+              });
+              localStorage.setItem("isAuth", "1");
+              const router = new Router("#app");
+              router.go("/messenger");
+            } catch (err) {
+              alert("Ошибка авторизации");
+            }
           }
         },
       },

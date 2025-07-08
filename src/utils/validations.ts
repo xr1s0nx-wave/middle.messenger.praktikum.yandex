@@ -10,8 +10,6 @@ export const passwordValidation = (password: string): string | false => {
   const errors: string[] = [];
   if (password.length < 4) {
     errors.push("Пароль должен содержать минимум 4 символа");
-  } else if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>\/?]/.test(password)) {
-    errors.push("Пароль должен содержать хотя бы один спецсимвол");
   } else if (
     !/^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>\/?]+$/.test(password)
   ) {

@@ -11,6 +11,8 @@ import {
   repeatPasswordValidation,
   surnameValidation,
 } from "@/utils/validations.ts";
+import { authAPI } from "@/api/auth";
+import Router from "@/utils/Router";
 type RegistrationFormProps = { [key: string]: unknown };
 const RegistrationForm = class extends Block {
   constructor(props: RegistrationFormProps = {}) {
@@ -178,7 +180,7 @@ const RegistrationForm = class extends Block {
       className: "registration__form",
       validationErrors,
       events: {
-        submit: (e: Event) => {
+        submit: async (e: Event) => {
           e.preventDefault();
           const form = e.target as HTMLFormElement;
           const formData = new FormData(form);
@@ -208,15 +210,24 @@ const RegistrationForm = class extends Block {
           PhoneInput.setProps({ error: errors.phone });
           this.setProps({ validationErrors: errors });
           if (Object.values(errors).every((v) => !v)) {
-            console.log("Registration data submitted:", {
-              email,
-              login,
-              firstName,
-              secondName,
-              password,
-              passwordRepeat,
-              phone,
-            });
+            try {
+              await authAPI.signup(formData);
+              // Получить и обновить user в store
+              await authAPI.getUser().then((xhr) => {
+                try {
+                  const user = JSON.parse(xhr.responseText);
+                  // @ts-ignore
+                  import("@/core/appStore").then(({ default: appStore }) => {
+                    appStore.setState({ user });
+                  });
+                } catch {}
+              });
+              localStorage.setItem("isAuth", "1");
+              const router = new Router("#app");
+              router.go("/messenger");
+            } catch (err) {
+              alert("Ошибка регистрации");
+            }
           }
         },
       },

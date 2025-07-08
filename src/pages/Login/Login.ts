@@ -1,9 +1,19 @@
 import Block from "@/core/Block.ts";
 import template from "./Login.hbs?raw";
 import { LoginForm } from "@/components";
+import Router from "@/utils/Router";
+
+function isAuthenticated() {
+  return Boolean(localStorage.getItem("isAuth"));
+}
 
 class Login extends Block {
   constructor(props: Record<string, unknown> = {}) {
+    if (isAuthenticated()) {
+      const router = new Router("#app");
+      router.go("/messenger");
+      return;
+    }
     const Form = new LoginForm({
       events: {
         submit: (e: Event) => {

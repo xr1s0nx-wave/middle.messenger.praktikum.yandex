@@ -37,19 +37,25 @@ export class HTTPTransport {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       let requestUrl = url;
-      if (method === "GET" && data && typeof data === "object") {
+      if (method === "GET" && data && typeof data === "object" && !(data instanceof FormData)) {
         requestUrl += queryStringify(data as Record<string, unknown>);
       }
       xhr.open(method, requestUrl);
-      Object.entries(headers).forEach(([key, value]) => {
-        xhr.setRequestHeader(key, value);
-      });
+      xhr.withCredentials = true; // Важно для передачи куки (например, авторизации)
+      // Если data не FormData, ставим Content-Type
+      if (!(data instanceof FormData)) {
+        Object.entries(headers).forEach(([key, value]) => {
+          xhr.setRequestHeader(key, value);
+        });
+      }
       xhr.timeout = timeout;
       xhr.onload = () => resolve(xhr);
       xhr.onerror = () => reject(xhr);
       xhr.ontimeout = () => reject(xhr);
       if (method === "GET" || !data) {
         xhr.send();
+      } else if (data instanceof FormData) {
+        xhr.send(data);
       } else {
         xhr.send(JSON.stringify(data));
       }

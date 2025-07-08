@@ -1,9 +1,19 @@
 import Block from "../../core/Block.ts";
 import template from "./Registration.hbs?raw";
 import RegistrationForm from "../../components/RegistrationForm/index.ts";
+import Router from "../../utils/Router";
+
+function isAuthenticated() {
+  return Boolean(localStorage.getItem("isAuth"));
+}
 
 class Registration extends Block {
   constructor(props: Record<string, unknown> = {}) {
+    if (isAuthenticated()) {
+      const router = new Router("#app");
+      router.go("/messenger");
+      return;
+    }
     const Form = new RegistrationForm({
       events: {
         submit: (e: Event) => {

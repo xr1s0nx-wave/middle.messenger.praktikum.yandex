@@ -1,6 +1,8 @@
 import "@/style.scss";
 import { ROUTES } from "@/constants";
 import Router from "./utils/Router";
+import { authAPI } from "@/api/auth";
+import appStore from "@/core/appStore";
 
 const router = new Router("#app");
 
@@ -26,6 +28,15 @@ const originalOnRoute = (router as any)._onRoute.bind(router);
 };
 
 router.start();
+
+if (isAuthenticated()) {
+  authAPI.getUser().then((xhr) => {
+    try {
+      const user = JSON.parse(xhr.responseText);
+      appStore.setState({ user });
+    } catch {}
+  });
+}
 
 document.addEventListener("click", (e) => {
   const target = e.target as HTMLElement;
