@@ -237,7 +237,7 @@ class SettingsForm extends Block {
     }, 0);
   }
   componentDidUpdate(): boolean {
-    // @ts-ignore
+    // @ts-expect-error: _prevProps is not typed in Block base class, but used for diffing user
     const prevUser = this._prevProps?.user;
     const user = this._meta.props.user as {
       email?: string;
@@ -270,7 +270,6 @@ class SettingsForm extends Block {
     return true;
   }
   render(): DocumentFragment {
-    // @ts-ignore
     return (this as any).compile(template, (this as any)._meta.props);
   }
 }
