@@ -10,9 +10,10 @@ function isAuthenticated() {
 class Registration extends Block {
   constructor(props: Record<string, unknown> = {}) {
     if (isAuthenticated()) {
-      const router = new Router("#app");
-      router.go("/messenger");
-      return;
+      if (window.router && typeof window.router.go === "function") {
+        window.router.go("/messenger");
+        return;
+      }
     }
     const Form = new RegistrationForm({
       events: {

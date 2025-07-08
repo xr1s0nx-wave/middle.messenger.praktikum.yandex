@@ -4,7 +4,7 @@
     {{#each users}}
       <li class="users-list-modal__item">
         {{#if avatar}}
-          <img class="users-list-modal__avatar" src="https://ya-praktikum.tech/api/v2/resources{{avatar}}" alt="avatar" />
+          <img class="users-list-modal__avatar" src="{{BASE_URL}}/api/v2/resources{{avatar}}" alt="avatar" />
         {{else}}
           <div class="users-list-modal__avatar users-list-modal__avatar--stub"></div>
         {{/if}}

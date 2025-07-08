@@ -18,6 +18,11 @@ function isAuthenticated() {
 
 const originalOnRoute = (router as any)._onRoute.bind(router);
 (router as any)._onRoute = function (pathname: string) {
+  // Если авторизован и на / или /sign-up — редирект на /messenger
+  if (isAuthenticated() && (pathname === "/" || pathname === "/sign-up")) {
+    router.go("/messenger");
+    return;
+  }
   // Если неавторизован и не на / или /sign-up — редирект на / (login)
   if (!isAuthenticated() && pathname !== "/" && pathname !== "/sign-up") {
     router.go(pathname === "/sign-up" ? "/sign-up" : "/");
@@ -55,6 +60,8 @@ window.addEventListener("keydown", (e) => {
   if (e.altKey && e.key === "ArrowLeft") router.back();
   if (e.altKey && e.key === "ArrowRight") router.forward();
 });
+
+window.router = router;
 
 declare global {
   interface Window {

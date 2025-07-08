@@ -211,7 +211,16 @@ const RegistrationForm = class extends Block {
           this.setProps({ validationErrors: errors });
           if (Object.values(errors).every((v) => !v)) {
             try {
-              await authAPI.signup(formData);
+              // Формируем объект для JSON, а не FormData
+              const data = {
+                email,
+                login,
+                first_name: firstName,
+                second_name: secondName,
+                password,
+                phone,
+              };
+              await authAPI.signup(data);
               // Получить и обновить user в store
               await authAPI.getUser().then((xhr) => {
                 try {
@@ -224,8 +233,9 @@ const RegistrationForm = class extends Block {
                 }
               });
               localStorage.setItem("isAuth", "1");
-              const router = new Router("#app");
-              router.go("/messenger");
+              if (window.router && typeof window.router.go === "function") {
+                window.router.go("/messenger");
+              }
             } catch {
               alert("Ошибка регистрации");
             }

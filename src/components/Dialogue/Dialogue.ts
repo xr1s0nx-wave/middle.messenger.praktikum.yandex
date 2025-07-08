@@ -60,7 +60,7 @@ const Dialogue = class extends Block {
       this.usersListModalInstance = null;
       let users: any[] = [];
       try {
-        const resp = await chatsAPI.getChatUsers(chat.id);
+        const resp = await chatsAPI.getUsers(Number(chat.id));
         if (resp.status === 200) {
           users = JSON.parse(resp.responseText);
         }

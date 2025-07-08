@@ -10,6 +10,7 @@ import {
   surnameValidation,
   phoneValidation,
 } from "@/utils/validations.ts";
+import { BASE_URL } from "@/constants/api";
 
 type SettingsFormProps = {
   user?: any;
@@ -38,7 +39,7 @@ class SettingsForm extends Block {
       if (/^https?:/.test(user.avatar)) {
         avatarUrl = user.avatar;
       } else {
-        avatarUrl = `https://ya-praktikum.tech/api/v2/resources${user.avatar}`;
+        avatarUrl = `${BASE_URL}/api/v2/resources${user.avatar}`;
       }
       // Добавляем v для обхода кэша
       avatarUrl += `?v=${user.avatar}`;
@@ -200,7 +201,7 @@ class SettingsForm extends Block {
           if (data.oldPassword && data.newPassword) {
             const { userAPI } = await import("@/api/user");
             try {
-              await userAPI.updatePassword({
+              await userAPI.changePassword({
                 oldPassword: data.oldPassword,
                 newPassword: data.newPassword,
               });
@@ -261,7 +262,7 @@ class SettingsForm extends Block {
         if (/^https?:/.test(user.avatar)) {
           avatarUrl = user.avatar;
         } else {
-          avatarUrl = `https://ya-praktikum.tech/api/v2/resources${user.avatar}`;
+          avatarUrl = `${BASE_URL}/api/v2/resources${user.avatar}`;
         }
         avatarUrl += `?v=${user.avatar}`;
       }
