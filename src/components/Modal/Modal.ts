@@ -1,6 +1,6 @@
 import Block from "@/core/Block.ts";
 import template from "./Modal.hbs?raw";
-import './style.scss';
+import "./style.scss";
 
 class Modal extends Block {
   constructor(props: { content: Block; onClose?: () => void }) {

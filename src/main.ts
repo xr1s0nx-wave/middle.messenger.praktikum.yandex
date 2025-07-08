@@ -5,9 +5,6 @@ import { authAPI } from "@/api/auth";
 import appStore from "@/core/appStore";
 
 const router = new Router("#app");
-// Экспортируем router в window для глобального доступа
-// @ts-ignore
-window.router = router;
 
 // Регистрируем только нужные роуты
 Object.values(ROUTES).forEach((route) => {
@@ -31,14 +28,14 @@ const originalOnRoute = (router as any)._onRoute.bind(router);
 
 router.start();
 
-console.log(isAuthenticated())
+console.log(isAuthenticated());
 
 if (isAuthenticated()) {
   authAPI.getUser().then((xhr) => {
     try {
       const user = JSON.parse(xhr.responseText);
       appStore.setState({ user });
-    } catch {}
+    } catch { /* ignore */ }
   });
 }
 
@@ -58,3 +55,9 @@ window.addEventListener("keydown", (e) => {
   if (e.altKey && e.key === "ArrowLeft") router.back();
   if (e.altKey && e.key === "ArrowRight") router.forward();
 });
+
+declare global {
+  interface Window {
+    router?: { go: (path: string) => void };
+  }
+}

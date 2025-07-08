@@ -37,9 +37,7 @@ const UsersListModal = class extends Block {
                 const users = JSON.parse(resp.responseText);
                 this.setProps({ users });
               }
-            } catch {
-              alert("Ошибка удаления пользователя");
-            }
+            } catch { /* ignore */ }
           }
         },
       },

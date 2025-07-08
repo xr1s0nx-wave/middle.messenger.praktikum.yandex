@@ -31,7 +31,6 @@ class Login extends Block {
     });
     // После super: если уже авторизован — редирект
     if (isAuthenticated()) {
-      // @ts-ignore
       if (window.router && typeof window.router.go === "function") {
         window.router.go("/messenger");
       }

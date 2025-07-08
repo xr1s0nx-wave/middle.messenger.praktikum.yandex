@@ -47,12 +47,7 @@ class AddUserToChatForm extends Block {
                 );
                 this.setProps({ searchResults: searchResults.map((u: any) => u.id) });
               }
-            } catch {
-              if (this.lastSearchValue === value) {
-                this.children.searchResultButtons = [];
-                this.setProps({ searchResults: [] });
-              }
-            }
+            } catch { /* ignore */ }
           }, 300);
         },
       },
@@ -83,9 +78,7 @@ class AddUserToChatForm extends Block {
         return;
       }
       if (typeof props.onUserAdded === "function") props.onUserAdded();
-    } catch {
-      alert("Ошибка добавления пользователя");
-    }
+    } catch { /* ignore */ }
   }
   // Гарантируем ререндер при изменении searchResults
   shouldComponentUpdate(): boolean {

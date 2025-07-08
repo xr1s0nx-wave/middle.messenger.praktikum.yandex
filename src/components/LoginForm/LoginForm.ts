@@ -81,14 +81,14 @@ const LoginForm = class extends Block {
               await authAPI.getUser().then((xhr) => {
                 try {
                   const user = JSON.parse(xhr.responseText);
-                  // @ts-ignore
+                  // @ts-expect-error
                   import("@/core/appStore").then(({ default: appStore }) => {
                     appStore.setState({ user });
                   });
-                } catch {}
+                } catch { /* ignore */ }
               });
               localStorage.setItem("isAuth", "1");
-              // @ts-ignore
+              // @ts-expect-error
               if (window.router && typeof window.router.go === "function") {
                 window.router.go("/messenger");
               }

@@ -60,9 +60,7 @@ export class ChatWebSocket {
       try {
         const data = JSON.parse(event.data);
         onMessage(data);
-      } catch {
-        // ignore
-      }
+      } catch { /* ignore */ }
     };
     this.ws.onclose = (event) => {
       console.log("WS closed", event.code, event.reason);

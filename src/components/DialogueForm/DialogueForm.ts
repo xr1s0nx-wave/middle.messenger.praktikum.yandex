@@ -15,8 +15,8 @@ const DialogueForm = class extends Block {
   }
 
   public updateEvents() {
-    // @ts-ignore
-    this._registerEvents();
+    // @ts-expect-error
+    // this._registerEvents();
   }
 
   componentDidUpdate(): boolean {

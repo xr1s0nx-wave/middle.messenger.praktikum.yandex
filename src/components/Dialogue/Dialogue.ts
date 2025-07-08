@@ -66,9 +66,7 @@ const Dialogue = class extends Block {
           users = JSON.parse(resp.responseText);
           this.chatUsers = users;
         }
-      } catch {
-        users = [];
-      }
+      } catch { /* ignore */ }
       const usersList = new UsersListModal({
         users,
         chatId: Number(chat.id),

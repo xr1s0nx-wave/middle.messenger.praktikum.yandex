@@ -37,7 +37,7 @@ class Route {
     }
     const root = document.querySelector(this._props.rootQuery);
     if (root && this._block.getContent()) {
-      root.innerHTML = '';
+      root.innerHTML = "";
       root.appendChild(this._block.getContent());
     }
   }
@@ -77,7 +77,7 @@ class Router {
       // Редирект на 404
       const notFoundRoute = this.getRoute("/not-found");
       if (notFoundRoute) {
-        this.history.replaceState({}, '', '/not-found');
+        this.history.replaceState({}, "", "/not-found");
         if (this._currentRoute) {
           this._currentRoute.leave();
         }
@@ -94,7 +94,7 @@ class Router {
   }
 
   go(pathname: string) {
-    this.history.pushState({}, '', pathname);
+    this.history.pushState({}, "", pathname);
     this._onRoute(pathname);
   }
 

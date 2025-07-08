@@ -54,15 +54,15 @@ class SettingsForm extends Block {
       type: "button",
       events: {
         click: async () => {
-          // @ts-ignore
+          // @ts-expect-error
           const { authAPI } = await import("@/api/auth");
           await authAPI.logout();
-          // @ts-ignore
+          // @ts-expect-error
           import("@/core/appStore").then(({ default: appStore }) => {
             appStore.setState({ user: null });
           });
           localStorage.removeItem("isAuth");
-          // @ts-ignore
+          // @ts-expect-error
           if (window.router && typeof window.router.go === "function") {
             window.router.go("/");
           }
@@ -168,11 +168,11 @@ class SettingsForm extends Block {
         await authAPI.getUser().then((xhr) => {
           try {
             const user = JSON.parse(xhr.responseText);
-            // @ts-ignore
+            // @ts-expect-error
             import("@/core/appStore").then(({ default: appStore }) => {
               appStore.setState({ user });
             });
-          } catch {}
+          } catch { /* ignore */ }
         });
       }
     });
@@ -202,7 +202,7 @@ class SettingsForm extends Block {
           });
           // Проверка и смена пароля
           if (data.oldPassword && data.newPassword) {
-            // @ts-ignore
+            // @ts-expect-error
             const { userAPI } = await import("@/api/user");
             try {
               await userAPI.updatePassword({
@@ -219,20 +219,20 @@ class SettingsForm extends Block {
           const profileData = { ...data };
           delete profileData.oldPassword;
           delete profileData.newPassword;
-          // @ts-ignore
+          // @ts-expect-error
           const { userAPI } = await import("@/api/user");
           await userAPI.updateProfile(profileData);
           // После успешного обновления профиля — обновить user в store
-          // @ts-ignore
+          // @ts-expect-error
           const { authAPI } = await import("@/api/auth");
           await authAPI.getUser().then((xhr) => {
             try {
               const user = JSON.parse(xhr.responseText);
-              // @ts-ignore
+              // @ts-expect-error
               import("@/core/appStore").then(({ default: appStore }) => {
                 appStore.setState({ user });
               });
-            } catch {}
+            } catch { /* ignore */ }
           });
           console.log("Settings data submitted:", data);
         },

@@ -16,11 +16,10 @@ const mapStateToProps = (state: { user: any }) => ({
 });
 
 class UserCard extends Block {
-  constructor(props: UserCardProps = {}) {
-    super("div", { ...props, className: "usercard" });
+  constructor(tagName?: string, props: UserCardProps = {}) {
+    super(tagName || "div", { ...props, className: "usercard" });
   }
   render(): DocumentFragment {
-    // @ts-ignore
     return (this as any).compile(template, (this as any)._meta.props);
   }
 }

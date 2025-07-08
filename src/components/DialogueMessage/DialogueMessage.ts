@@ -7,7 +7,7 @@ type DialogueMessageProps = {
 };
 const DialogueMessage = class extends Block {
   constructor(props: DialogueMessageProps = {}) {
-    console.log(props)
+    console.log(props);
     super("div", {
       ...props,
       className:
