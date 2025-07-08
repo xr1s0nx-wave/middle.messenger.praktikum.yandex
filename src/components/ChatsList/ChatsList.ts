@@ -5,7 +5,7 @@ interface IChat {
   id: string;
   title: string;
   avatar?: string;
-  lastMessage?: string;
+  last_message?: string;
   lastMessageIsMine?: boolean;
   unreadCount?: number;
 }
@@ -49,7 +49,7 @@ const ChatsList = class extends Block {
         id: chat.id,
         title: chat.title, // исправлено
         avatarUrl: chat.avatar, // исправлено
-        lastMessage: chat.lastMessage, // исправлено
+        lastMessage: chat.last_message, // исправлено
         lastMessageIsMine: chat.lastMessageIsMine,
         unreadCount: chat.unreadCount,
         selected: chat.id === currentChatId,

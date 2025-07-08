@@ -7,11 +7,13 @@ export interface AppState {
     avatar?: string;
     [key: string]: unknown;
   };
+  messagesByChatId?: Record<string, any[]>;
   // ...другие поля стора
 }
 
 const initialState: AppState = {
   user: null,
+  messagesByChatId: {},
 };
 
 const appStore = new Store<AppState>(initialState);

@@ -8,5 +8,4 @@ export const chatsAPI = {
   createChat: (data: { title: string }) => api.post(`${API_URL}/`, { data }),
   addUser: (data: { users: number[]; chatId: number }) => api.put(`${API_URL}/users`, { data }),
   removeUser: (data: { users: number[]; chatId: number }) => api.delete(`${API_URL}/users`, { data }),
-  getToken: (chatId: number) => api.post(`${API_URL}/token/${chatId}`),
 };

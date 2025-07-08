@@ -2,9 +2,14 @@
   <div class="chats__dialogue-header">
     <div class="chats__dialogue-info">
       <div class="chats__dialogue-avatar">
-        <img src="{{CurrentChat.avatarUrl}}" alt="Аватар" />
+        {{#if CurrentChat.avatar}}
+          <img src="{{CurrentChat.avatar}}" alt="Аватар" />
+        {{else}}
+          <div class="chats__dialogue-avatar--stub"></div>
+        {{/if}}
       </div>
-      <h2 class="chats__dialogue-title">{{CurrentChat.name}}</h2>
+      <h2 class="chats__dialogue-title">{{CurrentChat.title}}</h2>
+      {{{AddUserButton}}}
     </div>
   </div>
   <div class="chats__dialogue-messages">

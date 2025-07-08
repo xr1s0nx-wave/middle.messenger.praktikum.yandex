@@ -232,7 +232,14 @@ class Block {
     if (!nextProps) {
       return;
     }
+    const oldProps = { ...this._meta.props };
     Object.assign(this._meta.props, nextProps);
+    // Сравниваем старые и новые props, чтобы избежать бесконечного обновления
+    if (JSON.stringify(oldProps) !== JSON.stringify(this._meta.props)) {
+      if (this.componentDidUpdate()) {
+        this._eventBus.emit(Block.EVENTS.RENDER);
+      }
+    }
   }
 }
 

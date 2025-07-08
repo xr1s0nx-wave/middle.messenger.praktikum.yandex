@@ -1,5 +1,9 @@
 <div class="chats__item-avatar">
-  <img src="{{avatarUrl}}" alt="Аватар" />
+  {{#if avatarUrl}}
+    <img src="{{avatarUrl}}" alt="Аватар" />
+  {{else}}
+    <div class="chats__dialogue-avatar--stub"></div>
+  {{/if}}
 </div>
 <div class="chats__item-info">
   {{#if isActive}}

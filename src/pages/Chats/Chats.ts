@@ -1,20 +1,18 @@
 import Block from "../../core/Block.ts";
 import template from "./Chats.hbs?raw";
-import ChatsData from "../../mocks/chats.json";
-import ChatsDetails from "../../mocks/chatsDetails.json";
-import UserInfo from "../../mocks/userInfo.json";
 import {
   ChatsList,
   Search,
   UserCard,
   Dialogue,
-  DialogueMessage,
   DialogueForm,
   CreateChatForm,
   Modal,
   Button, // Добавлен импорт Button
 } from "@/components";
 import { chatsAPI } from "@/api/chats";
+import { ChatWebSocket } from "@/api/chatWS";
+import appStore from "@/core/appStore";
 
 interface IChat {
   id: string;
@@ -32,6 +30,7 @@ interface IMessage {
 }
 
 class Chats extends Block {
+  private ws: ChatWebSocket | null = null;
   constructor(props: Record<string, unknown> = {}) {
     const initialChatId = null;
     let offset = 0;
@@ -161,17 +160,60 @@ class Chats extends Block {
   setChatsList(currentChatId: string): void {
     this.setProps({ currentChatId });
     const chatsList = this.children.ChatsList;
-    // chats всегда берётся из this._meta.props, который обновляется после запроса
     if (Array.isArray(chatsList)) {
       chatsList.forEach((child) => child.setProps?.({ currentChatId, chats: this._meta.props.chats }));
     } else {
       chatsList?.setProps?.({ currentChatId, chats: this._meta.props.chats });
     }
-    const chat = (ChatsDetails as Record<string, IChat>)[currentChatId];
+    const chats: IChat[] = Array.isArray(this._meta.props.chats) ? this._meta.props.chats : [];
+    const chat = chats.find((c) => c.id === currentChatId);
     if (chat) {
-      const messages = (chat.messages || []).map(
-        (msg: IMessage) => new DialogueMessage({ ...msg }),
-      );
+      if (this.ws) this.ws.close();
+      this.ws = new ChatWebSocket(Number(chat.id));
+      this.ws.connect((data) => {
+        // Если массив — это история, если объект — новое сообщение
+        let messages = appStore.getState().messagesByChatId?.[chat.id] || [];
+        if (Array.isArray(data)) {
+          messages = [...data.reverse(), ...messages];
+        } else if (data.type === "message" || data.type === "file" || data.type === "sticker") {
+          messages = [...messages, data];
+        }
+        appStore.setState({
+          messagesByChatId: {
+            ...appStore.getState().messagesByChatId,
+            [chat.id]: messages,
+          },
+        });
+        // Обновляем диалог
+        const dialogue = this.children.Dialogue;
+        if (Array.isArray(dialogue)) {
+          dialogue.forEach((dlg) => dlg.setProps?.({ CurrentChat: { ...chat, messages } }));
+        } else {
+          dialogue?.setProps?.({ CurrentChat: { ...chat, messages } });
+        }
+      });
+      const dialogueForm = this.children.DialogueForm;
+      if (dialogueForm) {
+        if (Array.isArray(dialogueForm)) {
+          dialogueForm.forEach((form) => {
+            form.setProps?.({
+              onSend: (text: string) => {
+                this.ws?.sendMessage(text);
+              },
+            });
+            (form as any).updateEvents?.();
+          });
+        } else {
+          dialogueForm.setProps?.({
+            onSend: (text: string) => {
+              this.ws?.sendMessage(text);
+            },
+          });
+          (dialogueForm as any).updateEvents?.();
+        }
+      }
+      // Передаём сообщения из store
+      const messages = appStore.getState().messagesByChatId?.[chat.id] || [];
       const dialogue = this.children.Dialogue;
       if (Array.isArray(dialogue)) {
         dialogue.forEach((dlg) => dlg.setProps?.({ CurrentChat: { ...chat, messages } }));

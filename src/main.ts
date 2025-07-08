@@ -23,7 +23,7 @@ const originalOnRoute = (router as any)._onRoute.bind(router);
 (router as any)._onRoute = function (pathname: string) {
   // Если неавторизован и не на / или /sign-up — редирект на / (login)
   if (!isAuthenticated() && pathname !== "/" && pathname !== "/sign-up") {
-    router.go("/");
+    router.go(pathname === "/sign-up" ? "/sign-up" : "/");
     return;
   }
   originalOnRoute(pathname);

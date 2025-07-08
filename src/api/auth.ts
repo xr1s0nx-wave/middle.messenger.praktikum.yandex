@@ -13,5 +13,11 @@ export const authAPI = {
       ? api.post(`${API_URL}/signin`, { data })
       : api.post(`${API_URL}/signin`, { data, headers: { "Content-Type": "application/json" } }),
   logout: () => api.post(`${API_URL}/logout`),
-  getUser: () => api.get(`${API_URL}/user`),
+  getUser: () =>
+    api.get(`${API_URL}/user`).then((xhr) => {
+      if (xhr.status === 401) {
+        localStorage.removeItem("isAuth");
+      }
+      return xhr;
+    }),
 };

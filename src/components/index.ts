@@ -13,6 +13,7 @@ import SettingsForm from "./SettingsForm";
 import SettingsInfoRow from "./SettingsInfoRow";
 import UserCard from "./UserCard";
 import Modal from "./Modal/Modal";
+import AddUserToChatForm from "./AddUserToChatForm/AddUserToChatForm";
 export {
   Input,
   Button,
@@ -29,4 +30,5 @@ export {
   SettingsInfoRow,
   CreateChatForm,
   Modal,
+  AddUserToChatForm,
 };

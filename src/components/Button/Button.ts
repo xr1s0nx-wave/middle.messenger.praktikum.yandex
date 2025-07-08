@@ -5,12 +5,13 @@ type ButtonProps = {
   events?: Record<string, (e: Event) => void>;
   page?: string;
   type?: "button" | "submit" | "reset";
+  className?: string;
 };
 const Button = class extends Block {
   constructor(props: ButtonProps = {}) {
     super("button", {
       ...props,
-      className: `button button--${props.styleType} ${props.page ? "page--link" : ""}`,
+      className: `${props.className ? props.className + " " : ""}button button--${props.styleType} ${props.page ? "page--link" : ""}`,
       attrs: { page: props.page, type: props.type },
     });
   }

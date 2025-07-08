@@ -20,6 +20,7 @@
   &-title {
     font-size: 18px;
     font-weight: 500;
+    flex-grow: 1;
   }
   &-avatar {
     border: 1px solid rgba(38, 51, 55, 0.7);
@@ -91,4 +92,30 @@
       }
     }
   }
+}
+.chats__dialogue-avatar--stub {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  background: linear-gradient(135deg, #23272f 60%, #6c47ff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.2rem;
+  opacity: 0.7;
+}
+.add-user-btn {
+  margin-left: 12px;
+  flex-shrink: 0;
+  height: 32px;
+  min-width: 32px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 10px;
+  width: 40px;
+  font-size: 25px;
 }
