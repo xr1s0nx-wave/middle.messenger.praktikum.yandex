@@ -1,0 +1,22 @@
+<div class="chats__dialogue">
+  <div class="chats__dialogue-header">
+    <div class="chats__dialogue-info">
+      <div class="chats__dialogue-avatar">
+        {{#if CurrentChat.avatar}}
+          <img src="{{CurrentChat.avatar}}" alt="Аватар" />
+        {{else}}
+          <div class="chats__dialogue-avatar--stub"></div>
+        {{/if}}
+      </div>
+      <h2 class="chats__dialogue-title">{{CurrentChat.title}}</h2>
+      {{{AddUserButton}}}
+      {{{UsersListButton}}}
+    </div>
+  </div>
+  <div class="chats__dialogue-messages">
+    {{#each itemsKeys}}
+      {{{lookup ../this this}}}
+    {{/each}}
+  </div>
+  <div class="">{{{ DialogueForm }}}</div>
+</div>
