@@ -21,7 +21,7 @@ class UserCard extends Block {
     super(tagName || "div", { ...props, className: "usercard" });
   }
   render(): DocumentFragment {
-    return (this as any).compile(template, (this as any)._meta.props);
+    return this.compile(template, this._meta.props);
   }
 }
 

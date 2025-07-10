@@ -20,7 +20,7 @@ const SettingsInfoRow = class extends Block {
   }
   _attachBlurHandler() {
     const input = this.getContent().querySelector("input");
-    const onBlur = (this._meta.props as any).onBlur;
+    const onBlur = (this._meta.props as SettingsInfoRowProps).onBlur;
     if (input) {
       if (this._blurHandler) {
         input.removeEventListener("blur", this._blurHandler);
