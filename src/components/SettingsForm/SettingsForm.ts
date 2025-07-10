@@ -14,10 +14,10 @@ import { BASE_URL } from "@/constants/api";
 import type { IUser } from "@/types/user";
 
 type SettingsFormProps = {
-  user?: IUser;
+  user?: IUser | null;
 };
 
-const mapStateToProps = (state: { user: IUser }) => ({
+const mapStateToProps = (state: { user: IUser | null }) => ({
   user: state.user,
 });
 
@@ -32,10 +32,10 @@ class SettingsForm extends Block {
       tagName = "form";
       props = arg1 || {};
     }
-    const user = props.user || {};
+    const user = props.user || null;
     // Формируем avatarUrl для аватара
     let avatarUrl = "/vite.svg";
-    if (user.avatar) {
+    if (user && user.avatar) {
       // Если avatar уже абсолютный путь (например, начинается с http), не добавлять домен
       if (/^https?:/.test(user.avatar)) {
         avatarUrl = user.avatar;
@@ -71,7 +71,7 @@ class SettingsForm extends Block {
     const emailRow = new SettingsInfoRow({
       label: "Почта:",
       name: "email",
-      value: user.email || "",
+      value: user?.email || "",
       onBlur: (e: Event) => {
         const input = e.target as HTMLInputElement;
         const errors: Record<string, string | null> = {};
@@ -84,7 +84,7 @@ class SettingsForm extends Block {
     const loginRow = new SettingsInfoRow({
       label: "Логин:",
       name: "login",
-      value: user.login || "",
+      value: user?.login || "",
       onBlur: (e: Event) => {
         const input = e.target as HTMLInputElement;
         const error = loginValidation(input.value);
@@ -94,7 +94,7 @@ class SettingsForm extends Block {
     const firstNameRow = new SettingsInfoRow({
       label: "Имя:",
       name: "first_name",
-      value: user.first_name || "",
+      value: user?.first_name || "",
       onBlur: (e: Event) => {
         const input = e.target as HTMLInputElement;
         const error = nameValidation(input.value);
@@ -104,7 +104,7 @@ class SettingsForm extends Block {
     const secondNameRow = new SettingsInfoRow({
       label: "Фамилия:",
       name: "second_name",
-      value: user.second_name || "",
+      value: user?.second_name || "",
       onBlur: (e: Event) => {
         const input = e.target as HTMLInputElement;
         const error = surnameValidation(input.value);
@@ -114,7 +114,7 @@ class SettingsForm extends Block {
     const phoneRow = new SettingsInfoRow({
       label: "Телефон:",
       name: "phone",
-      value: user.phone || "",
+      value: user?.phone || "",
       onBlur: (e: Event) => {
         const input = e.target as HTMLInputElement;
         const error = phoneValidation(input.value);
@@ -124,7 +124,7 @@ class SettingsForm extends Block {
     const displayNameRow = new SettingsInfoRow({
       label: "Имя в чате:",
       name: "display_name",
-      value: user.display_name || "",
+      value: user?.display_name || "",
       onBlur: () => {},
     });
     // Пароли не подставляем из user
@@ -240,16 +240,8 @@ class SettingsForm extends Block {
   }
   componentDidUpdate(): boolean {
     // @ts-expect-error: _prevProps is not typed in Block base class, but used for diffing user
-    const prevUser = this._prevProps?.user;
-    const user = this._meta.props.user as {
-      email?: string;
-      login?: string;
-      first_name?: string;
-      second_name?: string;
-      phone?: string;
-      display_name?: string;
-      avatar?: string;
-    };
+    const prevUser = this._prevProps?.user as IUser | null;
+    const user = this._meta.props.user as IUser | null;
     if (prevUser !== user) {
       (this.children.emailRow as Block)?.setProps?.({ value: user?.email || "" });
       (this.children.loginRow as Block)?.setProps?.({ value: user?.login || "" });
@@ -259,7 +251,7 @@ class SettingsForm extends Block {
       (this.children.displayNameRow as Block)?.setProps?.({ value: user?.display_name || "" });
       // Обновляем avatarUrl если изменился avatar
       let avatarUrl = "/vite.svg";
-      if (user.avatar) {
+      if (user && user.avatar) {
         if (/^https?:/.test(user.avatar)) {
           avatarUrl = user.avatar;
         } else {

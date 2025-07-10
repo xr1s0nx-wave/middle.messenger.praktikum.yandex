@@ -6,7 +6,7 @@ import appStore from "@/core/appStore";
 class Settings extends Block {
   constructor(props: Record<string, unknown> = {}) {
     const user = appStore.getState().user;
-    const Form = new SettingsForm("form", { user });
+    const Form = new SettingsForm("form", { user: user ?? null });
     super("div", {
       ...props,
       SettingsForm: Form,

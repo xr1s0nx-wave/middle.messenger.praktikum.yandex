@@ -20,7 +20,7 @@ class Store<T extends Record<string, unknown>> {
     this.eventBus.emit(STORE_UPDATED, this.getState());
   }
 
-  subscribe(listener: (state: T) => void): () => void {
+  subscribe(listener: (...args: unknown[]) => void): () => void {
     this.eventBus.on(STORE_UPDATED, listener);
     // Вернуть функцию для отписки
     return () => {

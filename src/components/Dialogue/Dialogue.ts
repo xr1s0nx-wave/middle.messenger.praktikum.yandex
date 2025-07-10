@@ -1,4 +1,3 @@
-import type { IChat, IUser } from "@/types/chat";
 import Block from "@/core/Block";
 import template from "./Dialogue.hbs?raw";
 import { Modal, AddUserToChatForm, Button } from "@/components";
@@ -6,6 +5,7 @@ import DialogueMessage from "../DialogueMessage/DialogueMessage";
 import appStore from "@/core/appStore";
 import UsersListModal from "@/components/UsersListModal/UsersListModal";
 import { chatsAPI } from "@/api/chats";
+import type { IChat, IUser } from "@/types/chat";
 interface DialogueProps {
   CurrentChat?: IChat;
   DialogueForm?: Block;
@@ -27,7 +27,7 @@ const Dialogue = class extends Block {
       if (!chat || !chat.id) return;
       this.modalInstance = null;
       const addUserForm = new AddUserToChatForm({
-        chatId: chat.id,
+        chatId: String(chat.id), // string for AddUserToChatForm
         onUserAdded: () => {
           this.setProps({ showAddUserModal: false });
           this.modalInstance = null;
@@ -55,7 +55,7 @@ const Dialogue = class extends Block {
       } catch { /* ignore */ }
       const usersList = new UsersListModal({
         users,
-        chatId: String(chat.id),
+        chatId: chat.id, // number for UsersListModal
         onClose: () => {
           this.setProps({ showUsersListModal: false });
           this.usersListModalInstance = null;

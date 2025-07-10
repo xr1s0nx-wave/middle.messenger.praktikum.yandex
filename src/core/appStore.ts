@@ -1,13 +1,9 @@
 import Store from "./Store";
+import type { IUser } from "@/types/user";
 
-export interface AppState {
-  user: null | {
-    id: number;
-    login: string;
-    avatar?: string;
-    [key: string]: unknown;
-  };
-  messagesByChatId?: Record<string, any[]>;
+export interface AppState extends Record<string, unknown> {
+  user: IUser | null;
+  messagesByChatId?: Record<string, unknown[]>;
   // ...другие поля стора
 }
 
