@@ -1,3 +1,4 @@
+import type { IChat, IUser } from "@/types/chat";
 import Block from "@/core/Block";
 import template from "./Dialogue.hbs?raw";
 import { Modal, AddUserToChatForm, Button } from "@/components";
@@ -5,23 +6,10 @@ import DialogueMessage from "../DialogueMessage/DialogueMessage";
 import appStore from "@/core/appStore";
 import UsersListModal from "@/components/UsersListModal/UsersListModal";
 import { chatsAPI } from "@/api/chats";
-interface IMessage {
-  text: string;
-  time: string;
-  isMine?: boolean;
-  user_id?: number;
+interface DialogueProps {
+  CurrentChat?: IChat;
+  DialogueForm?: Block;
 }
-interface IChat {
-  id: string;
-  title: string;
-  avatar?: string;
-  lastMessage?: string;
-  lastMessageIsMine?: boolean;
-  unreadCount?: number;
-  messages?: IMessage[];
-  users?: any[];
-}
-type DialogueProps = { CurrentChat?: IChat; DialogueForm?: Block };
 const Dialogue = class extends Block {
   private modalInstance: Modal | null = null;
   private usersListModalInstance: Modal | null = null;
@@ -58,7 +46,7 @@ const Dialogue = class extends Block {
       const chat = this._meta.props.CurrentChat as IChat;
       if (!chat) return;
       this.usersListModalInstance = null;
-      let users: any[] = [];
+      let users: IUser[] = [];
       try {
         const resp = await chatsAPI.getUsers(Number(chat.id));
         if (resp.status === 200) {
@@ -67,7 +55,7 @@ const Dialogue = class extends Block {
       } catch { /* ignore */ }
       const usersList = new UsersListModal({
         users,
-        chatId: Number(chat.id),
+        chatId: String(chat.id),
         onClose: () => {
           this.setProps({ showUsersListModal: false });
           this.usersListModalInstance = null;

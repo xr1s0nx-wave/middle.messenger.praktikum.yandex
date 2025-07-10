@@ -2,7 +2,7 @@ import EventBus from "./EventBus.ts";
 
 const STORE_UPDATED = "store:updated";
 
-class Store<T extends Record<string, any>> {
+class Store<T extends Record<string, unknown>> {
   private state: T;
   private eventBus: EventBus;
 

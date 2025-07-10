@@ -210,7 +210,6 @@ const RegistrationForm = class extends Block {
           this.setProps({ validationErrors: errors });
           if (Object.values(errors).every((v) => !v)) {
             try {
-              // Формируем объект для JSON, а не FormData
               const data = {
                 email,
                 login,
@@ -219,18 +218,25 @@ const RegistrationForm = class extends Block {
                 password,
                 phone,
               };
-              await authAPI.signup(data);
+              const signupResp = await authAPI.signup(data);
+              if (signupResp.status !== 200) {
+                alert("Ошибка регистрации: пользователь уже существует или данные некорректны");
+                return;
+              }
               // Получить и обновить user в store
-              await authAPI.getUser().then((xhr) => {
-                try {
-                  const user = JSON.parse(xhr.responseText);
-                  import("@/core/appStore").then(({ default: appStore }) => {
-                    appStore.setState({ user });
-                  });
-                } catch {
-                  console.log("Ошибка парсинга ответа сервера при регистрации");
-                }
-              });
+              const userResp = await authAPI.getUser();
+              if (userResp.status !== 200) {
+                alert("Ошибка получения пользователя");
+                return;
+              }
+              try {
+                const user = JSON.parse(userResp.responseText);
+                import("@/core/appStore").then(({ default: appStore }) => {
+                  appStore.setState({ user });
+                });
+              } catch {
+                console.log("Ошибка парсинга ответа сервера при регистрации");
+              }
               localStorage.setItem("isAuth", "1");
               if (window.router && typeof window.router.go === "function") {
                 window.router.go("/messenger");

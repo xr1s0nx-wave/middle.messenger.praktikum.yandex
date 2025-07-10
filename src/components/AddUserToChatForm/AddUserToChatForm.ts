@@ -3,13 +3,14 @@ import template from "./AddUserToChatForm.hbs?raw";
 import { Button, Input } from "@/components";
 import { chatsAPI } from "@/api/chats";
 import { userAPI } from "@/api/user";
+import type { IUser } from "@/types/user";
 import "./style.scss";
 
 class AddUserToChatForm extends Block {
   lastSearchValue: string = "";
 
   constructor(props: { chatId: string; onUserAdded?: () => void }) {
-    let searchTimeout: any = null;
+    let searchTimeout: ReturnType<typeof setTimeout> | null = null;
     const UserIdInput = new Input({
       type: "text",
       name: "userId",
@@ -34,7 +35,7 @@ class AddUserToChatForm extends Block {
                 let searchResults = JSON.parse(resp.responseText);
                 if (!Array.isArray(searchResults)) searchResults = [];
                 // Создаём Button-компоненты для каждого пользователя с onClick
-                this.children.searchResultButtons = searchResults.map((user: any) =>
+                this.children.searchResultButtons = searchResults.map((user: IUser) =>
                   new Button({
                     text: `${user.login} (${user.first_name} ${user.second_name})`,
                     type: "button",
@@ -45,7 +46,7 @@ class AddUserToChatForm extends Block {
                     }
                   })
                 );
-                this.setProps({ searchResults: searchResults.map((u: any) => u.id) });
+                this.setProps({ searchResults: searchResults.map((u: IUser) => u.id) });
               }
             } catch { /* ignore */ }
           }, 300);
@@ -66,14 +67,14 @@ class AddUserToChatForm extends Block {
       },
     });
   }
-  async addUserToChat(user: any) {
+  async addUserToChat(user: IUser) {
     const props = this._meta.props;
     try {
       const resp = await chatsAPI.addUser({ users: [user.id], chatId: Number(props.chatId) });
       if (resp && resp.status === 401) {
         localStorage.removeItem("isAuth");
-        if ((window as any).router && typeof (window as any).router.go === "function") {
-          (window as any).router.go("/");
+        if ((window as unknown as { router?: { go: (path: string) => void } }).router && typeof (window as unknown as { router?: { go: (path: string) => void } }).router!.go === "function") {
+          (window as unknown as { router: { go: (path: string) => void } }).router.go("/");
         }
         return;
       }

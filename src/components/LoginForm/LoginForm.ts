@@ -75,16 +75,23 @@ const LoginForm = class extends Block {
           PasswordInput.setProps({ error: passwordError });
           if (!loginError && !passwordError) {
             try {
-              await authAPI.signin({ login, password });
+              const signinResp = await authAPI.signin({ login, password });
+              if (signinResp.status !== 200) {
+                alert("Ошибка авторизации: неверный логин или пароль");
+                return;
+              }
               // Получить и обновить user в store
-              await authAPI.getUser().then((xhr) => {
-                try {
-                  const user = JSON.parse(xhr.responseText);
-                  import("@/core/appStore").then(({ default: appStore }) => {
-                    appStore.setState({ user });
-                  });
-                } catch { /* ignore */ }
-              });
+              const userResp = await authAPI.getUser();
+              if (userResp.status !== 200) {
+                alert("Ошибка получения пользователя");
+                return;
+              }
+              try {
+                const user = JSON.parse(userResp.responseText);
+                import("@/core/appStore").then(({ default: appStore }) => {
+                  appStore.setState({ user });
+                });
+              } catch { /* ignore */ }
               localStorage.setItem("isAuth", "1");
               if (window.router && typeof window.router.go === "function") {
                 window.router.go("/messenger");

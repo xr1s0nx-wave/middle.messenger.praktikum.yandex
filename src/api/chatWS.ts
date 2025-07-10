@@ -28,7 +28,7 @@ export type WSChatMessage = {
 
 export class ChatWebSocket {
   private ws: WebSocket | null = null;
-  private pingInterval: any = null;
+  private pingInterval: ReturnType<typeof setInterval> | null = null;
   private chatId: number;
   private userId: number;
   private token: string;
@@ -40,7 +40,7 @@ export class ChatWebSocket {
     this.token = token;
   }
 
-  connect(onMessage: (msg: any) => void) {
+  connect(onMessage: (msg: unknown) => void) {
     this.ws = new WebSocket("wss://ya-praktikum.tech/ws/chats/" + this.userId + "/" + this.chatId + "/" + this.token);
     this.ws.onopen = () => {
       console.log("WS opened", this.userId, this.chatId);

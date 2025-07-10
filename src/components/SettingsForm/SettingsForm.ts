@@ -11,12 +11,13 @@ import {
   phoneValidation,
 } from "@/utils/validations.ts";
 import { BASE_URL } from "@/constants/api";
+import type { IUser } from "@/types/user";
 
 type SettingsFormProps = {
-  user?: any;
+  user?: IUser;
 };
 
-const mapStateToProps = (state: { user: any }) => ({
+const mapStateToProps = (state: { user: IUser }) => ({
   user: state.user,
 });
 
@@ -250,12 +251,12 @@ class SettingsForm extends Block {
       avatar?: string;
     };
     if (prevUser !== user) {
-      (this.children.emailRow as any)?.setProps?.({ value: user?.email || "" });
-      (this.children.loginRow as any)?.setProps?.({ value: user?.login || "" });
-      (this.children.firstNameRow as any)?.setProps?.({ value: user?.first_name || "" });
-      (this.children.secondNameRow as any)?.setProps?.({ value: user?.second_name || "" });
-      (this.children.phoneRow as any)?.setProps?.({ value: user?.phone || "" });
-      (this.children.displayNameRow as any)?.setProps?.({ value: user?.display_name || "" });
+      (this.children.emailRow as Block)?.setProps?.({ value: user?.email || "" });
+      (this.children.loginRow as Block)?.setProps?.({ value: user?.login || "" });
+      (this.children.firstNameRow as Block)?.setProps?.({ value: user?.first_name || "" });
+      (this.children.secondNameRow as Block)?.setProps?.({ value: user?.second_name || "" });
+      (this.children.phoneRow as Block)?.setProps?.({ value: user?.phone || "" });
+      (this.children.displayNameRow as Block)?.setProps?.({ value: user?.display_name || "" });
       // Обновляем avatarUrl если изменился avatar
       let avatarUrl = "/vite.svg";
       if (user.avatar) {
@@ -271,7 +272,7 @@ class SettingsForm extends Block {
     return true;
   }
   render(): DocumentFragment {
-    return (this as any).compile(template, (this as any)._meta.props);
+    return this.compile(template, this._meta.props);
   }
 }
 

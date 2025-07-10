@@ -38,7 +38,7 @@
   &-messages {
     height: calc(100% - 115px);
     padding: 10px 0;
-    overflow: auto hidden;
+    overflow: hidden auto;
     display: flex;
     flex-direction: column;
     gap: 10px;

@@ -216,16 +216,16 @@ class Chats extends Block {
       }
       this.ws = new ChatWebSocket(userId, Number(chat.id), token);
       console.log("Connecting to chat:", chat.id);
-      this.ws.connect((data) => {
+      this.ws.connect((msg: unknown) => {
         let messages = appStore.getState().messagesByChatId?.[chat.id] || [];
-        if (Array.isArray(data)) {
-          messages = [...data.reverse(), ...messages];
+        if (Array.isArray(msg)) {
+          messages = [...msg.reverse(), ...messages];
         } else if (
-          data.type === "message" ||
-          data.type === "file" ||
-          data.type === "sticker"
+          typeof msg === "object" && msg !== null && "type" in msg &&
+          (msg as { type?: string }).type &&
+          ["message", "file", "sticker"].includes((msg as { type: string }).type)
         ) {
-          messages = [...messages, data];
+          messages = [...messages, msg];
         }
         appStore.setState({
           messagesByChatId: {

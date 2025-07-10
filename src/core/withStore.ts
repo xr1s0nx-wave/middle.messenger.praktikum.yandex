@@ -1,7 +1,7 @@
 import Store from "./Store";
 import Block from "./Block";
 
-function withStore<T extends Record<string, any>, P extends Record<string, any>>(
+function withStore<T extends Record<string, unknown>, P extends Record<string, unknown>>(
   Component: typeof Block,
   store: Store<T>,
   mapStateToProps: (state: T) => Partial<P>

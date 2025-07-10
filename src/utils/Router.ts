@@ -1,14 +1,16 @@
+import type Block from "@/core/Block";
+
 type RouteProps = {
   rootQuery: string;
 };
 
 class Route {
   private _pathname: string;
-  private _blockClass: any;
-  private _block: any;
+  private _blockClass: typeof Block;
+  private _block: Block | null;
   private _props: RouteProps;
 
-  constructor(pathname: string, view: any, props: RouteProps) {
+  constructor(pathname: string, view: typeof Block, props: RouteProps) {
     this._pathname = pathname;
     this._blockClass = view;
     this._block = null;
@@ -58,7 +60,7 @@ class Router {
     Router.__instance = this;
   }
 
-  use(pathname: string, block: any) {
+  use(pathname: string, block: typeof Block) {
     const route = new Route(pathname, block, { rootQuery: this._rootQuery });
     this.routes.push(route);
     return this;
