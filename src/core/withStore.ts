@@ -10,7 +10,8 @@ function withStore<T extends Record<string, unknown>, P extends Record<string, u
     constructor(tagName?: string, propsAndChildren: P = {} as P) {
       const mappedProps = mapStateToProps(store.getState());
       super(tagName, { ...propsAndChildren, ...mappedProps });
-      store.subscribe((state) => {
+      store.subscribe((...args: unknown[]) => {
+        const state = args[0] as T;
         this.setProps(mapStateToProps(state));
       });
     }

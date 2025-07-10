@@ -8,7 +8,7 @@ const router = new Router("#app");
 
 // Регистрируем только нужные роуты
 Object.values(ROUTES).forEach((route) => {
-  router.use(route.path, route.Component);
+  router.use(route.path, route.Component as unknown as typeof import("./core/Block").default);
 });
 
 // Пример проверки авторизации (заглушка)
