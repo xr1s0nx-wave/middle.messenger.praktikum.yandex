@@ -15,8 +15,7 @@ module.exports = {
   plugins: ["@typescript-eslint"],
   extends: [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "airbnb-base"
+    "plugin:@typescript-eslint/recommended"
   ],
   rules: {
     semi: ["error", "always"],
@@ -28,26 +27,26 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/ban-ts-comment": "warn",
     "@typescript-eslint/no-inferrable-types": "off",
-    "@typescript-eslint/no-unsafe-assignment": "off",
-    "@typescript-eslint/no-unsafe-member-access": "off",
-    "@typescript-eslint/no-unsafe-call": "off",
-    "@typescript-eslint/no-unsafe-argument": "off",
-    "@typescript-eslint/no-unsafe-return": "off",
-    "@typescript-eslint/no-unsafe-function-type": "off",
-    "@typescript-eslint/no-base-to-string": "off",
-    "@typescript-eslint/prefer-promise-reject-errors": "off",
-    "no-useless-escape": "off",
-    "prefer-const": "warn"
+    "import/no-unresolved": "off",
+    "import/extensions": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off",
+    "no-undef": "off",
+    "no-underscore-dangle": "off",
+    "lines-between-class-members": "off",
+    "max-len": "off",
+    "implicit-arrow-linebreak": "off",
+    "func-names": "off",
+    "space-before-function-paren": "off",
+    "comma-dangle": "off",
+    "object-curly-newline": "off",
+    "prefer-template": "off",
+    "class-methods-use-this": "off",
+    "operator-linebreak": "off",
+    "no-trailing-spaces": "off",
+    "arrow-parens": "off",
+    "import/order": "off",
+    "no-use-before-define": "off"
   },
   ignorePatterns: ["build/", "dist/", "node_modules/", "**/*.min.js", "vite.config.js"],
-  overrides: [
-    {
-      files: ["*.js"],
-      parser: "espree",
-      parserOptions: {
-        ecmaVersion: 2020,
-        sourceType: "module"
-      }
-    }
-  ]
 };
