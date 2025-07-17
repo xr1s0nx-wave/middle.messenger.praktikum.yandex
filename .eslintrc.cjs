@@ -15,7 +15,8 @@ module.exports = {
   plugins: ["@typescript-eslint"],
   extends: [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "airbnb-base"
   ],
   rules: {
     semi: ["error", "always"],
@@ -38,7 +39,7 @@ module.exports = {
     "no-useless-escape": "off",
     "prefer-const": "warn"
   },
-  ignorePatterns: ["build/", "dist/", "node_modules/"],
+  ignorePatterns: ["build/", "dist/", "node_modules/", "**/*.min.js", "vite.config.js"],
   overrides: [
     {
       files: ["*.js"],
