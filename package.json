@@ -9,7 +9,8 @@
     "start": "vite build && vite preview",
     "prettier": "prettier --write .",
     "lint": "tsc --noEmit && eslint . --ext .ts,.tsx,.js && stylelint \"**/*.scss\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "mocha -r ts-node/register --extension ts \"src/**/*.test.ts\""
   },
   "lint-staged": {
     "src/**/*.{ts,js,tsx,jsx}": [
