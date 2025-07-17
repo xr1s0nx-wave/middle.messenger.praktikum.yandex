@@ -1,4 +1,4 @@
-import Block from "@/core/Block.ts";
+import Block from "../../core/Block";
 import template from "./LoginForm.hbs?raw";
 import { Input, Button } from "@/components";
 import { loginValidation, passwordValidation } from "@/utils/validations.ts";

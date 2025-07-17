@@ -1,4 +1,4 @@
-import Block from "@/core/Block.ts";
+import Block from "../../core/Block";
 type ButtonProps = {
   text?: string;
   styleType?: "primary" | "outline";

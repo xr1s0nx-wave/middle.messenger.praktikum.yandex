@@ -1,3 +1,5 @@
+import jsdomGlobal from 'jsdom-global';
+jsdomGlobal(undefined, { url: 'http://localhost/' });
 import { expect } from 'chai';
 import Router from './Router';
 import Block from '../core/Block';

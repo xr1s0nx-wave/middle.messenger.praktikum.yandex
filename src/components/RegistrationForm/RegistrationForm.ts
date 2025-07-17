@@ -1,4 +1,4 @@
-import Block from "@/core/Block.ts";
+import Block from "../../core/Block";
 import template from "./RegistrationForm.hbs?raw";
 import Input from "../Input/Input.ts";
 import Button from "../Button/Button.ts";

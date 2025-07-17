@@ -1,4 +1,4 @@
-import Block from "@/core/Block.ts";
+import Block from "../../core/Block";
 import template from "./Login.hbs?raw";
 import { LoginForm } from "@/components";
 

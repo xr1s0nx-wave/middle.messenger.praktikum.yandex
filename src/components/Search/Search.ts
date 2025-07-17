@@ -1,4 +1,4 @@
-import Block from "@/core/Block.ts";
+import Block from "../../core/Block";
 import template from "./Search.hbs?raw";
 type SearchProps = {
   value?: string;

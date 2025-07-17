@@ -1,4 +1,4 @@
-import Block from "@/core/Block.ts";
+import Block from "../../core/Block";
 import template from "./SettingsForm.hbs?raw";
 import withStore from "@/core/withStore";
 import appStore from "@/core/appStore";

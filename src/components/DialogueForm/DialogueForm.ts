@@ -1,4 +1,4 @@
-import Block from "@/core/Block.ts";
+import Block from "../../core/Block";
 import template from "./DialogueForm.hbs?raw";
 type DialogueFormProps = { events?: Record<string, (e: Event) => void> };
 const DialogueForm = class extends Block {

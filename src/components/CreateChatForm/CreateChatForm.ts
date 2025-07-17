@@ -1,4 +1,4 @@
-import Block from "@/core/Block.ts";
+import Block from "../../core/Block";
 import template from "./CreateChatForm.hbs?raw";
 import { Button, Input } from "@/components";
 import { chatsAPI } from "@/api/chats";
