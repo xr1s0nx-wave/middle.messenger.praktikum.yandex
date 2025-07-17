@@ -9,7 +9,7 @@
     "prettier": "prettier --write .",
     "lint": "tsc --noEmit && eslint . --ext .ts,.tsx,.js && stylelint \"**/*.scss\"",
     "prepare": "husky install",
-    "test": "mocha -r ts-node/register -r tsconfig-paths/register ./src/**/*.test.ts"
+    "test": "mocha -r ts-node/register -r tsconfig-paths/register -r ./test/setup.ts ./src/**/*.test.ts"
   },
   "lint-staged": {
     "src/**/*.{ts,js,tsx,jsx}": [
