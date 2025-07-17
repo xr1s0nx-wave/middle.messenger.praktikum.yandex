@@ -16,27 +16,40 @@ Messanger — это удобный и быстрый мессенджер, по
 
 ## Технологии
 
-- Frontend: React, Redux, TypeScript
+- TypeScript
+- Handlebars (шаблонизатор)
+- Vite (сборка)
+- SCSS (стили)
+- Mocha, Chai (тестирование)
+- Husky, lint-staged (precommit-хуки)
 
 ## Установка и запуск
 
 1. Клонируйте репозиторий:
-    ```bash
-    git clone https://github.com/xr1s0nx-wave/middle.messenger.praktikum.yandex.git
-    ```
+   ```bash
+   git clone https://github.com/xr1s0nx-wave/middle.messenger.praktikum.yandex.git
+   ```
 2. Установите зависимости:
-    ```bash
-    cd messanger
-    npm install
-    ```
+   ```bash
+   cd middle.messenger.praktikum.yandex
+   npm install --legacy-peer-deps
+   ```
 3. Запустите приложение:
-    ```bash
-    npm start
-    ```
+   ```bash
+   npm run dev
+   ```
 
-## Предпросмотр
+## Запуск тестов
 
-[Открыть приложение (Preview)](https://deploy-preview-5--messanger-xr1s0nx.netlify.app/)
+Для запуска unit-тестов (Mocha + Chai):
+
+```bash
+npx mocha -r ts-node/register --extension ts "src/**/*.test.ts"
+```
+
+## Precommit
+
+В проекте настроен precommit-хук через Husky и lint-staged. При коммите автоматически запускается линтинг и автофикс кода (eslint, stylelint, prettier).
 
 ## Скриншоты
 
