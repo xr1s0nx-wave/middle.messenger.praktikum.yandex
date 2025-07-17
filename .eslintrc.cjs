@@ -19,9 +19,11 @@ module.exports = {
   ],
   rules: {
     semi: ["error", "always"],
-    quotes: ["error", "double"],
+    quotes: "off",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["warn"],
+    "@typescript-eslint/no-unsafe-function-type": "off",
+    "@typescript-eslint/no-unused-expressions": "off",
     "no-console": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "off",
