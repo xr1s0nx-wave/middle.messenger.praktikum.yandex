@@ -39,6 +39,10 @@ Messanger — это удобный и быстрый мессенджер, по
    npm run dev
    ```
 
+## Демо
+
+[Открыть приложение на Netlify](https://deploy-preview-5--messanger-xr1s0nx.netlify.app/)
+
 ## Запуск тестов
 
 Для запуска unit-тестов (Mocha + Chai):
