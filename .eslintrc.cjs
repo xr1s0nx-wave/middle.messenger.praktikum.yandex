@@ -48,7 +48,8 @@ module.exports = {
     "no-trailing-spaces": "off",
     "arrow-parens": "off",
     "import/order": "off",
-    "no-use-before-define": "off"
+    "no-use-before-define": "off",
+    "no-useless-escape": "off"
   },
   ignorePatterns: ["build/", "dist/", "node_modules/", "**/*.min.js", "vite.config.js"],
 };
