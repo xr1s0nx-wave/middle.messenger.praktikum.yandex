@@ -23,7 +23,7 @@ describe('Router', () => {
     router.use('/test', DummyBlock);
     expect(router.getRoute('/test')).to.not.be.undefined;
   });
-  it.skip('go меняет текущий маршрут', () => {
+  it('go меняет текущий маршрут', () => {
     router.use('/test', DummyBlock);
     router.go('/test');
     expect(router.getRoute('/test')).to.not.be.undefined;
